@@ -3,10 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToDO App</title>
+    <title>ToDo App</title>
 </head>
 <body>
+
+    <header>
+        <h1> Keep What To Do</h1>
+    </header>
     
+    <div class="container">
+        <input type="text" id="taskInput" placeholder="Type task">
+        <button id="addTask" type="submit">Add New</button>
+        <div class="list-container">
+            <h4 class="list-title">ToDos</h4>
+            <ol id="taskList"></ol>
+        </div>
+    </div>
+   
+
+  
 </body>
 <script src="todo.js"></script>
 </html>
