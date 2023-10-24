@@ -1,17 +1,26 @@
-console.dir(document)
-const addTaskBtn =  document.getElementById("addTask")
-const taskInputText =  document.getElementById("taskInput")
-const taskList =  document.getElementById("taskList")
+const addTaskBtn = document.getElementById("addTask");
+const taskInputText = document.getElementById("taskInput");
+const taskList = document.getElementById("taskList");
 
-const handleSubmit = () => {
-    if(taskInputText.value){
+let todos = [];
+
+const resetTaskInput = () => {
+  taskInputText.value = "";
+};
+const createTask = () => {
+  taskList.innerHTML = "";
+  todos.forEach((todo) => {
     const newTask = document.createElement("li");
-    newTask.innerHTML = taskInputText.value
+    newTask.innerHTML = `${todo}`;
     taskList.appendChild(newTask);
-    taskInputText.value = ""
-    }
-    else
-    alert("Please add a task")
-
-}
-addTaskBtn.addEventListener("click", handleSubmit)
+  });
+};
+const handleSubmit = () => {
+  const textContent = taskInputText.value;
+  if (textContent) {
+    todos.push(textContent);
+    createTask();
+    resetTaskInput();
+  }
+};
+addTaskBtn.addEventListener("click", handleSubmit);
