@@ -1,26 +1,39 @@
 const addTaskBtn = document.getElementById("addTask");
 const taskInputText = document.getElementById("taskInput");
 const taskList = document.getElementById("taskList");
+const errorMessage = document.getElementById("errorMessage");
 
 let todos = [];
 
 const resetTaskInput = () => {
   taskInputText.value = "";
 };
-const createTask = () => {
+const validateInput = () => {
+  if (taskInputText.value === "") {
+    errorMessage.innerHTML = "Please add a task";
+  } else {
+    errorMessage.innerHTML = "";
+  }
+};
+const renderTodoList = () => {
   taskList.innerHTML = "";
+
   todos.forEach((todo) => {
     const newTask = document.createElement("li");
     newTask.innerHTML = `${todo}`;
     taskList.appendChild(newTask);
   });
 };
-const handleSubmit = () => {
+
+const handleCreateTodo = () => {
   const textContent = taskInputText.value;
-  if (textContent) {
+
+  if (textContent !== "") {
     todos.push(textContent);
-    createTask();
+    errorMessage.innerHTML = "";
+    renderTodoList();
     resetTaskInput();
-  }
+  } else validateInput();
 };
-addTaskBtn.addEventListener("click", handleSubmit);
+addTaskBtn.addEventListener("click", handleCreateTodo);
+taskInputText.addEventListener("input", validateInput);
