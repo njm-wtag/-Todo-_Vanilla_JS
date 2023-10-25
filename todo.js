@@ -24,6 +24,16 @@ const validateInput = () => {
   errorMessage.innerHTML = "Please add a task";
   return false;
 };
+const handleDelete = (taskId) => {
+  todos = todos.filter((todo) => todo.id !== taskId);
+  renderTodoList();
+};
+function createDeleteButton(taskId) {
+  const deteleButton = document.createElement("button");
+  deteleButton.textContent = "Delete";
+  deteleButton.addEventListener("click", () => handleDelete(taskId));
+  return deteleButton;
+}
 function createTaskElement(task) {
   const li = document.createElement("li");
   li.innerHTML = `
@@ -38,7 +48,6 @@ const renderTodoList = () => {
     const newTask = createTaskElement(todo);
     taskList.appendChild(newTask);
   });
-  console.log(todos);
 };
 
 const handleCreateTodo = () => {
