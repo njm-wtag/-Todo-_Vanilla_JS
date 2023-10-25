@@ -38,6 +38,7 @@ const renderTodoList = () => {
     const newTask = createTaskElement(todo);
     taskList.appendChild(newTask);
   });
+  console.log(todos);
 };
 
 const handleCreateTodo = () => {
