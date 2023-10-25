@@ -39,6 +39,8 @@ function createTaskElement(task) {
   li.innerHTML = `
       ${task.value}
   `;
+  const deleteButton = createDeleteButton(task.id);
+  li.appendChild(deleteButton);
   return li;
 }
 const renderTodoList = () => {
