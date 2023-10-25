@@ -19,10 +19,10 @@ const validateInput = () => {
   if (isUserInputValid(taskInputText.value)) {
     errorMessage.innerHTML = "";
     return true;
-  } else {
-    errorMessage.innerHTML = "Please add a task";
-    return false;
   }
+
+  errorMessage.innerHTML = "Please add a task";
+  return false;
 };
 function createTaskElement(task) {
   const li = document.createElement("li");
@@ -44,14 +44,16 @@ const renderTodoList = () => {
 const handleCreateTodo = () => {
   const textContent = taskInputText.value;
 
-  if (validateInput()) {
-    const taskId = generateUniqueId();
-    const task = { id: taskId, value: textContent, done: false };
-    todos.push(task);
-    errorMessage.innerHTML = "";
-    renderTodoList();
-    resetTaskInput();
+  if (validateInput() === false) {
+    return;
   }
+
+  const taskId = generateUniqueId();
+  const task = { id: taskId, value: textContent, done: false };
+  todos.push(task);
+  errorMessage.innerHTML = "";
+  renderTodoList();
+  resetTaskInput();
 };
 
 console.log(todos);
