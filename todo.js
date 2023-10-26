@@ -28,6 +28,12 @@ const handleDelete = (taskId) => {
   todos = todos.filter((todo) => todo.id !== taskId);
   renderTodoList();
 };
+const createEditButton = (taskId) => {
+  const editButton = document.createElement("button");
+  editButton.textContent = "Edit";
+  // editButton.addEventListener("click", () => handleEdit(taskId));
+  return editButton;
+};
 function createDeleteButton(taskId) {
   const deteleButton = document.createElement("button");
   deteleButton.textContent = "Delete";
@@ -41,6 +47,8 @@ function createTaskElement(task) {
   `;
   const deleteButton = createDeleteButton(task.id);
   li.appendChild(deleteButton);
+  const editButton = createEditButton(task.id);
+  li.appendChild(editButton);
   return li;
 }
 const renderTodoList = () => {
