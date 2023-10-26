@@ -28,29 +28,91 @@ const handleDelete = (taskId) => {
   todos = todos.filter((todo) => todo.id !== taskId);
   renderTodoList();
 };
+
+const handleUpdate = (taskId, updatedValue) => {
+  let errorMessage = document.getElementById(`error_${taskId}`);
+
+  if (!isUserInputValid(updatedValue)) {
+    if (!errorMessage) {
+      errorMessage = document.createElement("p");
+      errorMessage.id = `error_${taskId}`;
+      document.getElementById(`todo_${taskId}`).appendChild(errorMessage);
+    }
+    errorMessage.innerText = "Updated task can not be empty";
+    return;
+  }
+
+  const taskToUpdate = todos.find((todo) => todo.id === taskId);
+
+  if (taskToUpdate) {
+    taskToUpdate.value = updatedValue;
+  }
+
+  renderTodoList();
+};
+
+const handleCancel = () => {
+  renderTodoList();
+};
+
+const createUpdateInput = (todoToEdit) => {
+  const inputField = document.createElement("input");
+  inputField.type = "text";
+  inputField.value = todoToEdit.value;
+  return inputField;
+};
+
+const createButton = (content) => {
+  const newBtn = document.createElement("button");
+  newBtn.textContent = content;
+  newBtn.style.margin = "10px";
+  return newBtn;
+};
+
+const handleEdit = (taskId) => {
+  const todoToEdit = todos.find((todo) => todo.id === taskId);
+  const taskElement = document.getElementById(`todo_${taskId}`);
+  const inputField = createUpdateInput(todoToEdit);
+  const updateButton = createButton("Update");
+
+  updateButton.addEventListener("click", () =>
+    handleUpdate(taskId, inputField.value)
+  );
+
+  const cancelButton = createButton("Cancel");
+  cancelButton.addEventListener("click", () => handleCancel());
+
+  taskElement.innerHTML = "";
+  taskElement.appendChild(inputField);
+  taskElement.appendChild(updateButton);
+  taskElement.appendChild(cancelButton);
+};
 const createEditButton = (taskId) => {
-  const editButton = document.createElement("button");
-  editButton.textContent = "Edit";
-  // editButton.addEventListener("click", () => handleEdit(taskId));
+  const editButton = createButton("Edit");
+  editButton.addEventListener("click", () => {
+    handleEdit(taskId);
+  });
   return editButton;
 };
-function createDeleteButton(taskId) {
-  const deteleButton = document.createElement("button");
-  deteleButton.textContent = "Delete";
+
+const createDeleteButton = (taskId) => {
+  const deteleButton = createButton("Delete");
   deteleButton.addEventListener("click", () => handleDelete(taskId));
   return deteleButton;
-}
-function createTaskElement(task) {
+};
+
+const createTaskElement = (task) => {
   const li = document.createElement("li");
   li.innerHTML = `
       ${task.value}
   `;
+  li.id = `todo_${task.id}`;
   const deleteButton = createDeleteButton(task.id);
   li.appendChild(deleteButton);
   const editButton = createEditButton(task.id);
   li.appendChild(editButton);
   return li;
-}
+};
 const renderTodoList = () => {
   taskList.innerHTML = "";
 
