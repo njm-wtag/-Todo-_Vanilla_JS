@@ -97,13 +97,19 @@ const handleDone = (taskId) => {
   const editButton = document
     .getElementById(`todo_${taskId}`)
     .querySelector(`#edit_${taskId}`);
-  console.log(editButton);
+  // console.log(editButton);
   editButton.style.display = "none";
+
+  const doneButton = document
+    .getElementById(`todo_${taskId}`)
+    .querySelector(`#done_${taskId}`);
+
+  doneButton.style.display = "none";
 };
 
 const createDoneButton = (taskId) => {
   const doneButton = createButton("Done");
-
+  doneButton.setAttribute("id", `done_${taskId}`);
   doneButton.addEventListener("click", () => {
     handleDone(taskId);
   });
