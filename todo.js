@@ -88,9 +88,32 @@ const handleEdit = (taskId) => {
   taskElement.appendChild(updateButton);
   taskElement.appendChild(cancelButton);
 };
+
+const handleDone = (taskId) => {
+  document
+    .getElementById(`todo_${taskId}`)
+    .style.setProperty("text-decoration", "line-through");
+
+  const editButton = document
+    .getElementById(`todo_${taskId}`)
+    .querySelector(`#edit_${taskId}`);
+  console.log(editButton);
+  editButton.style.display = "none";
+};
+
+const createDoneButton = (taskId) => {
+  const doneButton = createButton("Done");
+
+  doneButton.addEventListener("click", () => {
+    handleDone(taskId);
+  });
+
+  return doneButton;
+};
+
 const createEditButton = (taskId) => {
   const editButton = createButton("Edit");
-
+  editButton.setAttribute("id", `edit_${taskId}`);
   editButton.addEventListener("click", () => {
     handleEdit(taskId);
   });
@@ -116,6 +139,8 @@ const createTaskElement = (task) => {
   li.appendChild(deleteButton);
   const editButton = createEditButton(task.id);
   li.appendChild(editButton);
+  const doneButton = createDoneButton(task.id);
+  li.appendChild(doneButton);
 
   return li;
 };
