@@ -18,12 +18,15 @@ const isUserInputValid = (textContent) => {
 const validateInput = () => {
   if (isUserInputValid(taskInputText.value)) {
     errorMessage.innerHTML = "";
+
     return true;
   }
 
   errorMessage.innerHTML = "Please add a task";
+
   return false;
 };
+
 const handleDelete = (taskId) => {
   todos = todos.filter((todo) => todo.id !== taskId);
   renderTodoList();
@@ -39,6 +42,7 @@ const handleUpdate = (taskId, updatedValue) => {
       document.getElementById(`todo_${taskId}`).appendChild(errorMessage);
     }
     errorMessage.innerText = "Updated task can not be empty";
+
     return;
   }
 
@@ -62,6 +66,7 @@ const createButton = (content) => {
   const newBtn = document.createElement("button");
   newBtn.textContent = content;
   newBtn.style.margin = "10px";
+
   return newBtn;
 };
 
@@ -85,16 +90,20 @@ const handleEdit = (taskId) => {
 };
 const createEditButton = (taskId) => {
   const editButton = createButton("Edit");
+
   editButton.addEventListener("click", () => {
     handleEdit(taskId);
   });
+
   return editButton;
 };
 
 const createDeleteButton = (taskId) => {
-  const deteleButton = createButton("Delete");
-  deteleButton.addEventListener("click", () => handleDelete(taskId));
-  return deteleButton;
+  const deleteButton = createButton("Delete");
+
+  deleteButton.addEventListener("click", () => handleDelete(taskId));
+
+  return deleteButton;
 };
 
 const createTaskElement = (task) => {
@@ -107,8 +116,10 @@ const createTaskElement = (task) => {
   li.appendChild(deleteButton);
   const editButton = createEditButton(task.id);
   li.appendChild(editButton);
+
   return li;
 };
+
 const renderTodoList = () => {
   taskList.innerHTML = "";
 
