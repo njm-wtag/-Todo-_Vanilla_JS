@@ -51,10 +51,6 @@ const handleUpdate = (taskId, updatedValue) => {
   renderTodoList();
 };
 
-const handleCancel = () => {
-  renderTodoList();
-};
-
 const createUpdateInput = (todoToEdit) => {
   const inputField = document.createElement("input");
   inputField.type = "text";
@@ -80,7 +76,7 @@ const handleEdit = (taskId) => {
   );
 
   const cancelButton = createButton("Cancel");
-  cancelButton.addEventListener("click", () => handleCancel());
+  cancelButton.addEventListener("click", renderTodoList);
 
   taskElement.innerHTML = "";
   taskElement.appendChild(inputField);
