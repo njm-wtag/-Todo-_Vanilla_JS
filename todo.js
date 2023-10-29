@@ -33,23 +33,14 @@ const handleDelete = (taskId) => {
 };
 
 const handleUpdate = (taskId, updatedValue) => {
-  let errorMessage = document.getElementById(`error_${taskId}`);
-
-  if (!isUserInputValid(updatedValue)) {
-    if (!errorMessage) {
-      errorMessage = document.createElement("p");
-      errorMessage.id = `error_${taskId}`;
-      document.getElementById(`todo_${taskId}`).appendChild(errorMessage);
-    }
-    errorMessage.innerText = "Updated task can not be empty";
-
-    return;
-  }
-
   const taskToUpdate = todos.find((todo) => todo.id === taskId);
 
-  if (taskToUpdate) {
+  if (isUserInputValid(updatedValue)) {
     taskToUpdate.value = updatedValue;
+    taskToUpdate.edit = false;
+  } else {
+    taskToUpdate.error = "Updated task can not be empty";
+    taskToUpdate.value = "";
   }
 
   renderTodoList();
@@ -72,22 +63,10 @@ const createButton = (content) => {
 
 const handleEdit = (taskId) => {
   const todoToEdit = todos.find((todo) => todo.id === taskId);
-  const taskElement = document.getElementById(`todo_${taskId}`);
-  const inputField = createUpdateInput(todoToEdit);
-  const updateButton = createButton("Update");
-
-  updateButton.addEventListener("click", () =>
-    handleUpdate(taskId, inputField.value)
-  );
-
-  const cancelButton = createButton("Cancel");
-  cancelButton.addEventListener("click", renderTodoList);
-
-  taskElement.innerHTML = "";
-  taskElement.appendChild(inputField);
-  taskElement.appendChild(updateButton);
-  taskElement.appendChild(cancelButton);
+  todoToEdit.edit = true;
+  renderTodoList();
 };
+
 const createEditButton = (taskId) => {
   const editButton = createButton("Edit");
 
@@ -108,16 +87,53 @@ const createDeleteButton = (taskId) => {
 
 const createTaskElement = (task) => {
   const li = document.createElement("li");
-  li.innerHTML = `
-      ${task.value}
-  `;
-  li.id = `todo_${task.id}`;
-  const deleteButton = createDeleteButton(task.id);
-  li.appendChild(deleteButton);
-  const editButton = createEditButton(task.id);
-  li.appendChild(editButton);
 
+  if (task.edit) {
+    createEditableTaskElements(li, task);
+    return li;
+  }
+
+  createNonEditableTaskElements(li, task);
   return li;
+};
+
+const createEditableTaskElements = (li, task) => {
+  const inputField = createUpdateInput(task);
+  const updateButton = createButton("Update");
+  const cancelButton = createButton("Cancel");
+
+  updateButton.addEventListener("click", () =>
+    handleUpdate(task.id, inputField.value)
+  );
+  cancelButton.addEventListener("click", renderTodoList);
+
+  li.appendChild(inputField);
+  li.appendChild(updateButton);
+  li.appendChild(cancelButton);
+
+  if (isUserInputValid(task.error)) {
+    appendErrorToTask(li, task.error);
+  }
+};
+
+const createNonEditableTaskElements = (li, task) => {
+  li.innerHTML = task.value;
+
+  const deleteButton = createDeleteButton(task.id);
+  const editButton = createEditButton(task.id);
+
+  deleteButton.addEventListener("click", () => handleDelete(task.id));
+  editButton.addEventListener("click", () => handleEdit(task.id));
+
+  li.appendChild(deleteButton);
+  li.appendChild(editButton);
+};
+
+const appendErrorToTask = (li, error) => {
+  const updateError = document.createElement("p");
+  updateError.style.color = "red";
+  updateError.textContent = error;
+  li.appendChild(updateError);
 };
 
 const renderTodoList = () => {
@@ -137,11 +153,18 @@ const handleCreateTodo = () => {
   }
 
   const taskId = generateUniqueId();
-  const task = { id: taskId, value: textContent, done: false };
+  const task = {
+    id: taskId,
+    value: textContent,
+    done: false,
+    edit: false,
+    error: "",
+  };
   todos.push(task);
   errorMessage.innerHTML = "";
   renderTodoList();
   resetTaskInput();
 };
+
 addTaskBtn.addEventListener("click", handleCreateTodo);
 taskInputText.addEventListener("input", validateInput);
