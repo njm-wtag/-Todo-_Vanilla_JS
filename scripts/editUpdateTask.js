@@ -1,6 +1,6 @@
 import { renderTodoList } from "../index.js";
 import { todos } from "./deteleTask.js";
-import { isUserInputValid, validateInput } from "./utilities.js";
+import { isUserInputValid } from "./utilities.js";
 
 export const handleEdit = (taskId) => {
   const todoToEdit = todos.find((todo) => todo.id === taskId);

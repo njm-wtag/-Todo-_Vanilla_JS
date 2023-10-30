@@ -6,11 +6,7 @@ body {
   margin: 0;
 }
 
-.container {
-  text-align: center;
-}
-
-.addButton {
+.addButtonStyle {
   margin: 8px;
   background-color: #4eaeef;
   color: white;
@@ -21,10 +17,10 @@ body {
   transition: background-color 0.3s;
 }
 
-.addButton:hover {
+.addButtonStyle:hover {
   background-color: #2280be;
 }
-.deleteButton {
+.deleteButtonStyle {
   margin: 8px;
   color: white;
   padding: 4px 8px;
@@ -35,10 +31,24 @@ body {
   background-color: #f44d41;
 }
 
-.deleteButton:hover {
+.deleteButtonStyle:hover {
   background-color: #fa1707;
 }
-.editButton {
+.editButtonStyle {
+  margin: 8px;
+  color: white;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: #f0d839;
+}
+
+.editButtonStyle:hover {
+  background-color: #ddc10c;
+}
+.doneButtonStyle {
   margin: 8px;
   color: white;
   padding: 4px 8px;
@@ -49,10 +59,17 @@ body {
   background-color: #63b174;
 }
 
-.editButton:hover {
+.doneButtonStyle:hover {
   background-color: #519860;
 }
 
 .errorText {
   color: red;
+}
+
+.hide {
+  display: none;
+}
+.show {
+  display: block;
 }

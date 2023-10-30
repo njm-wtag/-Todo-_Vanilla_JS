@@ -1,6 +1,7 @@
 import { isUserInputValid } from "./utilities.js";
 import { handleDelete } from "./deteleTask.js";
-import { handleEdit, handleUpdate } from "./editUpdateTask.js";
+import { handleCancel, handleEdit, handleUpdate } from "./editUpdateTask.js";
+import { handleDone } from "./doneTask.js";
 
 const createUpdateInput = (todoToEdit) => {
   const inputField = document.createElement("input");
@@ -14,6 +15,16 @@ const createButton = (content) => {
   newButton.textContent = content;
 
   return newButton;
+};
+
+const createDoneButton = (taskId) => {
+  const doneButton = createButton("Done");
+
+  doneButton.addEventListener("click", () => {
+    handleDone(taskId);
+  });
+
+  return doneButton;
 };
 
 const createEditButton = (taskId) => {
@@ -58,8 +69,10 @@ const createEditableTaskElements = (li, task) => {
   li.appendChild(inputField);
   li.appendChild(updateButton);
   li.appendChild(cancelButton);
-  updateButton.classList.add("editButton");
-  cancelButton.classList.add("deleteButton");
+
+  updateButton.classList.add("doneButtonStyle");
+  cancelButton.classList.add("deleteButtonStyle");
+
   if (isUserInputValid(task.error)) {
     appendErrorToTask(li, task.error);
   }
@@ -70,15 +83,21 @@ const createNonEditableTaskElements = (li, task) => {
 
   const deleteButton = createDeleteButton(task.id);
   const editButton = createEditButton(task.id);
+  const doneButton = createDoneButton(task.id);
 
-  deleteButton.classList.add("deleteButton");
-  editButton.classList.add("editButton");
+  deleteButton.classList.add("deleteButtonStyle");
+  editButton.classList.add("editButtonStyle");
+  doneButton.classList.add("doneButtonStyle");
 
-  deleteButton.addEventListener("click", () => handleDelete(task.id));
-  editButton.addEventListener("click", () => handleEdit(task.id));
+  if (task.isDone) {
+    li.style.textDecoration = "line-through";
+    editButton.style.display = "none";
+    doneButton.style.display = "none";
+  }
 
   li.appendChild(deleteButton);
   li.appendChild(editButton);
+  li.appendChild(doneButton);
 };
 
 export const appendErrorToTask = (li, error) => {
