@@ -1,7 +1,6 @@
 import { isUserInputValid } from "./utilities.js";
 import { handleDelete } from "./deteleTask.js";
 import { handleEdit, handleUpdate } from "./editUpdateTask.js";
-import { renderTodoList } from "../index.js";
 
 const createUpdateInput = (todoToEdit) => {
   const inputField = document.createElement("input");
@@ -11,11 +10,10 @@ const createUpdateInput = (todoToEdit) => {
 };
 
 const createButton = (content) => {
-  const newBtn = document.createElement("button");
-  newBtn.textContent = content;
-  newBtn.style.margin = "10px";
+  const newButton = document.createElement("button");
+  newButton.textContent = content;
 
-  return newBtn;
+  return newButton;
 };
 
 const createEditButton = (taskId) => {
@@ -38,7 +36,7 @@ const createDeleteButton = (taskId) => {
 export const createTaskElement = (task) => {
   const li = document.createElement("li");
 
-  if (task.edit) {
+  if (task.isEditing) {
     createEditableTaskElements(li, task);
     return li;
   }
@@ -55,12 +53,13 @@ const createEditableTaskElements = (li, task) => {
   updateButton.addEventListener("click", () =>
     handleUpdate(task.id, inputField.value)
   );
-  cancelButton.addEventListener("click", renderTodoList);
+  cancelButton.addEventListener("click", () => handleCancel(task.id));
 
   li.appendChild(inputField);
   li.appendChild(updateButton);
   li.appendChild(cancelButton);
-
+  updateButton.classList.add("editButton");
+  cancelButton.classList.add("deleteButton");
   if (isUserInputValid(task.error)) {
     appendErrorToTask(li, task.error);
   }
@@ -72,6 +71,9 @@ const createNonEditableTaskElements = (li, task) => {
   const deleteButton = createDeleteButton(task.id);
   const editButton = createEditButton(task.id);
 
+  deleteButton.classList.add("deleteButton");
+  editButton.classList.add("editButton");
+
   deleteButton.addEventListener("click", () => handleDelete(task.id));
   editButton.addEventListener("click", () => handleEdit(task.id));
 
@@ -81,7 +83,7 @@ const createNonEditableTaskElements = (li, task) => {
 
 export const appendErrorToTask = (li, error) => {
   const updateError = document.createElement("p");
-  updateError.style.color = "red";
+  updateError.classList.add("errorText");
   updateError.textContent = error;
   li.appendChild(updateError);
 };

@@ -12,6 +12,6 @@ export const validateInput = () => {
   }
 
   errorMessage.innerHTML = "Please add a task";
-
+  errorMessage.classList.add("errorText");
   return false;
 };

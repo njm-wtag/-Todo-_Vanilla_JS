@@ -22,8 +22,8 @@ export const handleCreateTodo = () => {
   const task = {
     id: taskId,
     value: textContent,
-    done: false,
-    edit: false,
+    isDone: false,
+    isEditing: false,
     error: "",
   };
   todos.push(task);

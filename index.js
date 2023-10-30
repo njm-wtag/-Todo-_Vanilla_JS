@@ -1,4 +1,4 @@
-import { addTaskBtn, taskInputText, taskList } from "./scripts/elements.js";
+import { addTaskButton, taskInputText, taskList } from "./scripts/elements.js";
 import { handleCreateTodo } from "./scripts/addTask.js";
 import { todos } from "./scripts/deteleTask.js";
 import { createTaskElement } from "./scripts/taskActions.js";
@@ -13,7 +13,7 @@ export const renderTodoList = () => {
   });
 };
 
-addTaskBtn.addEventListener("click", handleCreateTodo);
+addTaskButton.addEventListener("click", handleCreateTodo);
 taskInputText.addEventListener("input", validateInput);
 
 renderTodoList();
