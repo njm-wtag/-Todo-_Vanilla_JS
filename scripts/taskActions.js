@@ -21,9 +21,10 @@ const createDoneButton = (taskId, isDone) => {
   const doneCheckbox = document.createElement("input");
   doneCheckbox.type = "checkbox";
   doneCheckbox.checked = isDone;
+  console.log({ doneCheckbox });
 
   doneCheckbox.addEventListener("change", () => {
-    handleDone(taskId);
+    handleDone(taskId, doneCheckbox.checked);
   });
 
   return doneCheckbox;
@@ -90,14 +91,15 @@ const createNonEditableTaskElements = (li, task) => {
   deleteButton.classList.add("deleteButtonStyle");
   editButton.classList.add("editButtonStyle");
 
-  if (task.isDone) {
+  if (doneCheckbox.checked) {
     li.style.textDecoration = "line-through";
     editButton.style.display = "none";
+  } else {
+    editButton.style.display = "block";
   }
-
+  li.appendChild(doneCheckbox);
   li.appendChild(deleteButton);
   li.appendChild(editButton);
-  li.appendChild(doneCheckbox);
 };
 
 export const appendErrorToTask = (li, error) => {
