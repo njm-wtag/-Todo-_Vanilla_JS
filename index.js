@@ -1,5 +1,6 @@
 import {
   addTaskButton,
+  filter,
   listTitle,
   searchButton,
   searchInput,
@@ -10,6 +11,10 @@ import { handleCreateTodo } from "./scripts/addTask.js";
 import { todos } from "./scripts/deteleTask.js";
 import { createTaskElement } from "./scripts/taskActions.js";
 import { validateInput } from "./scripts/utilities.js";
+
+const renderFilteredTodoList = () => {
+  console.log("filtered");
+};
 
 const handleSearch = () => {
   const searchText = searchInput.value.toLowerCase().trim();
@@ -48,5 +53,7 @@ searchInput.addEventListener("keyup", (event) => {
     handleSearch();
   }
 });
+
+filter.addEventListener("change", renderFilteredTodoList);
 
 renderTodoList();

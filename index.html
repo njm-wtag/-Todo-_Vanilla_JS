@@ -13,6 +13,13 @@
         <input type="text" id="searchInput" placeholder="Search tasks..." />
         <button id="searchButton">Search</button>
       </div>
+      <div class="filter-container">
+        <select id="filter">
+          <option value="all">All Task</option>
+          <option value="complete">Complete Todos</option>
+          <option value="incomplete">Incomplete Todos</option>
+        </select>
+      </div>
       <input type="text" id="taskInput" placeholder="Type task" />
       <button id="addTask" class="addButtonStyle" type="submit">Add New</button>
       <p id="errorMessage"></p>

@@ -3,7 +3,11 @@ body {
   justify-content: center;
   /* align-items: center; */
   height: 100vh;
-  margin-top: 100px;
+  margin-top: 64px;
+}
+
+body h1 {
+  text-align: center;
 }
 
 .addButtonStyle {
@@ -12,7 +16,7 @@ body {
   color: white;
   padding: 4px 8px;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
 }
@@ -20,12 +24,13 @@ body {
 .addButtonStyle:hover {
   background-color: #2280be;
 }
+
 .deleteButtonStyle {
   margin: 8px;
   color: white;
   padding: 4px 8px;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
   background-color: #f44d41;
@@ -34,12 +39,13 @@ body {
 .deleteButtonStyle:hover {
   background-color: #fa1707;
 }
+
 .editButtonStyle {
   margin: 8px;
   color: white;
   padding: 4px 8px;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
   background-color: #f0d839;
@@ -48,12 +54,13 @@ body {
 .editButtonStyle:hover {
   background-color: #ddc10c;
 }
+
 .doneButtonStyle {
   margin: 8px;
   color: white;
   padding: 4px 8px;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
   background-color: #63b174;
@@ -70,6 +77,7 @@ body {
 .hide {
   display: none;
 }
+
 .show {
   display: block;
 }
@@ -79,8 +87,21 @@ body {
   color: white;
   padding: 4px 8px;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
   background-color: #000000;
+}
+
+input[type="text"] {
+  padding: 3px;
+  margin: 4px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 400px;
+}
+
+.filter-container {
+  display: flex;
+  justify-content: end;
 }
