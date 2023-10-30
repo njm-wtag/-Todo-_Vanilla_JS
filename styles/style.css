@@ -1,0 +1,58 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.container {
+  text-align: center;
+}
+
+.addButton {
+  margin: 8px;
+  background-color: #4eaeef;
+  color: white;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.addButton:hover {
+  background-color: #2280be;
+}
+.deleteButton {
+  margin: 8px;
+  color: white;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: #f44d41;
+}
+
+.deleteButton:hover {
+  background-color: #fa1707;
+}
+.editButton {
+  margin: 8px;
+  color: white;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: #63b174;
+}
+
+.editButton:hover {
+  background-color: #519860;
+}
+
+.errorText {
+  color: red;
+}
