@@ -17,14 +17,16 @@ const createButton = (content) => {
   return newButton;
 };
 
-const createDoneButton = (taskId) => {
-  const doneButton = createButton("Done");
+const createDoneButton = (taskId, isDone) => {
+  const doneCheckbox = document.createElement("input");
+  doneCheckbox.type = "checkbox";
+  doneCheckbox.checked = isDone;
 
-  doneButton.addEventListener("click", () => {
+  doneCheckbox.addEventListener("change", () => {
     handleDone(taskId);
   });
 
-  return doneButton;
+  return doneCheckbox;
 };
 
 const createEditButton = (taskId) => {
@@ -83,21 +85,19 @@ const createNonEditableTaskElements = (li, task) => {
 
   const deleteButton = createDeleteButton(task.id);
   const editButton = createEditButton(task.id);
-  const doneButton = createDoneButton(task.id);
+  const doneCheckbox = createDoneButton(task.id, task.isDone);
 
   deleteButton.classList.add("deleteButtonStyle");
   editButton.classList.add("editButtonStyle");
-  doneButton.classList.add("doneButtonStyle");
 
   if (task.isDone) {
     li.style.textDecoration = "line-through";
     editButton.style.display = "none";
-    doneButton.style.display = "none";
   }
 
   li.appendChild(deleteButton);
   li.appendChild(editButton);
-  li.appendChild(doneButton);
+  li.appendChild(doneCheckbox);
 };
 
 export const appendErrorToTask = (li, error) => {
