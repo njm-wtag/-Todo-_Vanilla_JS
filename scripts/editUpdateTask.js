@@ -11,8 +11,10 @@ export const handleEdit = (taskId) => {
 export const handleCancel = (taskId) => {
   const todoToCancel = todos.find((todo) => todo.id === taskId);
   if (todoToCancel.error) {
-    todoToCancel.edit = true;
+    todoToCancel.isEditing = true;
+    return;
   }
+  todoToCancel.isEditing = false;
   renderTodoList();
 };
 
