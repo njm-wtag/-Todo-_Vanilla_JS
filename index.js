@@ -41,7 +41,14 @@ export const renderTodoList = () => {
 };
 
 addTaskButton.addEventListener("click", handleCreateTodo);
+taskInputText.addEventListener("keyup", (event) => {
+  if (event.key === "Enter") {
+    handleCreateTodo();
+  }
+});
+
 taskInputText.addEventListener("input", validateInput);
+
 searchButton.addEventListener("click", handleSearch);
 searchInput.addEventListener("keyup", (event) => {
   if (event.key === "Enter") {
