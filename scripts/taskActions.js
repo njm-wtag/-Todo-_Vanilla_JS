@@ -48,13 +48,37 @@ const createDeleteButton = (taskId) => {
 
 export const createTaskElement = (task) => {
   const li = document.createElement("li");
+  li.classList.add("listItem");
+  const doneCheckbox = createDoneButton(task.id, task.isDone);
+
+  li.appendChild(doneCheckbox);
+  const spanElement = document.createElement("span");
+  spanElement.textContent = task.value;
+  li.appendChild(spanElement);
 
   if (task.isEditing) {
+    spanElement.classList.add("hide");
     createEditableTaskElements(li, task);
     return li;
   }
 
-  createNonEditableTaskElements(li, task);
+  // li.textContent = task.value;
+
+  const deleteButton = createDeleteButton(task.id);
+  const editButton = createEditButton(task.id);
+
+  deleteButton.classList.add("deleteButtonStyle");
+  editButton.classList.add("editButtonStyle");
+
+  if (doneCheckbox.checked) {
+    spanElement.style.textDecoration = "line-through";
+    editButton.classList.remove("show");
+    editButton.classList.add("hide");
+  } else {
+    editButton.classList.add("show");
+  }
+  li.appendChild(editButton);
+  li.appendChild(deleteButton);
   return li;
 };
 
@@ -78,27 +102,6 @@ const createEditableTaskElements = (li, task) => {
   if (isUserInputValid(task.error)) {
     appendErrorToTask(li, task.error);
   }
-};
-
-const createNonEditableTaskElements = (li, task) => {
-  li.innerHTML = task.value;
-
-  const deleteButton = createDeleteButton(task.id);
-  const editButton = createEditButton(task.id);
-  const doneCheckbox = createDoneButton(task.id, task.isDone);
-
-  deleteButton.classList.add("deleteButtonStyle");
-  editButton.classList.add("editButtonStyle");
-
-  if (doneCheckbox.checked) {
-    li.style.textDecoration = "line-through";
-    editButton.style.display = "none";
-  } else {
-    editButton.style.display = "block";
-  }
-  li.appendChild(doneCheckbox);
-  li.appendChild(deleteButton);
-  li.appendChild(editButton);
 };
 
 export const appendErrorToTask = (li, error) => {

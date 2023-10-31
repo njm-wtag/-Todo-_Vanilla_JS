@@ -1,9 +1,10 @@
 body {
-  display: flex;
+  /* display: flex; */
   justify-content: center;
   /* align-items: center; */
-  height: 100vh;
-  margin-top: 64px;
+  /* height: 100vh; */
+  margin: 64px 24px;
+  font-size: large;
 }
 
 body h1 {
@@ -48,11 +49,11 @@ body h1 {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
-  background-color: #f0d839;
+  background-color: #efcf00;
 }
 
 .editButtonStyle:hover {
-  background-color: #ddc10c;
+  background-color: #d9bc02;
 }
 
 .doneButtonStyle {
@@ -83,7 +84,6 @@ body h1 {
 }
 
 #searchButton {
-  margin: 8px;
   color: white;
   padding: 4px 8px;
   border: none;
@@ -98,10 +98,26 @@ input[type="text"] {
   margin: 4px 0;
   border: 1px solid #ccc;
   border-radius: 5px;
-  width: 400px;
+  width: 50%;
+}
+input[type="checkbox"] {
+  margin-right: 12px;
 }
 
 .filter-container {
   display: flex;
   justify-content: end;
+}
+
+.search-container {
+  text-align: center;
+  margin: 32px 0;
+}
+
+#filter {
+  width: 15%;
+}
+.listItem {
+  display: flex;
+  align-items: center;
 }

@@ -13,7 +13,25 @@ import { createTaskElement } from "./scripts/taskActions.js";
 import { validateInput } from "./scripts/utilities.js";
 
 const renderFilteredTodoList = () => {
-  console.log("filtered");
+  const filter = document.getElementById("filter");
+  const selectedValue = filter.value;
+  taskList.innerHTML = "";
+
+  if (selectedValue === "complete") {
+    return renderTasksByStatus(true);
+  } else if (selectedValue === "incomplete") {
+    renderTasksByStatus(false);
+  } else {
+    renderTodoList();
+  }
+};
+
+const renderTasksByStatus = (isDone) => {
+  const filteredTodos = todos.filter((todo) => todo.isDone === isDone);
+  filteredTodos.forEach((todo) => {
+    const newTask = createTaskElement(todo);
+    taskList.appendChild(newTask);
+  });
 };
 
 const handleSearch = () => {
