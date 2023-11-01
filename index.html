@@ -3,13 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles/style.css" />
     <title>Todo App</title>
   </head>
   <body>
-    <h1>Keep What Todo</h1>
     <div class="container">
+      <h1>Keep What Todo</h1>
       <input type="text" id="taskInput" placeholder="Type task" />
-      <button id="addTask" type="submit">Add New</button>
+      <button id="addTask" class="addButton" type="submit">Add New</button>
       <p id="errorMessage"></p>
       <div class="list-container">
         <h4 class="list-title">Todos</h4>
@@ -17,5 +18,5 @@
       </div>
     </div>
   </body>
-  <script src="todo.js"></script>
+  <script src="index.js" type="module"></script>
 </html>
