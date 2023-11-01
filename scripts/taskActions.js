@@ -10,10 +10,10 @@ const createUpdateInput = (todoToEdit) => {
 };
 
 const createButton = (content) => {
-  const newButton = document.createElement("button");
-  newButton.textContent = content;
+  const button = document.createElement("button");
+  button.textContent = content;
 
-  return newButton;
+  return button;
 };
 
 const createEditButton = (taskId) => {
@@ -58,8 +58,10 @@ const createEditableTaskElements = (li, task) => {
   li.appendChild(inputField);
   li.appendChild(updateButton);
   li.appendChild(cancelButton);
+
   updateButton.classList.add("editButton");
   cancelButton.classList.add("deleteButton");
+
   if (isUserInputValid(task.error)) {
     appendErrorToTask(li, task.error);
   }
