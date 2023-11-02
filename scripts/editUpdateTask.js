@@ -1,6 +1,6 @@
 import { renderTodoList } from "../index.js";
 import { todos } from "./deteleTask.js";
-import { isUserInputValid, validateInput } from "./utilities.js";
+import { isUserInputValid } from "./utilities.js";
 
 export const handleEdit = (taskId) => {
   const todoToEdit = todos.find((todo) => todo.id === taskId);
@@ -10,9 +10,17 @@ export const handleEdit = (taskId) => {
 
 export const handleCancel = (taskId) => {
   const todoToCancel = todos.find((todo) => todo.id === taskId);
-  if (todoToCancel.error) {
-    todoToCancel.edit = true;
+  if (task === undefined) {
+    return;
   }
+
+  if (todoToCancel.error) {
+    todoToCancel.isEditing = true;
+
+    return;
+  }
+
+  todoToCancel.isEditing = false;
   renderTodoList();
 };
 

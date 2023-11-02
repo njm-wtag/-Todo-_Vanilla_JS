@@ -1,6 +1,7 @@
 import { isUserInputValid } from "./utilities.js";
 import { handleDelete } from "./deteleTask.js";
-import { handleEdit, handleUpdate } from "./editUpdateTask.js";
+import { handleCancel, handleEdit, handleUpdate } from "./editUpdateTask.js";
+import { handleDone } from "./doneTask.js";
 
 const createUpdateInput = (todoToEdit) => {
   const inputField = document.createElement("input");
@@ -16,6 +17,18 @@ const createButton = (content) => {
   return button;
 };
 
+const createDoneCheckbox = (taskId, isDone) => {
+  const doneCheckbox = document.createElement("input");
+  doneCheckbox.type = "checkbox";
+  doneCheckbox.checked = isDone;
+
+  doneCheckbox.addEventListener("change", () => {
+    handleDone(taskId, doneCheckbox.checked);
+  });
+
+  return doneCheckbox;
+};
+
 const createEditButton = (taskId) => {
   const editButton = createButton("Edit");
 
@@ -25,6 +38,7 @@ const createEditButton = (taskId) => {
 
   return editButton;
 };
+
 const createDeleteButton = (taskId) => {
   const deleteButton = createButton("Delete");
 
@@ -59,8 +73,8 @@ const createEditableTaskElements = (li, task) => {
   li.appendChild(updateButton);
   li.appendChild(cancelButton);
 
-  updateButton.classList.add("editButton");
-  cancelButton.classList.add("deleteButton");
+  updateButton.classList.add("doneButtonStyle");
+  cancelButton.classList.add("deleteButtonStyle");
 
   if (isUserInputValid(task.error)) {
     appendErrorToTask(li, task.error);
@@ -72,13 +86,18 @@ const createNonEditableTaskElements = (li, task) => {
 
   const deleteButton = createDeleteButton(task.id);
   const editButton = createEditButton(task.id);
+  const doneCheckbox = createDoneCheckbox(task.id, task.isDone);
 
-  deleteButton.classList.add("deleteButton");
-  editButton.classList.add("editButton");
+  deleteButton.classList.add("deleteButtonStyle");
+  editButton.classList.add("editButtonStyle");
 
-  deleteButton.addEventListener("click", () => handleDelete(task.id));
-  editButton.addEventListener("click", () => handleEdit(task.id));
-
+  if (doneCheckbox.checked) {
+    li.style.textDecoration = "line-through";
+    editButton.style.display = "none";
+  } else {
+    editButton.style.display = "block";
+  }
+  li.appendChild(doneCheckbox);
   li.appendChild(deleteButton);
   li.appendChild(editButton);
 };
