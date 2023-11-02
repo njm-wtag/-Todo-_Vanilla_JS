@@ -19,8 +19,10 @@ export const renderTodoList = () => {
   if (todos.length > 0) {
     listTitle.classList.remove("hide");
     listTitle.classList.add("show");
+
     return;
   }
+
   listTitle.classList.remove("show");
   listTitle.classList.add("hide");
 };

@@ -21,7 +21,6 @@ const createDoneCheckbox = (taskId, isDone) => {
   const doneCheckbox = document.createElement("input");
   doneCheckbox.type = "checkbox";
   doneCheckbox.checked = isDone;
-  console.log({ doneCheckbox });
 
   doneCheckbox.addEventListener("change", () => {
     handleDone(taskId, doneCheckbox.checked);
