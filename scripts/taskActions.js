@@ -17,7 +17,7 @@ const createButton = (content) => {
   return button;
 };
 
-const createDoneButton = (taskId, isDone) => {
+const createDoneCheckbox = (taskId, isDone) => {
   const doneCheckbox = document.createElement("input");
   doneCheckbox.type = "checkbox";
   doneCheckbox.checked = isDone;
@@ -39,6 +39,7 @@ const createEditButton = (taskId) => {
 
   return editButton;
 };
+
 const createDeleteButton = (taskId) => {
   const deleteButton = createButton("Delete");
 
@@ -86,7 +87,7 @@ const createNonEditableTaskElements = (li, task) => {
 
   const deleteButton = createDeleteButton(task.id);
   const editButton = createEditButton(task.id);
-  const doneCheckbox = createDoneButton(task.id, task.isDone);
+  const doneCheckbox = createDoneCheckbox(task.id, task.isDone);
 
   deleteButton.classList.add("deleteButtonStyle");
   editButton.classList.add("editButtonStyle");
