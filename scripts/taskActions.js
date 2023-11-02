@@ -11,10 +11,10 @@ const createUpdateInput = (todoToEdit) => {
 };
 
 const createButton = (content) => {
-  const newButton = document.createElement("button");
-  newButton.textContent = content;
+  const button = document.createElement("button");
+  button.textContent = content;
 
-  return newButton;
+  return button;
 };
 
 const createDoneButton = (taskId, isDone) => {
