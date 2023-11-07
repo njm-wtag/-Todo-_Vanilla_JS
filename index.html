@@ -9,9 +9,14 @@
   <body>
     <div class="container">
       <h1>Keep What Todo</h1>
+      <div>
+        <input type="text" id="searchInput" placeholder="Search tasks..." />
+        <button id="searchButton" class="searchButtonStyle">Search</button>
+      </div>
       <input type="text" id="taskInput" placeholder="Type task" />
       <button id="addTask" class="addButtonStyle" type="submit">Add New</button>
       <p id="errorMessage"></p>
+
       <div class="list-container">
         <h4 id="listTitle" class="hide">Todos</h4>
         <ul id="taskList"></ul>
