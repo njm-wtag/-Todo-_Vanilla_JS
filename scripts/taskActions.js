@@ -11,13 +11,13 @@ const createUpdateInput = (todoToEdit) => {
 };
 
 const createButton = (content) => {
-  const newButton = document.createElement("button");
-  newButton.textContent = content;
+  const button = document.createElement("button");
+  button.textContent = content;
 
-  return newButton;
+  return button;
 };
 
-const createDoneButton = (taskId, isDone) => {
+const createDoneCheckbox = (taskId, isDone) => {
   const doneCheckbox = document.createElement("input");
   doneCheckbox.type = "checkbox";
   doneCheckbox.checked = isDone;
@@ -38,6 +38,7 @@ const createEditButton = (taskId) => {
 
   return editButton;
 };
+
 const createDeleteButton = (taskId) => {
   const deleteButton = createButton("Delete");
 
@@ -49,7 +50,7 @@ const createDeleteButton = (taskId) => {
 export const createTaskElement = (task) => {
   const li = document.createElement("li");
   li.classList.add("listItem");
-  const doneCheckbox = createDoneButton(task.id, task.isDone);
+  const doneCheckbox = createDoneCheckbox(task.id, task.isDone);
 
   li.appendChild(doneCheckbox);
   const spanElement = document.createElement("span");
@@ -61,8 +62,6 @@ export const createTaskElement = (task) => {
     createEditableTaskElements(li, task);
     return li;
   }
-
-  // li.textContent = task.value;
 
   const deleteButton = createDeleteButton(task.id);
   const editButton = createEditButton(task.id);
