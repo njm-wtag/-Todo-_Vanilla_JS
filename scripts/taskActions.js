@@ -109,3 +109,22 @@ export const appendErrorToTask = (li, error) => {
   updateError.textContent = error;
   li.appendChild(updateError);
 };
+
+export const createFilterDropdown = () => {
+  const filterContainer = document.querySelector(".filter-container");
+  const filter = document.createElement("select");
+  filter.id = "filter";
+
+  const options = ["All", "Complete", "Incomplete"];
+
+  options.map((option) => {
+    const optionElement = document.createElement("option");
+    optionElement.value = option.toLowerCase();
+    optionElement.textContent = option;
+    filter.appendChild(optionElement);
+  });
+
+  filterContainer.appendChild(filter);
+};
+
+createFilterDropdown();

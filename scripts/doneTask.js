@@ -9,7 +9,6 @@ export const handleDone = (taskId, doneState) => {
   }
 
   task.isDone = Boolean(doneState);
-
   renderTodoList();
 
   return;

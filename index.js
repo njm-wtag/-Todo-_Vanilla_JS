@@ -1,6 +1,5 @@
 import {
   addTaskButton,
-  filter,
   listTitle,
   searchButton,
   searchInput,
@@ -21,9 +20,11 @@ const renderFilteredTodoList = () => {
   switch (selectedType) {
     case COMPLETE:
       renderTasksByStatus(true);
+
       break;
     case INCOMPLETE:
       renderTasksByStatus(false);
+
       break;
     default:
       renderTodoList();
@@ -64,7 +65,8 @@ const handleSearch = () => {
 
 export const renderTodoList = () => {
   taskList.innerHTML = "";
-
+  searchInput.value = "";
+  filter.value = "all";
   todos.forEach((todo) => {
     const newTask = createTaskElement(todo);
     taskList.appendChild(newTask);
@@ -88,14 +90,6 @@ taskInputText.addEventListener("keyup", (event) => {
 });
 
 taskInputText.addEventListener("input", validateInput);
-
-// searchButton.addEventListener("click", handleSearch);
-
-// searchInput.addEventListener("keyup", (event) => {
-//   if (event.key === "Enter") {
-//     handleSearch();
-//   }
-// });
 
 searchInput.addEventListener("keyup", () => {
   const debouncedSearchData = debounce(handleSearch, 400);
