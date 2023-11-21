@@ -1,15 +1,17 @@
 body {
-  display: flex;
-  justify-content: center;
-  height: 100vh;
-  margin-top: 100px;
+  margin: 4rem 1.5rem;
+  font-size: large;
+}
+
+body h1 {
+  text-align: center;
 }
 
 .addButtonStyle {
   margin: 0.5rem;
   background-color: #4eaeef;
   color: white;
-  padding: 0.25rem 0.5rem;
+  padding: 0.3rem 0.5rem;
   border: none;
   border-radius: 0.25rem;
   cursor: pointer;
@@ -19,10 +21,11 @@ body {
 .addButtonStyle:hover {
   background-color: #2280be;
 }
+
 .deleteButtonStyle {
   margin: 0.5rem;
   color: white;
-  padding: 0.25rem 0.5rem;
+  padding: 0.3rem 0.5rem;
   border: none;
   border-radius: 0.25rem;
   cursor: pointer;
@@ -33,24 +36,26 @@ body {
 .deleteButtonStyle:hover {
   background-color: #fa1707;
 }
+
 .editButtonStyle {
   margin: 0.5rem;
   color: white;
-  padding: 0.25rem 0.5rem;
+  padding: 0.3rem 0.5rem;
   border: none;
   border-radius: 0.25rem;
   cursor: pointer;
   transition: background-color 0.3s;
-  background-color: #f0d839;
+  background-color: #efcf00;
 }
 
 .editButtonStyle:hover {
-  background-color: #ddc10c;
+  background-color: #d9bc02;
 }
+
 .doneButtonStyle {
   margin: 0.5rem;
   color: white;
-  padding: 0.25rem 0.5rem;
+  padding: 0.3rem 0.5rem;
   border: none;
   border-radius: 0.25rem;
   cursor: pointer;
@@ -69,6 +74,7 @@ body {
 .hide {
   display: none;
 }
+
 .show {
   display: block;
 }
@@ -76,10 +82,39 @@ body {
 .searchButtonStyle {
   margin: 0.5rem;
   color: white;
-  padding: 0.25rem 0.5rem;
+  padding: 0.3rem 0.5rem;
   border: none;
   border-radius: 0.25rem;
   cursor: pointer;
   transition: background-color 0.3s;
   background-color: #000000;
+}
+
+input[type="text"] {
+  padding: 0.25rem;
+  margin: 0.25rem 0;
+  border: 0.05rem solid #ccc;
+  border-radius: 0.25rem;
+  width: 50%;
+}
+input[type="checkbox"] {
+  margin-right: 0.75rem;
+}
+
+.filter-container {
+  display: flex;
+  justify-content: end;
+}
+
+.search-container {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+#filter {
+  width: 15%;
+}
+.listItem {
+  display: flex;
+  align-items: center;
 }

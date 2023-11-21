@@ -28,6 +28,7 @@ export const handleCreateTodo = () => {
   };
   todos.push(task);
   errorMessage.innerHTML = "";
+
   renderTodoList();
   resetTaskInput();
 };

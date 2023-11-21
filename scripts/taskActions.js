@@ -49,13 +49,35 @@ const createDeleteButton = (taskId) => {
 
 export const createTaskElement = (task) => {
   const li = document.createElement("li");
+  li.classList.add("listItem");
+  const doneCheckbox = createDoneCheckbox(task.id, task.isDone);
+
+  li.appendChild(doneCheckbox);
+  const spanElement = document.createElement("span");
+  spanElement.textContent = task.value;
+  li.appendChild(spanElement);
 
   if (task.isEditing) {
+    spanElement.classList.add("hide");
     createEditableTaskElements(li, task);
     return li;
   }
 
-  createNonEditableTaskElements(li, task);
+  const deleteButton = createDeleteButton(task.id);
+  const editButton = createEditButton(task.id);
+
+  deleteButton.classList.add("deleteButtonStyle");
+  editButton.classList.add("editButtonStyle");
+
+  if (doneCheckbox.checked) {
+    spanElement.style.textDecoration = "line-through";
+    editButton.classList.remove("show");
+    editButton.classList.add("hide");
+  } else {
+    editButton.classList.add("show");
+  }
+  li.appendChild(editButton);
+  li.appendChild(deleteButton);
   return li;
 };
 
@@ -81,30 +103,28 @@ const createEditableTaskElements = (li, task) => {
   }
 };
 
-const createNonEditableTaskElements = (li, task) => {
-  li.innerHTML = task.value;
-
-  const deleteButton = createDeleteButton(task.id);
-  const editButton = createEditButton(task.id);
-  const doneCheckbox = createDoneCheckbox(task.id, task.isDone);
-
-  deleteButton.classList.add("deleteButtonStyle");
-  editButton.classList.add("editButtonStyle");
-
-  if (doneCheckbox.checked) {
-    li.style.textDecoration = "line-through";
-    editButton.style.display = "none";
-  } else {
-    editButton.style.display = "block";
-  }
-  li.appendChild(doneCheckbox);
-  li.appendChild(deleteButton);
-  li.appendChild(editButton);
-};
-
 export const appendErrorToTask = (li, error) => {
   const updateError = document.createElement("p");
   updateError.classList.add("errorText");
   updateError.textContent = error;
   li.appendChild(updateError);
 };
+
+export const createFilterDropdown = () => {
+  const filterContainer = document.querySelector(".filter-container");
+  const filter = document.createElement("select");
+  filter.id = "filter";
+
+  const options = ["All", "Complete", "Incomplete"];
+
+  options.map((option) => {
+    const optionElement = document.createElement("option");
+    optionElement.value = option.toLowerCase();
+    optionElement.textContent = option;
+    filter.appendChild(optionElement);
+  });
+
+  filterContainer.appendChild(filter);
+};
+
+createFilterDropdown();
