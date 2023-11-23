@@ -1,6 +1,7 @@
 import {
   addTaskButton,
   listTitle,
+  navbar,
   searchButton,
   searchInput,
   taskInputText,
@@ -57,6 +58,7 @@ const handleSearch = () => {
   );
 
   taskList.innerHTML = "";
+  console.log({ taskInputText });
   filteredTasks.forEach((task) => {
     const newTask = createTaskElement(task);
     taskList.appendChild(newTask);
@@ -72,14 +74,14 @@ export const renderTodoList = () => {
     taskList.appendChild(newTask);
   });
   if (todos.length > 0) {
-    listTitle.classList.remove("hide");
-    listTitle.classList.add("show");
+    // listTitle.classList.remove("hide");
+    // listTitle.classList.add("show");
 
     return;
   }
 
-  listTitle.classList.remove("show");
-  listTitle.classList.add("hide");
+  // listTitle.classList.remove("show");
+  // listTitle.classList.add("hide");
 };
 
 addTaskButton.addEventListener("click", handleCreateTodo);
@@ -90,6 +92,10 @@ taskInputText.addEventListener("keyup", (event) => {
 });
 
 taskInputText.addEventListener("input", validateInput);
+
+searchButton.addEventListener("click", () => {
+  navbar.classList.toggle("show-search-box");
+});
 
 searchInput.addEventListener("keyup", () => {
   const debouncedSearchData = debounce(handleSearch, 400);

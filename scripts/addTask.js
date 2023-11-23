@@ -19,6 +19,7 @@ export const handleCreateTodo = () => {
   }
 
   const taskId = generateUniqueId();
+
   const task = {
     id: taskId,
     value: textContent,
