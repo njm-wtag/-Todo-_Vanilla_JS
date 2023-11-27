@@ -1,6 +1,8 @@
+export const createToggleButton = document.getElementById("createTask");
+export const inputContainer = document.getElementById("card1");
 export const addTaskButton = document.getElementById("addTask");
 export const taskInputText = document.getElementById("taskInput");
-export const taskList = document.getElementById("taskList");
+export const taskContainer = document.getElementById("taskContainer");
 export const errorMessage = document.getElementById("errorMessage");
 export const listTitle = document.getElementById("listTitle");
 export const searchInput = document.getElementById("searchInput");

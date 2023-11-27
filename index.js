@@ -5,18 +5,20 @@ import {
   searchButton,
   searchInput,
   taskInputText,
-  taskList,
+  taskContainer,
+  createToggleButton,
+  inputContainer,
 } from "./scripts/elements.js";
-import { handleCreateTodo } from "./scripts/addTask.js";
 import { todos } from "./scripts/deteleTask.js";
 import { createTaskElement } from "./scripts/taskActions.js";
 import { validateInput } from "./scripts/utilities.js";
 import { COMPLETE, INCOMPLETE } from "./const.js";
+import { handleCreateTodo } from "./scripts/addTask.js";
 
 const renderFilteredTodoList = () => {
   const filter = document.getElementById("filter");
   const selectedType = filter.value;
-  taskList.innerHTML = "";
+  taskContainer.innerHTML = "";
 
   switch (selectedType) {
     case COMPLETE:
@@ -36,8 +38,8 @@ const renderTasksByStatus = (isDone) => {
   const filteredTodos = todos.filter((todo) => todo.isDone === isDone);
 
   filteredTodos.forEach((todo) => {
-    const newTask = createTaskElement(todo);
-    taskList.appendChild(newTask);
+    const newTask = todo;
+    taskContainer.appendChild(newTask);
   });
 };
 
@@ -57,41 +59,48 @@ const handleSearch = () => {
     task.value.toLowerCase().includes(searchText)
   );
 
-  taskList.innerHTML = "";
+  taskContainer.innerHTML = "";
   console.log({ taskInputText });
   filteredTasks.forEach((task) => {
     const newTask = createTaskElement(task);
-    taskList.appendChild(newTask);
+    taskContainer.appendChild(newTask);
   });
 };
 
 export const renderTodoList = () => {
-  taskList.innerHTML = "";
+  // taskContainer.innerHTML = "";
   searchInput.value = "";
   filter.value = "all";
   todos.forEach((todo) => {
     const newTask = createTaskElement(todo);
-    taskList.appendChild(newTask);
+    taskContainer.appendChild(newTask);
   });
-  if (todos.length > 0) {
-    // listTitle.classList.remove("hide");
-    // listTitle.classList.add("show");
-
-    return;
-  }
-
-  // listTitle.classList.remove("show");
-  // listTitle.classList.add("hide");
 };
 
+// const handleToggleCard = () => {
+//   //   if (inputContainer.classList.contains("hide")) {
+//   //     inputContainer.classList.remove("hide");
+//   //     inputContainer.classList.add("show");
+//   //   } else inputContainer.classList.add("hide");
+//   //   inputContainer.classList.remove("show");
+//   inputContainer.style.display =
+//     inputContainer.style.display === "none" ||
+//     inputContainer.style.display === ""
+//       ? "block"
+//       : "none";
+// };
+// createToggleButton.addEventListener("click", handleToggleCard);
 addTaskButton.addEventListener("click", handleCreateTodo);
+// addTaskButton.addEventListener("click", handleToggleTodo);
+// document.addEventListener("DOMContentLoaded", handleToggleTodo);
+
 taskInputText.addEventListener("keyup", (event) => {
   if (event.key === "Enter") {
     handleCreateTodo();
   }
 });
 
-taskInputText.addEventListener("input", validateInput);
+// taskInputText.addEventListener("input", validateInput);
 
 searchButton.addEventListener("click", () => {
   navbar.classList.toggle("show-search-box");

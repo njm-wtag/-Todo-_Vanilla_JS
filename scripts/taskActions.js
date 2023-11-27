@@ -45,12 +45,15 @@ const createButton = (content) => {
 // };
 
 const createDoneCheckbox = (taskId, isDone) => {
+  const spanElement = document.createElement("span");
   const imgElement = document.createElement("img");
   imgElement.src = doneIcon;
-  imgElement.innerText = isDone;
-  document.body.appendChild(imgElement);
 
-  imgElement.addEventListener("click", () => {
+  document.body.appendChild(imgElement);
+  spanElement.appendChild(imgElement);
+  imgElement.innerText = isDone;
+
+  spanElement.addEventListener("click", () => {
     handleDone(taskId, imgElement.innerText);
   });
 
@@ -78,32 +81,63 @@ const createDeleteButton = (taskId) => {
 };
 
 export const createTaskElement = (task) => {
+  // const li = document.createElement("div");
+  const gridContainer = document.querySelector(".taskContainer");
   const li = document.createElement("div");
+  gridContainer.appendChild(li);
   li.classList.add("listItem");
   const doneCheckbox = createDoneCheckbox(task.id, task.isDone);
-
+  const deleteButton = createDeleteButton(task.id);
+  const editButton = createEditButton(task.id);
+  const buttonContainerElement = document.createElement("div");
   const spanElement = document.createElement("h2");
   spanElement.textContent = task.value;
   const timeElement = document.createElement("p");
-  const buttonContainerElement = document.createElement("div");
+
   timeElement.textContent = getCurrentDateTime();
   li.appendChild(spanElement);
   li.appendChild(timeElement);
 
-  if (task.isEditing) {
-    spanElement.classList.add("hide");
-    createEditableTaskElements(li, task);
-    return li;
-  }
-
-  const deleteButton = createDeleteButton(task.id);
-  const editButton = createEditButton(task.id);
-
   timeElement.classList.add("createdTime");
   deleteButton.classList.add("buttonStyle");
   editButton.classList.add("buttonStyle");
+
+  if (task.isEditing) {
+    spanElement.classList.add("hide");
+    timeElement.classList.add("hide");
+    // createEditableTaskElements(li, task);
+    const inputField = createUpdateInput(task);
+    const updateButton = createButton("Save");
+    // const cancelButton = createButton("Cancel");
+    inputField.classList.add("editInput");
+    updateButton.addEventListener("click", () =>
+      handleUpdate(task.id, inputField.value)
+    );
+    // cancelButton.addEventListener("click", () => handleCancel(task.id));
+
+    li.appendChild(inputField);
+    buttonContainerElement.appendChild(updateButton);
+    // li.appendChild(cancelButton);
+
+    // updateButton.classList.add("doneButtonStyle");
+    // cancelButton.classList.add("deleteButtonStyle");
+
+    if (isUserInputValid(task.error)) {
+      appendErrorToTask(li, task.error);
+    }
+    //
+    // return li;
+  }
+
   buttonContainerElement.classList.add("buttonContainer");
 
+  buttonContainerElement.appendChild(doneCheckbox);
+  if (!task.isEditing) {
+    buttonContainerElement.appendChild(editButton);
+  }
+
+  buttonContainerElement.appendChild(deleteButton);
+  li.appendChild(buttonContainerElement);
   if (doneCheckbox.checked) {
     spanElement.style.textDecoration = "line-through";
     editButton.classList.remove("show");
@@ -111,34 +145,13 @@ export const createTaskElement = (task) => {
   } else {
     editButton.classList.add("show");
   }
-  buttonContainerElement.appendChild(doneCheckbox);
-  buttonContainerElement.appendChild(editButton);
-  buttonContainerElement.appendChild(deleteButton);
-  li.appendChild(buttonContainerElement);
+
   return li;
 };
 
-const createEditableTaskElements = (li, task) => {
-  const inputField = createUpdateInput(task);
-  const updateButton = createButton("Update");
-  const cancelButton = createButton("Cancel");
+// const createEditableTaskElements = (li, task) => {
 
-  updateButton.addEventListener("click", () =>
-    handleUpdate(task.id, inputField.value)
-  );
-  cancelButton.addEventListener("click", () => handleCancel(task.id));
-
-  li.appendChild(inputField);
-  li.appendChild(updateButton);
-  li.appendChild(cancelButton);
-
-  updateButton.classList.add("doneButtonStyle");
-  cancelButton.classList.add("deleteButtonStyle");
-
-  if (isUserInputValid(task.error)) {
-    appendErrorToTask(li, task.error);
-  }
-};
+// };
 
 export const appendErrorToTask = (li, error) => {
   const updateError = document.createElement("p");
