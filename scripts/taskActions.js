@@ -3,6 +3,21 @@ import { handleDelete } from "./deteleTask.js";
 import { handleCancel, handleEdit, handleUpdate } from "./editUpdateTask.js";
 import { handleDone } from "./doneTask.js";
 
+const doneIcon = "../images/done.svg";
+const editIcon = "../images/edit.svg";
+const deleteIcon = "../images/delete.svg";
+
+const getCurrentDateTime = () => {
+  const today = new Date();
+  const date = `${today.getDate().toString().padStart(2, "0")}.${(
+    today.getMonth() + 1
+  )
+    .toString()
+    .padStart(2, "0")}.${today.getFullYear()}`;
+
+  return `Created At ${date}`;
+};
+
 const createUpdateInput = (todoToEdit) => {
   const inputField = document.createElement("input");
   inputField.type = "text";
@@ -12,50 +27,72 @@ const createUpdateInput = (todoToEdit) => {
 
 const createButton = (content) => {
   const button = document.createElement("button");
-  button.textContent = content;
+  button.innerHTML = content;
 
   return button;
 };
+
+// const createDoneCheckbox = (taskId, isDone) => {
+//   const doneCheckbox = document.createElement("input");
+//   doneCheckbox.type = "checkbox";
+//   doneCheckbox.checked = isDone;
+
+//   doneCheckbox.addEventListener("change", () => {
+//     handleDone(taskId, doneCheckbox.checked);
+//   });
+
+//   return doneCheckbox;
+// };
 
 const createDoneCheckbox = (taskId, isDone) => {
   const doneCheckbox = document.createElement("input");
   doneCheckbox.type = "checkbox";
   doneCheckbox.checked = isDone;
-
-  doneCheckbox.addEventListener("change", () => {
-    handleDone(taskId, doneCheckbox.checked);
+  const imgElement = document.createElement("img");
+  imgElement.src = doneIcon;
+  imgElement.innerText = isDone;
+  document.body.appendChild(imgElement);
+  imgElement.addEventListener("click", () => {
+    handleDone(taskId, imgElement.innerText);
   });
 
-  return doneCheckbox;
+  return imgElement;
 };
 
 const createEditButton = (taskId) => {
-  const editButton = createButton("Edit");
+  const imgElement = document.createElement("img");
+  imgElement.src = editIcon;
+  document.body.appendChild(imgElement);
 
-  editButton.addEventListener("click", () => {
+  imgElement.addEventListener("click", () => {
     handleEdit(taskId);
   });
 
-  return editButton;
+  return imgElement;
 };
 
 const createDeleteButton = (taskId) => {
-  const deleteButton = createButton("Delete");
+  const imgElement = document.createElement("img");
+  imgElement.src = deleteIcon;
+  document.body.appendChild(imgElement);
 
-  deleteButton.addEventListener("click", () => handleDelete(taskId));
+  imgElement.addEventListener("click", () => handleDelete(taskId));
 
-  return deleteButton;
+  return imgElement;
 };
 
 export const createTaskElement = (task) => {
-  const li = document.createElement("li");
+  const li = document.createElement("div");
   li.classList.add("listItem");
   const doneCheckbox = createDoneCheckbox(task.id, task.isDone);
 
-  li.appendChild(doneCheckbox);
-  const spanElement = document.createElement("span");
+  const spanElement = document.createElement("h2");
   spanElement.textContent = task.value;
+  const timeElement = document.createElement("p");
+  const buttonContainerElement = document.createElement("div");
+  timeElement.textContent = getCurrentDateTime();
   li.appendChild(spanElement);
+  li.appendChild(timeElement);
 
   if (task.isEditing) {
     spanElement.classList.add("hide");
@@ -66,8 +103,12 @@ export const createTaskElement = (task) => {
   const deleteButton = createDeleteButton(task.id);
   const editButton = createEditButton(task.id);
 
-  deleteButton.classList.add("deleteButtonStyle");
-  editButton.classList.add("editButtonStyle");
+  // deleteButton.classList.add("deleteButtonStyle");
+  // editButton.classList.add("editButtonStyle");
+  timeElement.classList.add("createdTime");
+  deleteButton.classList.add("buttonStyle");
+  editButton.classList.add("buttonStyle");
+  buttonContainerElement.classList.add("buttonContainer");
 
   if (doneCheckbox.checked) {
     spanElement.style.textDecoration = "line-through";
@@ -76,8 +117,10 @@ export const createTaskElement = (task) => {
   } else {
     editButton.classList.add("show");
   }
-  li.appendChild(editButton);
-  li.appendChild(deleteButton);
+  buttonContainerElement.appendChild(doneCheckbox);
+  buttonContainerElement.appendChild(editButton);
+  buttonContainerElement.appendChild(deleteButton);
+  li.appendChild(buttonContainerElement);
   return li;
 };
 

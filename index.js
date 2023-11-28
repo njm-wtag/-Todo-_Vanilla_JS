@@ -5,6 +5,7 @@ import {
   searchInput,
   taskInputText,
   taskList,
+  navbar,
 } from "./scripts/elements.js";
 import { handleCreateTodo } from "./scripts/addTask.js";
 import { todos } from "./scripts/deteleTask.js";
@@ -90,6 +91,10 @@ taskInputText.addEventListener("keyup", (event) => {
 });
 
 taskInputText.addEventListener("input", validateInput);
+
+searchButton.addEventListener("click", () => {
+  navbar.classList.toggle("show-search-box");
+});
 
 searchInput.addEventListener("keyup", () => {
   const debouncedSearchData = debounce(handleSearch, 400);
