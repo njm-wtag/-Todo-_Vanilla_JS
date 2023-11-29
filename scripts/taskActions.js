@@ -36,24 +36,26 @@ const createButton = (content) => {
 //   const doneCheckbox = document.createElement("input");
 //   doneCheckbox.type = "checkbox";
 //   doneCheckbox.checked = isDone;
-
-//   doneCheckbox.addEventListener("change", () => {
-//     handleDone(taskId, doneCheckbox.checked);
+//   const imgElement = document.createElement("img");
+//   imgElement.src = doneIcon;
+//   imgElement.innerText = isDone;
+//   document.body.appendChild(imgElement);
+//   imgElement.addEventListener("click", () => {
+//     handleDone(taskId, imgElement.innerText);
 //   });
 
-//   return doneCheckbox;
+//   return imgElement;
 // };
 
-const createDoneCheckbox = (taskId, isDone) => {
-  const doneCheckbox = document.createElement("input");
-  doneCheckbox.type = "checkbox";
-  doneCheckbox.checked = isDone;
+const createDoneButton = (taskId) => {
+  const doneButton = createButton("Done");
+
   const imgElement = document.createElement("img");
   imgElement.src = doneIcon;
-  imgElement.innerText = isDone;
   document.body.appendChild(imgElement);
+
   imgElement.addEventListener("click", () => {
-    handleDone(taskId, imgElement.innerText);
+    handleDone(taskId);
   });
 
   return imgElement;
@@ -82,68 +84,81 @@ const createDeleteButton = (taskId) => {
 };
 
 export const createTaskElement = (task) => {
+  // let gridContainer = document.querySelector(".gridcontainer");
+
   const li = document.createElement("div");
   li.classList.add("listItem");
-  const doneCheckbox = createDoneCheckbox(task.id, task.isDone);
+  // const doneCheckbox = createDoneCheckbox(task.id, task.isDone);
+  const doneButton = createDoneButton(task.id, task.isDone);
 
+  const deleteButton = createDeleteButton(task.id);
+  const editButton = createEditButton(task.id);
+  const buttonContainerElement = document.createElement("div");
   const spanElement = document.createElement("h2");
   spanElement.textContent = task.value;
   const timeElement = document.createElement("p");
-  const buttonContainerElement = document.createElement("div");
   timeElement.textContent = getCurrentDateTime();
+
+  const inputField = createUpdateInput(task);
+  const updateButton = createButton("Save");
+
   li.appendChild(spanElement);
   li.appendChild(timeElement);
 
   if (task.isEditing) {
     spanElement.classList.add("hide");
-    createEditableTaskElements(li, task);
-    return li;
+    timeElement.classList.add("hide");
+
+    inputField.classList.add("editInput");
+
+    updateButton.addEventListener("click", () =>
+      handleUpdate(task.id, inputField.value)
+    );
+
+    li.appendChild(inputField);
+    buttonContainerElement.appendChild(updateButton);
+
+    if (isUserInputValid(task.error)) {
+      appendErrorToTask(li, task.error);
+    }
+    // return li;
   }
 
-  const deleteButton = createDeleteButton(task.id);
-  const editButton = createEditButton(task.id);
-
-  // deleteButton.classList.add("deleteButtonStyle");
-  // editButton.classList.add("editButtonStyle");
   timeElement.classList.add("createdTime");
-  deleteButton.classList.add("buttonStyle");
   editButton.classList.add("buttonStyle");
   buttonContainerElement.classList.add("buttonContainer");
 
-  if (doneCheckbox.checked) {
-    spanElement.style.textDecoration = "line-through";
+  // if (doneCheckbox.checked) {
+  //   spanElement.style.textDecoration = "line-through";
+  //   editButton.classList.remove("show");
+  //   editButton.classList.add("hide");
+  // } else {
+  //   editButton.classList.add("show");
+  // }
+
+  if (task.isDone) {
+    // spanElement.style.textDecoration = "line-through";
+    spanElement.classList.add("doneTask");
     editButton.classList.remove("show");
     editButton.classList.add("hide");
+    doneButton.classList.add("hide");
+
+    const complitionTime = document.createComment("p");
+    complitionTime.textContent = "completed";
+    buttonContainerElement.appendChild(complitionTime);
   } else {
     editButton.classList.add("show");
   }
-  buttonContainerElement.appendChild(doneCheckbox);
-  buttonContainerElement.appendChild(editButton);
+  // buttonContainerElement.appendChild(doneCheckbox);
+  buttonContainerElement.appendChild(doneButton);
+  if (!task.isEditing) {
+    buttonContainerElement.appendChild(editButton);
+  }
+
   buttonContainerElement.appendChild(deleteButton);
   li.appendChild(buttonContainerElement);
+
   return li;
-};
-
-const createEditableTaskElements = (li, task) => {
-  const inputField = createUpdateInput(task);
-  const updateButton = createButton("Update");
-  const cancelButton = createButton("Cancel");
-
-  updateButton.addEventListener("click", () =>
-    handleUpdate(task.id, inputField.value)
-  );
-  cancelButton.addEventListener("click", () => handleCancel(task.id));
-
-  li.appendChild(inputField);
-  li.appendChild(updateButton);
-  li.appendChild(cancelButton);
-
-  updateButton.classList.add("doneButtonStyle");
-  cancelButton.classList.add("deleteButtonStyle");
-
-  if (isUserInputValid(task.error)) {
-    appendErrorToTask(li, task.error);
-  }
 };
 
 export const appendErrorToTask = (li, error) => {

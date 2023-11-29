@@ -31,6 +31,10 @@ header {
   color: var(--primary-color);
 }
 
+.main-container h1 {
+  margin: 0;
+  padding: 1rem 0;
+}
 .search-container {
   display: flex;
   align-items: center;
@@ -64,10 +68,10 @@ search-box input {
 .container {
   background-color: #f2f3fc;
   height: 100vh;
-  /* padding: 3rem 4rem; */
+  padding: 0 4rem;
 }
 
-.taskList {
+.gridContainer {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 1.5rem;
@@ -90,6 +94,19 @@ search-box input {
   font-size: 14px;
   color: #bbbdd0;
   display: block;
+}
+
+.editInput {
+  height: 5rem;
+  width: 30rem;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  display: block;
+}
+
+.doneTask {
+  text-decoration: line-through #0bc375;
+  color: #0bc375;
 }
 
 .buttonContainer {
@@ -157,7 +174,6 @@ input[type="text"] {
   margin: 0.25rem 0;
   border: 0.05rem solid #ccc;
   border-radius: 0.25rem;
-  width: 50%;
 }
 
 input[type="checkbox"] {

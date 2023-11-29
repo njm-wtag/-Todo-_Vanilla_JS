@@ -1,11 +1,11 @@
 import {
   addTaskButton,
-  listTitle,
   searchButton,
   searchInput,
   taskInputText,
   taskList,
   navbar,
+  toggleButton,
 } from "./scripts/elements.js";
 import { handleCreateTodo } from "./scripts/addTask.js";
 import { todos } from "./scripts/deteleTask.js";
@@ -16,7 +16,7 @@ import { COMPLETE, INCOMPLETE } from "./const.js";
 const renderFilteredTodoList = () => {
   const filter = document.getElementById("filter");
   const selectedType = filter.value;
-  taskList.innerHTML = "";
+  // taskList.innerHTML = "";
 
   switch (selectedType) {
     case COMPLETE:
@@ -57,7 +57,7 @@ const handleSearch = () => {
     task.value.toLowerCase().includes(searchText)
   );
 
-  taskList.innerHTML = "";
+  // taskList.innerHTML = "";
   filteredTasks.forEach((task) => {
     const newTask = createTaskElement(task);
     taskList.appendChild(newTask);
@@ -65,24 +65,37 @@ const handleSearch = () => {
 };
 
 export const renderTodoList = () => {
+  const elementsToKeep = [];
+
+  for (let i = 0; i < taskList.children.length; i++) {
+    if (taskList.children[i].id === "card1") {
+      elementsToKeep.push(taskList.children[i]);
+    }
+  }
+
   taskList.innerHTML = "";
   searchInput.value = "";
   filter.value = "all";
-  todos.forEach((todo) => {
-    const newTask = createTaskElement(todo);
-    taskList.appendChild(newTask);
+
+  elementsToKeep.map((element) => {
+    taskList.appendChild(element);
   });
-  if (todos.length > 0) {
-    listTitle.classList.remove("hide");
-    listTitle.classList.add("show");
 
-    return;
-  }
-
-  listTitle.classList.remove("show");
-  listTitle.classList.add("hide");
+  todos.map((todo) => {
+    const newTask = createTaskElement(todo);
+    taskList.insertBefore(newTask, taskList.children[1]);
+  });
 };
 
+const handleToggle = () => {
+  let firstCard = document.getElementById("card1");
+  firstCard.style.display =
+    firstCard.style.display === "none" || firstCard.style.display === ""
+      ? "block"
+      : "none";
+};
+
+toggleButton.addEventListener("click", handleToggle);
 addTaskButton.addEventListener("click", handleCreateTodo);
 taskInputText.addEventListener("keyup", (event) => {
   if (event.key === "Enter") {

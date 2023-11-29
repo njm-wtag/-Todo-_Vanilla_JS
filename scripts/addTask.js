@@ -26,6 +26,7 @@ export const handleCreateTodo = () => {
     isEditing: false,
     error: "",
   };
+
   todos.push(task);
   errorMessage.innerHTML = "";
 
