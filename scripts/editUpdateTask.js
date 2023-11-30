@@ -10,9 +10,9 @@ export const handleEdit = (taskId) => {
 
 export const handleCancel = (taskId) => {
   const todoToCancel = todos.find((todo) => todo.id === taskId);
-  if (task === undefined) {
-    return;
-  }
+  // if (task === undefined) {
+  //   return;
+  // }
 
   if (todoToCancel.error) {
     todoToCancel.isEditing = true;

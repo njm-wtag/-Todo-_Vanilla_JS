@@ -109,9 +109,27 @@ search-box input {
   color: #0bc375;
 }
 
+.complitationBadge {
+  border: #7a8dfd;
+  border-radius: 0.25rem;
+  color: #ffffff;
+  text-align: left;
+  background-color: #7a8dfd;
+  padding: 0.5rem;
+  margin-left: 3rem;
+}
+
 .buttonContainer {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.buttonGroup {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
 }
 
 .addButtonStyle {

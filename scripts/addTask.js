@@ -24,9 +24,11 @@ export const handleCreateTodo = () => {
     value: textContent,
     isDone: false,
     isEditing: false,
+    createdAt: Date.now(),
     error: "",
   };
 
+  console.log({ task });
   todos.push(task);
   errorMessage.innerHTML = "";
 

@@ -13,10 +13,22 @@ import { createTaskElement } from "./scripts/taskActions.js";
 import { validateInput } from "./scripts/utilities.js";
 import { COMPLETE, INCOMPLETE } from "./const.js";
 
+const removeElementsBeforeRender = () => {
+  const elementsToKeep = [];
+  for (let i = 0; i < taskList.children.length; i++) {
+    if (taskList.children[i].id === "card1") {
+      elementsToKeep.push(taskList.children[i]);
+    }
+  }
+
+  taskList.innerHTML = "";
+  elementsToKeep.map((element) => {
+    taskList.appendChild(element);
+  });
+};
 const renderFilteredTodoList = () => {
   const filter = document.getElementById("filter");
   const selectedType = filter.value;
-  // taskList.innerHTML = "";
 
   switch (selectedType) {
     case COMPLETE:
@@ -33,9 +45,11 @@ const renderFilteredTodoList = () => {
 };
 
 const renderTasksByStatus = (isDone) => {
+  removeElementsBeforeRender();
+
   const filteredTodos = todos.filter((todo) => todo.isDone === isDone);
 
-  filteredTodos.forEach((todo) => {
+  filteredTodos.map((todo) => {
     const newTask = createTaskElement(todo);
     taskList.appendChild(newTask);
   });
@@ -50,36 +64,25 @@ const debounce = (handleSearch, delay) => {
     }, delay);
   };
 };
-
 const handleSearch = () => {
+  removeElementsBeforeRender();
+
   const searchText = searchInput.value.toLowerCase().trim();
   const filteredTasks = todos.filter((task) =>
     task.value.toLowerCase().includes(searchText)
   );
 
-  // taskList.innerHTML = "";
-  filteredTasks.forEach((task) => {
+  filteredTasks.map((task) => {
     const newTask = createTaskElement(task);
     taskList.appendChild(newTask);
   });
 };
 
 export const renderTodoList = () => {
-  const elementsToKeep = [];
+  removeElementsBeforeRender();
 
-  for (let i = 0; i < taskList.children.length; i++) {
-    if (taskList.children[i].id === "card1") {
-      elementsToKeep.push(taskList.children[i]);
-    }
-  }
-
-  taskList.innerHTML = "";
   searchInput.value = "";
   filter.value = "all";
-
-  elementsToKeep.map((element) => {
-    taskList.appendChild(element);
-  });
 
   todos.map((todo) => {
     const newTask = createTaskElement(todo);
