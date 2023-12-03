@@ -6,8 +6,10 @@ import {
   taskList,
   navbar,
   toggleButton,
+  taskInputCard,
+  deleteTaskInputCard,
 } from "./scripts/elements.js";
-import { handleCreateTodo } from "./scripts/addTask.js";
+import { handleCreateTodo, resetTaskInput } from "./scripts/addTask.js";
 import { todos } from "./scripts/deteleTask.js";
 import { createTaskElement } from "./scripts/taskActions.js";
 import { validateInput } from "./scripts/utilities.js";
@@ -91,13 +93,13 @@ export const renderTodoList = () => {
 };
 
 const handleToggle = () => {
-  let firstCard = document.getElementById("card1");
-  firstCard.style.display =
-    firstCard.style.display === "none" || firstCard.style.display === ""
+  taskInputCard.style.display =
+    taskInputCard.style.display === "none" || taskInputCard.style.display === ""
       ? "block"
       : "none";
 };
 
+deleteTaskInputCard.addEventListener("click", resetTaskInput);
 toggleButton.addEventListener("click", handleToggle);
 addTaskButton.addEventListener("click", handleCreateTodo);
 taskInputText.addEventListener("keyup", (event) => {

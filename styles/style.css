@@ -2,138 +2,80 @@
   --primary-color: #7a8dfd;
   --border-color: #dde2ff;
 }
+p {
+  font-size: 18px;
+}
+
 body {
   margin: 0;
   font-size: large;
   font-family: "Roboto", sans-serif;
+  background-color: #f2f3fc;
 }
 
 header {
   padding: 0 4rem;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 0.06rem solid var(--border-color);
 }
 
-.navbar {
-  height: 72px;
+.todo-app__header {
+  height: 4.5rem;
   background-color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.common-container {
+.header__branding {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.logo-title {
+.branding__title {
   color: var(--primary-color);
+  font-size: 2.3rem;
 }
 
-.main-container h1 {
-  margin: 0;
-  padding: 1rem 0;
-}
-.search-container {
+.header__search {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-
-.search-icon {
+.search__icon {
   cursor: pointer;
-  /* transition: background-color 0.3s; */
 }
-.search-box {
+.search__box {
   display: none;
   transition: all 0.3s ease;
 }
-
-search-box input {
-  padding: 5px;
-  border: none;
+.search__box input {
+  padding: 0.25rem;
+  margin: 0 0.5rem;
+  border: 0.05rem solid #ccc;
   border-radius: 0.25rem;
-  width: 0;
 }
 
-.show-search-box .search-box {
+.show-search-box .search__box {
   display: block;
 }
 
-.show-search-box .search-box input {
-  width: 16rem;
+.show-search-box .search__box input {
+  width: 80%;
+  height: 1rem;
 }
 
-.container {
-  background-color: #f2f3fc;
-  height: 100vh;
+.task-container {
+  margin: 0;
   padding: 0 4rem;
 }
-
-.gridContainer {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 1.5rem;
-}
-
-.listItem {
-  /* grid-column-start: 1;
-  grid-column-end: 3; */
-  /* display: grid; */
-  padding: 1rem;
-  align-items: center;
-  width: 32rem;
-  height: 163px;
-  background-color: #ffffff;
-  border: 1px solid var(--border-color);
-  border-radius: 5px;
-}
-
-.createdTime {
-  font-size: 14px;
-  color: #bbbdd0;
-  display: block;
-}
-
-.editInput {
-  height: 5rem;
-  width: 30rem;
-  border: 1px solid var(--border-color);
-  border-radius: 5px;
-  display: block;
-}
-
-.doneTask {
-  text-decoration: line-through #0bc375;
-  color: #0bc375;
-}
-
-.complitationBadge {
-  border: #7a8dfd;
-  border-radius: 0.25rem;
-  color: #ffffff;
-  text-align: left;
-  background-color: #7a8dfd;
-  padding: 0.5rem;
-  margin-left: 3rem;
-}
-
-.buttonContainer {
+.task_container__create-filter-section {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin-top: 1rem;
-}
-
-.buttonGroup {
-  display: flex;
   align-items: center;
-  margin-top: 1rem;
 }
-
-.addButtonStyle {
-  margin: 0.5rem;
+.task-container__add-button {
+  font-size: 1.3rem;
   color: white;
   padding: 0.3rem 0.5rem;
   border: none;
@@ -143,29 +85,94 @@ search-box input {
   display: block;
 }
 
-.buttonStyle {
-  margin: 0.5rem;
-  padding: 0.3rem 0.5rem;
-  cursor: pointer;
+.task-container__filter {
+  display: flex;
+  justify-content: end;
 }
 
-.doneButtonStyle {
-  margin: 0.5rem;
-  color: white;
-  padding: 0.3rem 0.5rem;
-  border: none;
-  border-radius: 0.25rem;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  background-color: #63b174;
+#filter {
+  width: 100%;
+  font-size: large;
 }
 
-.doneButtonStyle:hover {
-  background-color: #519860;
+.task-item__card1-button-container {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
 }
 
 .errorText {
   color: red;
+}
+
+.task-container__task-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.task-container__task-item {
+  padding: 1rem;
+  align-items: center;
+
+  background-color: #ffffff;
+  border: 0.05rem solid var(--border-color);
+  border-radius: 0.25rem;
+}
+
+.task-item__created-time {
+  font-size: 1rem;
+  color: #bbbdd0;
+  display: block;
+}
+
+.task-item__edit-input,
+.task-item__input {
+  font-size: 16px;
+  height: 5rem;
+  width: 95%;
+  border: 0.05rem solid var(--border-color);
+  border-radius: 0.25rem;
+  display: block;
+  padding: 0.5rem;
+}
+
+input:focus {
+  outline: none;
+  border-color: #7a8dfd;
+  box-shadow: 0 0 5px rgba(122, 141, 253, 0.5);
+}
+
+.task-item__done {
+  text-decoration: line-through #0bc375;
+  color: #0bc375;
+}
+
+.task-item__completion-badge {
+  border-radius: 0.25rem;
+  color: #ffffff;
+  text-align: left;
+  font-size: medium;
+  background-color: #7a8dfd;
+  padding: 0.5rem;
+}
+
+.task-item__button-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.buttonGroup {
+  display: flex;
+  align-items: center;
+}
+
+.task-item__button {
+  margin: 0.5rem;
+  padding: 0.3rem 0.5rem;
+  cursor: pointer;
 }
 
 .hide {
@@ -176,33 +183,64 @@ search-box input {
   display: block;
 }
 
-.searchButtonStyle {
-  margin: 0.5rem;
-  color: white;
-  padding: 0.3rem 0.5rem;
-  border: none;
-  border-radius: 0.25rem;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  background-color: #000000;
+@media (max-width: 425px) {
+  header {
+    padding: 0 1rem;
+  }
+  .branding__title {
+    font-size: 1.4rem;
+  }
+  .task-container {
+    padding: 0 1rem;
+  }
+  .task-container__heading {
+    font-size: 1rem;
+  }
+  .task-container__add-button {
+    font-size: 0.85rem;
+  }
+  .task-container__task-list {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .show-search-box .search__box input {
+    width: 75%;
+  }
+}
+@media screen and (min-width: 426px) and (max-width: 768px) {
+  header {
+    padding: 0 2rem;
+  }
+  .branding__title {
+    font-size: 1.5rem;
+  }
+  .task-container {
+    padding: 0 2rem;
+  }
+  .task-container__heading {
+    font-size: 1.2rem;
+  }
+  .task-container__add-button {
+    font-size: 1.1rem;
+  }
+  #filter {
+    font-size: medium;
+  }
+  .task-container__task-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-input[type="text"] {
-  padding: 0.25rem;
-  margin: 0.25rem 0;
-  border: 0.05rem solid #ccc;
-  border-radius: 0.25rem;
-}
-
-input[type="checkbox"] {
-  margin-right: 0.75rem;
-}
-
-.filter-container {
-  display: flex;
-  justify-content: end;
-}
-
-#filter {
-  width: 15%;
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .branding__title {
+    font-size: 2rem;
+  }
+  .task-container__heading {
+    font-size: 1.5rem;
+  }
+  .task-container__add-button {
+    font-size: 1.2rem;
+  }
+  .task-container__task-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }

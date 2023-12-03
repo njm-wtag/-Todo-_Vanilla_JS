@@ -11,11 +11,10 @@
     <title>Todo App</title>
   </head>
   <body>
-    <div class="container">
-    
-      <header class="navbar">
-        <div class="common-container">
-          <div class="logo-icon">
+    <div class="todo-app">
+      <header class="todo-app__header">
+        <div class="header__branding">
+          <div class="branding__logo">
             <svg
               width="34"
               height="34"
@@ -36,11 +35,10 @@
               </defs>
             </svg>
           </div>
-          <h1 class="logo-title">Todos</h1>
+          <h1 class="branding__title">Todos</h1>
         </div>
-        <div class="search-container">
-          
-          <div class="search-icon" id="searchIcon">
+        <div class="header__search">
+          <div class="search__icon" id="searchIcon">
             <svg
               width="24"
               height="24"
@@ -61,32 +59,47 @@
               </defs>
             </svg>
           </div>
-          <div class="search-box">
+          <div class="search__box">
             <input type="text" id="searchInput" placeholder="Search..." />
           </div>
         </div>
-      
-         
       </header>
-     
-      <div class="">
-          <h1>Add Tasks</h1>
-          <button id="createToggleButton" class="addButtonStyle" type="submit">
+
+      <div class="task-container">
+        <h2 class="task-container__heading">Add Tasks</h2>
+        <div class="task_container__create-filter-section">
+          <button
+            id="createToggleButton"
+            class="task-container__add-button"
+            type="submit"
+          >
             + Create
           </button>
-          <div class="filter-container"></div>
+          <div class="task-container__filter"></div>
         </div>
-        <p id="errorMessage"></p>
-       
-    <div class="gridContainer"  id="taskList">
-      <div id="card1" class="listItem"> 
-        <input type="text" id="taskInput" placeholder="Type task" />
-        <button id="addTask" class="addButtonStyle" type="submit">Add New</button>
+
+        <p id="errorMessage" class="task-container__error-message"></p>
+
+        <div class="task-container__task-list" id="taskList">
+          <div id="card1" class="task-container__task-item">
+            <input
+              type="text"
+              id="taskInput"
+              class="task-item__input"
+              placeholder="Type task"
+            />
+            <div class="task-item__card1-button-container">
+              <button id="addTask" class="task-item__button" type="submit">
+                Add New
+              </button>
+              <div id="deleteTaskInputCard" class="task-item__button">
+                <img src="/images/delete.svg" alt="" />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <!-- <div id="taskList" class="taskList"></div> -->
-    
     </div>
   </body>
   <script src="index.js" type="module"></script>
 </html>
-

@@ -3,7 +3,7 @@ import { taskInputText, errorMessage } from "./elements.js";
 import { todos } from "./deteleTask.js";
 import { validateInput } from "./utilities.js";
 
-const resetTaskInput = () => {
+export const resetTaskInput = () => {
   taskInputText.value = "";
 };
 
