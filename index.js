@@ -8,23 +8,28 @@ import {
   toggleButton,
   taskInputCard,
   deleteTaskInputCard,
+  initialTaskContainer,
 } from "./scripts/elements.js";
 import { handleCreateTodo, resetTaskInput } from "./scripts/addTask.js";
 import { todos } from "./scripts/deteleTask.js";
 import {
+  createFilterTabs,
   createTaskElement,
   resetFilterTabsToAll,
 } from "./scripts/taskActions.js";
 import { validateInput } from "./scripts/utilities.js";
 
-export const removeElementsBeforeRender = () => {
+export const keepCard1Elements = () => {
   const elementsToKeep = [];
+
   for (let i = 0; i < taskList.children.length; i++) {
     if (taskList.children[i].id === "card1") {
       elementsToKeep.push(taskList.children[i]);
     }
   }
+
   taskList.innerHTML = "";
+
   elementsToKeep.map((element) => {
     taskList.appendChild(element);
   });
@@ -32,15 +37,18 @@ export const removeElementsBeforeRender = () => {
 
 const debounce = (handleSearch, delay) => {
   let timer;
+
   return function (...args) {
     clearTimeout(timer);
+
     timer = setTimeout(() => {
       handleSearch(...args);
     }, delay);
   };
 };
+
 const handleSearch = () => {
-  removeElementsBeforeRender();
+  keepCard1Elements();
   resetFilterTabsToAll();
 
   const searchText = searchInput.value.toLowerCase().trim();
@@ -50,13 +58,13 @@ const handleSearch = () => {
 
   filteredTasks.map((task) => {
     const newTask = createTaskElement(task);
-    taskList.appendChild(newTask);
+    taskList.insertBefore(newTask, taskList.children[1]);
   });
 };
 
 export const renderTodoList = () => {
-  removeElementsBeforeRender();
-
+  keepCard1Elements();
+  console.log({ todos });
   searchInput.value = "";
   resetFilterTabsToAll();
 
@@ -71,6 +79,12 @@ const handleToggle = () => {
     taskInputCard.style.display === "none" || taskInputCard.style.display === ""
       ? "block"
       : "none";
+  initialTaskContainer.classList.remove("show"),
+    initialTaskContainer.classList.add("hide");
+  // !todos.length &&
+  //   taskInputCard.style.display === "block" &&
+  //   (initialTaskContainer.classList.remove("hide"),
+  //   initialTaskContainer.classList.add("show"));
 };
 
 deleteTaskInputCard.addEventListener("click", resetTaskInput);
@@ -92,7 +106,5 @@ searchInput.addEventListener("keyup", () => {
   const debouncedSearchData = debounce(handleSearch, 400);
   debouncedSearchData();
 });
-
-// filter.addEventListener("change", renderFilteredTodoList);
 
 renderTodoList();

@@ -1,12 +1,17 @@
-import { removeElementsBeforeRender, renderTodoList } from "../index.js";
+import { keepCard1Elements, renderTodoList } from "../index.js";
 import { handleDelete, todos } from "./deteleTask.js";
 import { handleDone } from "./doneTask.js";
 import { handleCancel, handleEdit, handleUpdate } from "./editUpdateTask.js";
+import { initialTaskContainer, taskInputCard, taskList } from "./elements.js";
 import { isUserInputValid } from "./utilities.js";
 
 const doneIconUrl = "../images/done.svg";
 const editIconUrl = "../images/edit.svg";
 const deleteIconUrl = "../images/delete.svg";
+
+todos.length
+  ? taskInputCard.classList.add("show")
+  : taskInputCard.classList.add("hide");
 
 const calculateDateDifference = (timestamp) => {
   const currentDate = new Date();
@@ -25,6 +30,8 @@ const timestampToDateFormat = (timestamp) => {
 
   day = day < 10 ? "0" + day : day;
   month = month < 10 ? "0" + month : month;
+  const yearDigit = year % 100;
+  year = yearDigit !== 0 ? yearDigit : year;
 
   return {
     formattedDate: day + "." + month + "." + year,
@@ -33,11 +40,10 @@ const timestampToDateFormat = (timestamp) => {
 };
 
 const createUpdateInput = (todoToEdit) => {
-  const inputField = document.createElement("input");
-  inputField.type = "text";
-  inputField.value = todoToEdit.value;
+  const inputTextarea = document.createElement("textarea");
+  inputTextarea.value = todoToEdit.value;
 
-  return inputField;
+  return inputTextarea;
 };
 
 const createButton = (content) => {
@@ -83,7 +89,7 @@ export const createTaskElement = (task) => {
   );
   timeElement.textContent = `Created at ${createdDate}`;
 
-  const inputField = createUpdateInput(task);
+  const inputTextarea = createUpdateInput(task);
   const updateButton = createButton("Save");
 
   taskItem.appendChild(spanElement);
@@ -95,14 +101,14 @@ export const createTaskElement = (task) => {
     spanElement.classList.add("hide");
     timeElement.classList.add("hide");
 
-    inputField.classList.add("task-item__edit-input");
+    inputTextarea.classList.add("task-item__edit-input");
 
     updateButton.addEventListener("click", () =>
-      handleUpdate(task.id, inputField.value)
+      handleUpdate(task.id, inputTextarea.value)
     );
     deleteButton.addEventListener("click", () => handleCancel(task.id));
 
-    taskItem.appendChild(inputField);
+    taskItem.appendChild(inputTextarea);
     buttonGroup.appendChild(updateButton);
     editButton.classList.add("hide");
 
@@ -176,12 +182,16 @@ export const createFilterTabs = () => {
   const options = ["All", "Complete", "Incomplete"];
 
   options.map((option) => {
-    const tab = document.createElement("div");
+    const tab = document.createElement("button");
     tab.classList.add("filter-tab");
     tab.textContent = option;
     tab.setAttribute("data-value", option.toLowerCase());
 
+    // if (todos.length) {
     tab.addEventListener("click", handleTabClick);
+    // } else {
+    //   tab.setAttribute("disabled", true);
+    // }
 
     if (option === "All") {
       tab.classList.add("selected");
@@ -213,13 +223,13 @@ export const handleTabClick = (event) => {
 };
 
 const renderTasksByStatus = (isDone) => {
-  removeElementsBeforeRender();
+  keepCard1Elements();
 
   const filteredTodos = todos.filter((todo) => todo.isDone === isDone);
 
   filteredTodos.map((todo) => {
     const newTask = createTaskElement(todo);
-    taskList.appendChild(newTask);
+    taskList.insertBefore(newTask, taskList.children[1]);
   });
 };
 
