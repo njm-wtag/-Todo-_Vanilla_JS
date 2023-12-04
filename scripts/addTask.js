@@ -28,7 +28,6 @@ export const handleCreateTodo = () => {
     error: "",
   };
 
-  console.log({ task });
   todos.push(task);
   errorMessage.innerHTML = "";
 

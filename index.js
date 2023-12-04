@@ -11,49 +11,22 @@ import {
 } from "./scripts/elements.js";
 import { handleCreateTodo, resetTaskInput } from "./scripts/addTask.js";
 import { todos } from "./scripts/deteleTask.js";
-import { createTaskElement } from "./scripts/taskActions.js";
+import {
+  createTaskElement,
+  resetFilterTabsToAll,
+} from "./scripts/taskActions.js";
 import { validateInput } from "./scripts/utilities.js";
-import { COMPLETE, INCOMPLETE } from "./const.js";
 
-const removeElementsBeforeRender = () => {
+export const removeElementsBeforeRender = () => {
   const elementsToKeep = [];
   for (let i = 0; i < taskList.children.length; i++) {
     if (taskList.children[i].id === "card1") {
       elementsToKeep.push(taskList.children[i]);
     }
   }
-
   taskList.innerHTML = "";
   elementsToKeep.map((element) => {
     taskList.appendChild(element);
-  });
-};
-const renderFilteredTodoList = () => {
-  const filter = document.getElementById("filter");
-  const selectedType = filter.value;
-
-  switch (selectedType) {
-    case COMPLETE:
-      renderTasksByStatus(true);
-
-      break;
-    case INCOMPLETE:
-      renderTasksByStatus(false);
-
-      break;
-    default:
-      renderTodoList();
-  }
-};
-
-const renderTasksByStatus = (isDone) => {
-  removeElementsBeforeRender();
-
-  const filteredTodos = todos.filter((todo) => todo.isDone === isDone);
-
-  filteredTodos.map((todo) => {
-    const newTask = createTaskElement(todo);
-    taskList.appendChild(newTask);
   });
 };
 
@@ -68,6 +41,7 @@ const debounce = (handleSearch, delay) => {
 };
 const handleSearch = () => {
   removeElementsBeforeRender();
+  resetFilterTabsToAll();
 
   const searchText = searchInput.value.toLowerCase().trim();
   const filteredTasks = todos.filter((task) =>
@@ -84,7 +58,7 @@ export const renderTodoList = () => {
   removeElementsBeforeRender();
 
   searchInput.value = "";
-  filter.value = "all";
+  resetFilterTabsToAll();
 
   todos.map((todo) => {
     const newTask = createTaskElement(todo);
@@ -119,6 +93,6 @@ searchInput.addEventListener("keyup", () => {
   debouncedSearchData();
 });
 
-filter.addEventListener("change", renderFilteredTodoList);
+// filter.addEventListener("change", renderFilteredTodoList);
 
 renderTodoList();

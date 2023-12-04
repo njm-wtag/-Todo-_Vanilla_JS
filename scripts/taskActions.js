@@ -1,4 +1,5 @@
-import { handleDelete } from "./deteleTask.js";
+import { removeElementsBeforeRender, renderTodoList } from "../index.js";
+import { handleDelete, todos } from "./deteleTask.js";
 import { handleDone } from "./doneTask.js";
 import { handleCancel, handleEdit, handleUpdate } from "./editUpdateTask.js";
 import { isUserInputValid } from "./utilities.js";
@@ -158,21 +159,68 @@ export const appendErrorToTask = (li, error) => {
   li.appendChild(updateError);
 };
 
-export const createFilterDropdown = () => {
+export const resetFilterTabsToAll = () => {
+  const tabs = document.querySelectorAll(".filter-tab");
+
+  tabs.forEach((tab) => {
+    tab.classList.remove("selected");
+    if (tab.getAttribute("data-value") === "all") {
+      tab.classList.add("selected");
+    }
+  });
+};
+
+export const createFilterTabs = () => {
   const filterContainer = document.querySelector(".task-container__filter");
-  const filter = document.createElement("select");
-  filter.id = "filter";
 
   const options = ["All", "Complete", "Incomplete"];
 
   options.map((option) => {
-    const optionElement = document.createElement("option");
-    optionElement.value = option.toLowerCase();
-    optionElement.textContent = option;
-    filter.appendChild(optionElement);
-  });
+    const tab = document.createElement("div");
+    tab.classList.add("filter-tab");
+    tab.textContent = option;
+    tab.setAttribute("data-value", option.toLowerCase());
 
-  filterContainer.appendChild(filter);
+    tab.addEventListener("click", handleTabClick);
+
+    if (option === "All") {
+      tab.classList.add("selected");
+    }
+
+    filterContainer.appendChild(tab);
+  });
 };
 
-createFilterDropdown();
+export const handleTabClick = (event) => {
+  const selectedValue = event.target.getAttribute("data-value");
+
+  switch (selectedValue) {
+    case "complete":
+      renderTasksByStatus(true);
+      break;
+    case "incomplete":
+      renderTasksByStatus(false);
+      break;
+    default:
+      renderTodoList();
+  }
+
+  const tabs = document.querySelectorAll(".filter-tab");
+
+  tabs.forEach((tab) => tab.classList.remove("selected"));
+
+  event.target.classList.add("selected");
+};
+
+const renderTasksByStatus = (isDone) => {
+  removeElementsBeforeRender();
+
+  const filteredTodos = todos.filter((todo) => todo.isDone === isDone);
+
+  filteredTodos.map((todo) => {
+    const newTask = createTaskElement(todo);
+    taskList.appendChild(newTask);
+  });
+};
+
+createFilterTabs();
