@@ -13,7 +13,4 @@ export const navbar = document.querySelector(".todo-app__header");
 export const initialTaskContainer = document.querySelector(
   ".task-container__initial-state"
 );
-// export const filterContainer = document.querySelector(
-//   ".task-container__filter"
-// );
-// export const tabs = document.querySelectorAll(".filter-tab");
+export const tabs = document.querySelectorAll(".filter-tab");

@@ -1,8 +1,7 @@
-import { keepCard1Elements, renderTodoList } from "../index.js";
 import { handleDelete, todos } from "./deteleTask.js";
 import { handleDone } from "./doneTask.js";
 import { handleCancel, handleEdit, handleUpdate } from "./editUpdateTask.js";
-import { initialTaskContainer, taskInputCard, taskList } from "./elements.js";
+import { tabs, taskInputCard } from "./elements.js";
 import { isUserInputValid } from "./utilities.js";
 
 const doneIconUrl = "../images/done.svg";
@@ -65,15 +64,16 @@ const createTaskActionButton = (iconUrl, clickHandler) => {
 export const createTaskElement = (task) => {
   const taskItem = document.createElement("div");
   taskItem.classList.add("task-container__task-item");
+
   const doneButton = createTaskActionButton(doneIconUrl, () =>
     handleDone(task.id)
   );
-  doneButton.classList.add("task-item__button");
+  doneButton.classList.add("task-item__button-icon");
 
   const deleteButton = createTaskActionButton(deleteIconUrl, () =>
     handleDelete(task.id)
   );
-  deleteButton.classList.add("task-item__button");
+  deleteButton.classList.add("task-item__button-icon");
 
   const editButton = createTaskActionButton(editIconUrl, () =>
     handleEdit(task.id)
@@ -87,7 +87,7 @@ export const createTaskElement = (task) => {
   const taskComplitionDay = calculateDateDifference(
     timestampToDateFormat(task.createdAt).forTimeDiff
   );
-  timeElement.textContent = `Created at ${createdDate}`;
+  timeElement.textContent = `Created At ${createdDate}`;
 
   const inputTextarea = createUpdateInput(task);
   const updateButton = createButton("Save");
@@ -122,7 +122,7 @@ export const createTaskElement = (task) => {
   }
 
   timeElement.classList.add("task-item__created-time");
-  editButton.classList.add("task-item__button");
+  editButton.classList.add("task-item__button-icon");
   updateButton.classList.add("task-item__button");
   buttonContainerElement.classList.add("task-item__button-container");
 
@@ -155,6 +155,8 @@ export const createTaskElement = (task) => {
 
   taskItem.appendChild(buttonContainerElement);
 
+  // document.getElementsByClassName("filter-tab").setAttribute("disabled", false);
+
   return taskItem;
 };
 
@@ -164,73 +166,3 @@ export const appendErrorToTask = (li, error) => {
   updateError.textContent = error;
   li.appendChild(updateError);
 };
-
-export const resetFilterTabsToAll = () => {
-  const tabs = document.querySelectorAll(".filter-tab");
-
-  tabs.forEach((tab) => {
-    tab.classList.remove("selected");
-    if (tab.getAttribute("data-value") === "all") {
-      tab.classList.add("selected");
-    }
-  });
-};
-
-export const createFilterTabs = () => {
-  const filterContainer = document.querySelector(".task-container__filter");
-
-  const options = ["All", "Complete", "Incomplete"];
-
-  options.map((option) => {
-    const tab = document.createElement("button");
-    tab.classList.add("filter-tab");
-    tab.textContent = option;
-    tab.setAttribute("data-value", option.toLowerCase());
-
-    // if (todos.length) {
-    tab.addEventListener("click", handleTabClick);
-    // } else {
-    //   tab.setAttribute("disabled", true);
-    // }
-
-    if (option === "All") {
-      tab.classList.add("selected");
-    }
-
-    filterContainer.appendChild(tab);
-  });
-};
-
-export const handleTabClick = (event) => {
-  const selectedValue = event.target.getAttribute("data-value");
-
-  switch (selectedValue) {
-    case "complete":
-      renderTasksByStatus(true);
-      break;
-    case "incomplete":
-      renderTasksByStatus(false);
-      break;
-    default:
-      renderTodoList();
-  }
-
-  const tabs = document.querySelectorAll(".filter-tab");
-
-  tabs.forEach((tab) => tab.classList.remove("selected"));
-
-  event.target.classList.add("selected");
-};
-
-const renderTasksByStatus = (isDone) => {
-  keepCard1Elements();
-
-  const filteredTodos = todos.filter((todo) => todo.isDone === isDone);
-
-  filteredTodos.map((todo) => {
-    const newTask = createTaskElement(todo);
-    taskList.insertBefore(newTask, taskList.children[1]);
-  });
-};
-
-createFilterTabs();

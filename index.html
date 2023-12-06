@@ -73,9 +73,37 @@
             class="task-container__add-button"
             type="submit"
           >
-            + Create
+            <span class=""
+              ><svg
+                id="createTaskSVG"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g clip-path="url(#clip0_4530_30)">
+                  <path
+                    d="M16 6.66667H9.33333V0H6.66667V6.66667H0V9.33333H6.66667V16H9.33333V9.33333H16V6.66667Z"
+                    fill="white"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_4530_30">
+                    <rect width="16" height="16" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </span>
+            <span> Create</span>
           </button>
-          <div class="task-container__filter"></div>
+          <div class="task-container__filter">
+            <div id="filter_cat">
+              <button class="filter-tab" id="all">All</button>
+              <button class="filter-tab" id="complete">Complete</button>
+              <button class="filter-tab" id="incomplete">Incomplete</button>
+            </div>
+          </div>
         </div>
 
         <p id="errorMessage" class="task-container__error-message"></p>
@@ -197,7 +225,6 @@
         <div class="task-container__task-list" id="taskList">
           <div id="card1" class="task-container__task-item hide">
             <textarea
-              type="text"
               id="taskInput"
               class="task-item__input"
               placeholder="Type task"
@@ -206,7 +233,7 @@
               <button id="addTask" class="task-item__button" type="submit">
                 Add New
               </button>
-              <div id="deleteTaskInputCard" class="task-item__button">
+              <div id="deleteTaskInputCard" class="task-item__button-icon">
                 <img src="/images/delete.svg" alt="" />
               </div>
             </div>

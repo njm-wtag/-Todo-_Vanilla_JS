@@ -2,9 +2,6 @@
   --primary-color: #7a8dfd;
   --secondary-color: #dde2ff;
 }
-p {
-  font-size: 18px;
-}
 
 body {
   margin: 0;
@@ -27,6 +24,7 @@ header {
 }
 
 .header__branding {
+  width: 9rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -55,7 +53,7 @@ header {
 .search__box input {
   padding: 0.25rem;
   margin: 0 0.5rem;
-  border: 0.05rem solid #ccc;
+  border: 0.0625rem solid #ccc;
   border-radius: 0.25rem;
 }
 
@@ -84,14 +82,17 @@ header {
 }
 
 .task-container__add-button {
-  font-size: 1.3rem;
+  width: 6.5rem;
+  font-size: 1rem;
   color: white;
-  padding: 0.3rem 0.5rem;
-  border: 0.05rem solid #ccc;
+  padding: 0.5rem 1rem;
+  border: 0.0625rem solid #ccc;
   border-radius: 0.25rem;
   cursor: pointer;
   background-color: var(--primary-color);
-  display: block;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .task-container__filter {
@@ -118,6 +119,11 @@ header {
   background-color: #ffffff;
 }
 
+.filter-tab[disabled] {
+  cursor: not-allowed;
+  color: #616164;
+}
+
 .filter-tab.selected {
   background-color: var(--primary-color);
   color: #fff;
@@ -136,6 +142,7 @@ header {
 
 .task-container__initial-state {
   text-align: center;
+  cursor: pointer;
 }
 
 .task-container__task-list {
@@ -152,6 +159,15 @@ header {
   border-radius: 0.25rem;
 }
 
+textarea {
+  resize: vertical;
+}
+
+.task-container__task-item p {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
 .task-item__created-time {
   font-size: 1rem;
   color: #bbbdd0;
@@ -163,7 +179,7 @@ header {
   font-size: 16px;
   height: 5rem;
   width: 95%;
-  border: 0.05rem solid var(--secondary-color);
+  border: 0.0625rem solid var(--secondary-color);
   border-radius: 0.25rem;
   display: block;
   padding: 0.5rem;
@@ -202,8 +218,15 @@ textarea:focus {
 }
 
 .task-item__button {
-  margin: 0.5rem;
-  padding: 0.3rem 0.5rem;
+  font-size: 1rem;
+  border: 0.0625rem solid var(--secondary-color);
+  background-color: #ffffff;
+  padding: 0.5rem 1.25rem;
+  cursor: pointer;
+  color: #32394b;
+}
+.task-item__button-icon {
+  padding: 0.5rem 1.25rem;
   cursor: pointer;
 }
 
@@ -219,59 +242,87 @@ textarea:focus {
   header {
     padding: 0 1rem;
   }
+
+  .header__branding {
+    width: 5rem;
+  }
+  .branding__logo svg {
+    width: 1.4rem;
+  }
+
   .branding__title {
     font-size: 1.4rem;
   }
+
   .task-container {
     padding: 0 1rem;
   }
+
   .task-container__heading {
     font-size: 1rem;
   }
+
   .task-container__add-button {
+    width: 4.8rem;
     font-size: 0.85rem;
+    padding: 0.4rem 0.9rem;
   }
+
+  .task-container__add-button svg {
+    width: 0.75rem;
+  }
+
   .task-container__task-list {
     grid-template-columns: repeat(1, 1fr);
   }
+
   .show-search-box .search__box input {
     width: 75%;
   }
 }
+
 @media screen and (min-width: 426px) and (max-width: 768px) {
   header {
     padding: 0 2rem;
   }
+
+  .header__branding {
+    width: 6.5rem;
+  }
+
   .branding__title {
     font-size: 1.5rem;
   }
+
   .task-container {
     padding: 0 2rem;
   }
+
   .task-container__heading {
     font-size: 1.2rem;
   }
-  .task-container__add-button {
-    font-size: 1.1rem;
-  }
+
   #filter {
     font-size: medium;
   }
+
   .task-container__task-list {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media screen and (min-width: 769px) and (max-width: 1024px) {
+  .header__branding {
+    width: 8rem;
+  }
   .branding__title {
     font-size: 2rem;
   }
+
   .task-container__heading {
     font-size: 1.5rem;
   }
-  .task-container__add-button {
-    font-size: 1.2rem;
-  }
+
   .task-container__task-list {
     grid-template-columns: repeat(3, 1fr);
   }
