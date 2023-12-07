@@ -1,7 +1,7 @@
 import { handleDelete, todos } from "./deteleTask.js";
 import { handleDone } from "./doneTask.js";
 import { handleCancel, handleEdit, handleUpdate } from "./editUpdateTask.js";
-import { tabs, taskInputCard } from "./elements.js";
+import { loadButtonContainer, taskInputCard } from "./elements.js";
 import { isUserInputValid } from "./utilities.js";
 
 const doneIconUrl = "../images/done.svg";
@@ -50,6 +50,13 @@ const createButton = (content) => {
   button.innerHTML = content;
 
   return button;
+};
+
+export const createLoadMoreElement = () => {
+  const loadMoreButton = createButton("Load More");
+  loadMoreButton.classList.add("task-container__load-more");
+  loadButtonContainer.appendChild(loadMoreButton);
+  return loadMoreButton;
 };
 
 const createTaskActionButton = (iconUrl, clickHandler) => {
@@ -154,8 +161,6 @@ export const createTaskElement = (task) => {
   }
 
   taskItem.appendChild(buttonContainerElement);
-
-  // document.getElementsByClassName("filter-tab").setAttribute("disabled", false);
 
   return taskItem;
 };

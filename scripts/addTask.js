@@ -1,6 +1,5 @@
-import { renderTodoList } from "../index.js";
+import { pageCount, renderTodoList } from "../index.js";
 import { taskInputText, errorMessage } from "./elements.js";
-import { todos } from "./deteleTask.js";
 import { validateInput } from "./utilities.js";
 
 export const resetTaskInput = () => {
@@ -11,7 +10,7 @@ const generateUniqueId = () => {
   return Date.now();
 };
 
-export const handleCreateTodo = () => {
+export const handleCreateTodo = (todos) => {
   const textContent = taskInputText.value;
 
   if (validateInput() === false) {
@@ -33,4 +32,6 @@ export const handleCreateTodo = () => {
 
   renderTodoList();
   resetTaskInput();
+
+  // return pageCount;
 };

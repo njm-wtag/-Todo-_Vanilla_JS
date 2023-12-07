@@ -13,7 +13,10 @@ import {
 } from "./scripts/elements.js";
 import { handleCreateTodo, resetTaskInput } from "./scripts/addTask.js";
 import { todos } from "./scripts/deteleTask.js";
-import { createTaskElement } from "./scripts/taskActions.js";
+import {
+  createLoadMoreElement,
+  createTaskElement,
+} from "./scripts/taskActions.js";
 import { validateInput } from "./scripts/utilities.js";
 import { COMPLETE, INCOMPLETE } from "./const.js";
 
@@ -97,7 +100,20 @@ const handleSearch = () => {
   });
 };
 
+let currentPage = 1;
+export let pageCount;
+export const loadMoreTasks = () => {
+  const taskCardIncrease = 3;
+
+  pageCount = Math.ceil(todos.length / taskCardIncrease);
+  console.log({ pageCount });
+  renderTodoList();
+};
+
+let loadMoreButton = createLoadMoreElement();
+
 export const renderTodoList = () => {
+  loadMoreButton.addEventListener("click", loadMoreTasks);
   !todos.length
     ? (initialTaskContainer.classList.remove("hide"),
       initialTaskContainer.classList.add("show"),
@@ -140,11 +156,11 @@ const handleToggle = () => {
 
 deleteTaskInputCard.addEventListener("click", resetTaskInput);
 
-toggleButton.addEventListener("click", () => handleToggle(todos));
+toggleButton.addEventListener("click", handleToggle);
 
-initialTaskContainer.addEventListener("click", () => handleToggle(todos));
+initialTaskContainer.addEventListener("click", handleToggle);
 
-addTaskButton.addEventListener("click", handleCreateTodo);
+addTaskButton.addEventListener("click", () => handleCreateTodo(todos));
 
 taskInputText.addEventListener("keyup", (event) => {
   if (event.key === "Enter") {
