@@ -26,7 +26,7 @@ header {
 .header__branding {
   width: 9rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
 }
 
@@ -37,8 +37,9 @@ header {
 }
 
 .header__search {
+  width: 30%;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
 }
 .search__icon {
@@ -48,12 +49,13 @@ header {
 .search__box {
   display: none;
   transition: all 0.3s ease;
+  width: 85%;
 }
 
 .search__box input {
   padding: 0.25rem;
   margin: 0 0.5rem;
-  border: 0.0625rem solid #ccc;
+  border: 0.187rem solid #ccc;
   border-radius: 0.25rem;
 }
 
@@ -62,8 +64,12 @@ header {
 }
 
 .show-search-box .search__box input {
-  width: 80%;
+  width: 100%;
   height: 1rem;
+}
+.search__box input:focus {
+  outline: none;
+  border-color: #d1d8ff;
 }
 
 .task-container {
@@ -160,7 +166,7 @@ header {
 }
 
 textarea {
-  resize: vertical;
+  resize: none;
 }
 
 .task-container__task-item p {
@@ -220,6 +226,7 @@ textarea:focus {
 .task-item__button {
   font-size: 1rem;
   border: 0.0625rem solid var(--secondary-color);
+  border-radius: 0.3125rem;
   background-color: #ffffff;
   padding: 0.5rem 1.25rem;
   cursor: pointer;
@@ -266,18 +273,19 @@ textarea:focus {
     width: 4.8rem;
     font-size: 0.85rem;
     padding: 0.4rem 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .task-container__add-button svg {
-    width: 0.75rem;
+  .ask-container__add-button-svg svg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .task-container__task-list {
     grid-template-columns: repeat(1, 1fr);
-  }
-
-  .show-search-box .search__box input {
-    width: 75%;
   }
 }
 

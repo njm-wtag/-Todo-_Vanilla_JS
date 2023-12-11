@@ -134,8 +134,11 @@ const handleToggle = () => {
     taskInputCard.style.display === "none" || taskInputCard.style.display === ""
       ? "block"
       : "none";
-  initialTaskContainer.classList.toggle("show");
-  initialTaskContainer.classList.toggle("hide");
+  !todos.length
+    ? (initialTaskContainer.classList.toggle("show"),
+      initialTaskContainer.classList.toggle("hide"))
+    : initialTaskContainer.classList.add("hide");
+  initialTaskContainer.classList.remove("show");
 };
 
 deleteTaskInputCard.addEventListener("click", resetTaskInput);
