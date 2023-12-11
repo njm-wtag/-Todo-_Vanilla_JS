@@ -10,18 +10,33 @@ import {
   deleteTaskInputCard,
   initialTaskContainer,
   tabs,
+  loadMoreButton,
 } from "./scripts/elements.js";
 import { handleCreateTodo, resetTaskInput } from "./scripts/addTask.js";
 import { todos } from "./scripts/deteleTask.js";
-import {
-  createLoadMoreElement,
-  createTaskElement,
-} from "./scripts/taskActions.js";
+import { createTaskElement } from "./scripts/taskActions.js";
 import { validateInput } from "./scripts/utilities.js";
 import { COMPLETE, INCOMPLETE } from "./const.js";
 
 export let filteredTasks = [];
 export let filteredTodos = [];
+
+let currentPage = 1;
+const taskPerPage = 3;
+let nextPageTasks;
+
+const renderLoadMoreButton = () => {
+  if (todos.length > 2) {
+    return (
+      loadMoreButton.classList.remove("hide"),
+      loadMoreButton.classList.add("show")
+    );
+  }
+  return (
+    loadMoreButton.classList.remove("show"),
+    loadMoreButton.classList.add("hide")
+  );
+};
 
 export const handleTabClick = (event) => {
   const selectedValue = event.target.id;
@@ -100,20 +115,19 @@ const handleSearch = () => {
   });
 };
 
-let currentPage = 1;
-export let pageCount;
-export const loadMoreTasks = () => {
-  const taskCardIncrease = 3;
+const handleLoadMoreTask = () => {
+  const startIndex = (currentPage - 1) * taskPerPage;
+  nextPageTasks = todos.slice(startIndex, startIndex + taskPerPage);
+  currentPage++;
+  console.log(nextPageTasks);
 
-  pageCount = Math.ceil(todos.length / taskCardIncrease);
-  console.log({ pageCount });
-  renderTodoList();
+  renderTodoList(nextPageTasks);
 };
 
-let loadMoreButton = createLoadMoreElement();
+export const renderTodoList = (nextPageTasks) => {
+  console.log(nextPageTasks);
+  renderLoadMoreButton();
 
-export const renderTodoList = () => {
-  loadMoreButton.addEventListener("click", loadMoreTasks);
   !todos.length
     ? (initialTaskContainer.classList.remove("hide"),
       initialTaskContainer.classList.add("show"),
@@ -122,7 +136,6 @@ export const renderTodoList = () => {
       initialTaskContainer.classList.add("hide"));
 
   keepCard1Elements();
-  filteredTasks = [];
   searchInput.value = "";
 
   todos.length
@@ -138,11 +151,15 @@ export const renderTodoList = () => {
         tab.setAttribute("disabled", true);
         tab.classList.remove("selected");
       });
-
-  todos.map((todo) => {
-    const newTask = createTaskElement(todo);
-    taskList.insertBefore(newTask, taskList.children[1]);
-  });
+  nextPageTasks?.length
+    ? nextPageTasks.map((todo) => {
+        const newTask = createTaskElement(todo);
+        taskList.insertBefore(newTask, taskList.children[1]);
+      })
+    : todos.map((todo) => {
+        const newTask = createTaskElement(todo);
+        taskList.insertBefore(newTask, taskList.children[1]);
+      });
 };
 
 const handleToggle = () => {
@@ -179,4 +196,5 @@ searchInput.addEventListener("keyup", () => {
   debouncedSearchData();
 });
 
+loadMoreButton.addEventListener("click", handleLoadMoreTask);
 renderTodoList();

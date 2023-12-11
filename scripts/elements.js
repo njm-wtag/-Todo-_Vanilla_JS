@@ -14,6 +14,4 @@ export const initialTaskContainer = document.querySelector(
   ".task-container__initial-state"
 );
 export const tabs = document.querySelectorAll(".filter-tab");
-export const loadButtonContainer = document.querySelector(
-  ".load-button-container"
-);
+export const loadMoreButton = document.getElementById("load-more");

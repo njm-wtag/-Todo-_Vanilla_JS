@@ -1,4 +1,4 @@
-import { pageCount, renderTodoList } from "../index.js";
+import { renderTodoList } from "../index.js";
 import { taskInputText, errorMessage } from "./elements.js";
 import { validateInput } from "./utilities.js";
 
@@ -12,7 +12,7 @@ const generateUniqueId = () => {
 
 export const handleCreateTodo = (todos) => {
   const textContent = taskInputText.value;
-
+  console.log();
   if (validateInput() === false) {
     return;
   }
@@ -29,6 +29,10 @@ export const handleCreateTodo = (todos) => {
 
   todos.push(task);
   errorMessage.innerHTML = "";
+
+  // todos.length > 2 &&
+  //   (loadMoreButton.classList.remove("hide"),
+  //   loadMoreButton.classList.add("show"));
 
   renderTodoList();
   resetTaskInput();

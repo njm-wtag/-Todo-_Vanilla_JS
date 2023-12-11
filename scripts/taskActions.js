@@ -1,7 +1,7 @@
 import { handleDelete, todos } from "./deteleTask.js";
 import { handleDone } from "./doneTask.js";
 import { handleCancel, handleEdit, handleUpdate } from "./editUpdateTask.js";
-import { loadButtonContainer, taskInputCard } from "./elements.js";
+import { taskInputCard } from "./elements.js";
 import { isUserInputValid } from "./utilities.js";
 
 const doneIconUrl = "../images/done.svg";
@@ -52,12 +52,12 @@ const createButton = (content) => {
   return button;
 };
 
-export const createLoadMoreElement = () => {
-  const loadMoreButton = createButton("Load More");
-  loadMoreButton.classList.add("task-container__load-more");
-  loadButtonContainer.appendChild(loadMoreButton);
-  return loadMoreButton;
-};
+// export const createLoadMoreElement = () => {
+//   const loadMoreButton = createButton("Load More");
+//   loadMoreButton.classList.add("task-container__load-more");
+//   loadButtonContainer.appendChild(loadMoreButton);
+//   return loadMoreButton;
+// };
 
 const createTaskActionButton = (iconUrl, clickHandler) => {
   const icon = document.createElement("img");
