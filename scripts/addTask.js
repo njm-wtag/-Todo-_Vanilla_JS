@@ -27,7 +27,7 @@ export const handleCreateTodo = (todos) => {
     error: "",
   };
 
-  todos.push(task);
+  todos.unshift(task);
   errorMessage.innerHTML = "";
 
   // todos.length > 2 &&

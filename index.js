@@ -18,20 +18,35 @@ import { createTaskElement } from "./scripts/taskActions.js";
 import { validateInput } from "./scripts/utilities.js";
 import { COMPLETE, INCOMPLETE } from "./const.js";
 
-export let filteredTasks = [];
+export let searchTodos = [];
 export let filteredTodos = [];
 
 let currentPage = 1;
 const taskPerPage = 3;
-let nextPageTasks;
+let totalPageCount;
+const startIndex = 0;
+let chunckedTodos = [];
+const searchText = searchInput.value.toLowerCase().trim();
+const paginateTodos = () => {
+  chunckedTodos = todos.slice(startIndex, taskPerPage * currentPage);
+  totalPageCount = Math.ceil(todos.length / taskPerPage);
+};
+
+const handleLoadMoreTask = () => {
+  if (todos && currentPage < totalPageCount) currentPage++;
+
+  paginateTodos();
+  renderTodoList();
+};
 
 const renderLoadMoreButton = () => {
-  if (todos.length > 2) {
+  if (chunckedTodos.length >= taskPerPage && currentPage !== totalPageCount) {
     return (
       loadMoreButton.classList.remove("hide"),
       loadMoreButton.classList.add("show")
     );
   }
+
   return (
     loadMoreButton.classList.remove("show"),
     loadMoreButton.classList.add("hide")
@@ -58,15 +73,40 @@ export const handleTabClick = (event) => {
   event.target.classList.add("selected");
 };
 
+// export const handleTabClick = (event, searchedItems) => {
+//   console.log({ searchedItems });
+//   const selectedValue = event.target.id;
+//   // console.log({ selectedValue });
+
+//   switch (selectedValue) {
+//     case COMPLETE:
+//       filteredItems = renderTasksByStatus(searchedItems, true);
+//       break;
+//     case INCOMPLETE:
+//       filteredItems = renderTasksByStatus(searchedItems, false);
+//       break;
+//     default:
+//       filteredItems = searchedItems;
+//   }
+
+//   const tabs = document.querySelectorAll(".filter-tab");
+
+//   tabs.forEach((tab) => tab.classList.remove("selected"));
+
+//   // event.target.classList.add("selected");
+// };
+
 const renderTasksByStatus = (isDone) => {
-  keepCard1Elements();
-  filteredTodos = filteredTasks.length
-    ? filteredTasks.filter((todo) => todo.isDone === isDone)
-    : todos.filter((todo) => todo.isDone === isDone);
+  // filteredTodos = todos.filter((todo) => todo.isDone === isDone);
+  // return filteredTodos;
+  filteredTodos = searchTodos.length
+    ? searchTodos.filter((todo) => todo.isDone === isDone)
+    : chunckedTodos.filter((todo) => todo.isDone === isDone);
 
   filteredTodos.map((todo) => {
     const newTask = createTaskElement(todo);
-    taskList.insertBefore(newTask, taskList.children[1]);
+
+    taskList.append(newTask);
   });
 };
 
@@ -99,35 +139,31 @@ const debounce = (handleSearch, delay) => {
 };
 
 const handleSearch = () => {
-  keepCard1Elements();
-
   const searchText = searchInput.value.toLowerCase().trim();
+  // searchTodos = todos.filter((task) =>
+  //   task.value.toLowerCase().includes(searchText)
+  // );
+  // return searchTodos;
 
-  filteredTasks = filteredTodos?.length
-    ? filteredTodos.filter((task) =>
-        task.value.toLowerCase().includes(searchText)
-      )
-    : todos.filter((task) => task.value.toLowerCase().includes(searchText));
+  searchTodos = filteredTodos?.length ? filteredTodos : todos;
 
-  filteredTasks.map((task) => {
+  searchTodos.filter((task) => task.value.toLowerCase().includes(searchText));
+
+  searchTodos.map((task) => {
     const newTask = createTaskElement(task);
-    taskList.insertBefore(newTask, taskList.children[1]);
+
+    taskList.append(newTask);
   });
 };
+let searchedItems;
+let filteredItems;
+export const renderTodoList = () => {
+  keepCard1Elements();
 
-const handleLoadMoreTask = () => {
-  const startIndex = (currentPage - 1) * taskPerPage;
-  nextPageTasks = todos.slice(startIndex, startIndex + taskPerPage);
-  currentPage++;
-  console.log(nextPageTasks);
-
-  renderTodoList(nextPageTasks);
-};
-
-export const renderTodoList = (nextPageTasks) => {
-  console.log(nextPageTasks);
-  renderLoadMoreButton();
-
+  // searchedItems = handleSearch();
+  // // const defaultEvent = { target: { id: "all" } };
+  // filteredItems = handleTabClick();
+  // console.log({ filteredItems });
   !todos.length
     ? (initialTaskContainer.classList.remove("hide"),
       initialTaskContainer.classList.add("show"),
@@ -135,10 +171,9 @@ export const renderTodoList = (nextPageTasks) => {
     : (initialTaskContainer.classList.remove("show"),
       initialTaskContainer.classList.add("hide"));
 
-  keepCard1Elements();
   searchInput.value = "";
 
-  todos.length
+  chunckedTodos.length
     ? tabs.forEach((tab) => {
         tab.addEventListener("click", handleTabClick);
         tab.removeAttribute("disabled");
@@ -151,15 +186,14 @@ export const renderTodoList = (nextPageTasks) => {
         tab.setAttribute("disabled", true);
         tab.classList.remove("selected");
       });
-  nextPageTasks?.length
-    ? nextPageTasks.map((todo) => {
-        const newTask = createTaskElement(todo);
-        taskList.insertBefore(newTask, taskList.children[1]);
-      })
-    : todos.map((todo) => {
-        const newTask = createTaskElement(todo);
-        taskList.insertBefore(newTask, taskList.children[1]);
-      });
+
+  paginateTodos();
+  renderLoadMoreButton();
+
+  chunckedTodos.map((todo) => {
+    const newTask = createTaskElement(todo);
+    taskList.append(newTask);
+  });
 };
 
 const handleToggle = () => {
@@ -179,12 +213,6 @@ initialTaskContainer.addEventListener("click", handleToggle);
 
 addTaskButton.addEventListener("click", () => handleCreateTodo(todos));
 
-taskInputText.addEventListener("keyup", (event) => {
-  if (event.key === "Enter") {
-    handleCreateTodo();
-  }
-});
-
 taskInputText.addEventListener("input", validateInput);
 
 searchButton.addEventListener("click", () => {
@@ -197,4 +225,4 @@ searchInput.addEventListener("keyup", () => {
 });
 
 loadMoreButton.addEventListener("click", handleLoadMoreTask);
-renderTodoList();
+renderTodoList(todos);
