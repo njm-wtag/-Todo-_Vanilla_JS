@@ -22,6 +22,7 @@ let searchText;
 let searchedItems;
 let filteredItems;
 let searchResult;
+let selectedValue;
 
 export let searchTodos = [];
 export let filteredTodos = [];
@@ -31,6 +32,22 @@ const taskPerPage = 3;
 let totalPageCount;
 const startIndex = 0;
 let chunckedTodos = [];
+
+const initialTabState = () => {
+  todos?.length
+    ? tabs.forEach((tab) => {
+        // tab.addEventListener("click", handleTabClick);
+        tab.removeAttribute("disabled");
+        tab.classList.remove("selected");
+        if (tab.id === "all") {
+          tab.classList.add("selected");
+        }
+      })
+    : tabs.forEach((tab) => {
+        tab.setAttribute("disabled", true);
+        tab.classList.remove("selected");
+      });
+};
 
 const paginateTodos = () => {
   chunckedTodos = todos.slice(startIndex, taskPerPage * currentPage);
@@ -80,8 +97,9 @@ const renderLoadMoreButton = () => {
 
 export const handleTabClick = (event) => {
   // console.log({ searchedItems });
-  // console.log("iiiiS");
-  const selectedValue = event.target.id;
+  console.log(event.target.classList);
+  console.log("iiii");
+  selectedValue = event.target.id;
   // console.log({ selectedValue });
 
   switch (selectedValue) {
@@ -100,8 +118,9 @@ export const handleTabClick = (event) => {
   tabs.forEach((tab) => tab.classList.remove("selected"));
 
   event.target.classList.add("selected");
+  renderTodoList();
 };
-
+tabs.forEach((tab) => tab.addEventListener("click", handleTabClick));
 // window.addEventListener(
 //   "load",
 //   () => ()
@@ -144,7 +163,7 @@ const handleSearch = (searchText) => {
 
 export const renderTodoList = () => {
   // filteredItems = renderTasksByStatus("");
-
+  // initialTabState();
   console.log(filteredItems, todos);
   keepCard1Elements();
   // console.log({ searchResult });
@@ -159,20 +178,6 @@ export const renderTodoList = () => {
       initialTaskContainer.classList.add("hide"));
 
   searchInput.value = "";
-
-  todos?.length
-    ? tabs.forEach((tab) => {
-        tab.addEventListener("click", handleTabClick);
-        tab.removeAttribute("disabled");
-        tab.classList.remove("selected");
-        if (tab.id === "all") {
-          tab.classList.add("selected");
-        }
-      })
-    : tabs.forEach((tab) => {
-        tab.setAttribute("disabled", true);
-        tab.classList.remove("selected");
-      });
 
   paginateTodos();
   renderLoadMoreButton();
