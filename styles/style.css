@@ -40,14 +40,20 @@ header {
   width: 30%;
   display: flex;
   align-items: flex-end;
-  justify-content: space-between;
+  justify-content: flex-end;
+  position: relative;
 }
+
 .search__icon {
   cursor: pointer;
+  text-align: end;
 }
 
 .search__box {
   display: none;
+  left: 0;
+  position: absolute;
+  top: 0;
   transition: all 0.3s ease;
   width: 85%;
 }
@@ -67,6 +73,7 @@ header {
   width: 100%;
   height: 1rem;
 }
+
 .search__box input:focus {
   outline: none;
   border-color: #d1d8ff;
@@ -224,16 +231,19 @@ textarea:focus {
 }
 
 .task-item__button {
-  font-size: 1rem;
   border: 0.0625rem solid var(--secondary-color);
   border-radius: 0.3125rem;
   background-color: #ffffff;
-  padding: 0.5rem 1.25rem;
   cursor: pointer;
   color: #32394b;
+  font-size: 1rem;
+  margin-right: 1.75rem;
+  padding: 0.5rem 0.75rem;
 }
+
 .task-item__button-icon {
-  padding: 0.5rem 1.25rem;
+  display: flex;
+  margin-right: 1.75rem;
   cursor: pointer;
 }
 
@@ -253,6 +263,7 @@ textarea:focus {
   .header__branding {
     width: 5rem;
   }
+
   .branding__logo svg {
     width: 1.4rem;
   }
@@ -323,6 +334,7 @@ textarea:focus {
   .header__branding {
     width: 8rem;
   }
+
   .branding__title {
     font-size: 2rem;
   }
