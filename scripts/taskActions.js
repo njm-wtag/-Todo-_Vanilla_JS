@@ -1,106 +1,163 @@
-import { isUserInputValid } from "./utilities.js";
-import { handleDelete } from "./deteleTask.js";
-import { handleCancel, handleEdit, handleUpdate } from "./editUpdateTask.js";
+import { handleDelete, todos } from "./deteleTask.js";
 import { handleDone } from "./doneTask.js";
+import { handleCancel, handleEdit, handleUpdate } from "./editUpdateTask.js";
+import { tabs, taskInputCard } from "./elements.js";
+import { isUserInputValid } from "./utilities.js";
+
+const doneIconUrl = "../images/done.svg";
+const editIconUrl = "../images/edit.svg";
+const deleteIconUrl = "../images/delete.svg";
+
+todos.length
+  ? taskInputCard.classList.add("show")
+  : taskInputCard.classList.add("hide");
+
+const calculateDateDifference = (timestamp) => {
+  const currentDate = new Date();
+  const creationDate = new Date(timestamp);
+  const timeDifference = currentDate - creationDate;
+  const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+  return daysDifference;
+};
+
+const timestampToDateFormat = (timestamp) => {
+  let date = new Date(timestamp);
+  let day = date.getDate();
+  let month = date.getMonth() + 1;
+  let year = date.getFullYear();
+
+  day = day < 10 ? "0" + day : day;
+  month = month < 10 ? "0" + month : month;
+  const yearDigit = year % 100;
+  year = yearDigit !== 0 ? yearDigit : year;
+
+  return {
+    formattedDate: day + "." + month + "." + year,
+    forTimeDiff: month + "." + day + "." + year,
+  };
+};
 
 const createUpdateInput = (todoToEdit) => {
-  const inputField = document.createElement("input");
-  inputField.type = "text";
-  inputField.value = todoToEdit.value;
-  return inputField;
+  const inputTextarea = document.createElement("textarea");
+  inputTextarea.value = todoToEdit.value;
+
+  return inputTextarea;
 };
 
 const createButton = (content) => {
   const button = document.createElement("button");
-  button.textContent = content;
+  button.innerHTML = content;
 
   return button;
 };
 
-const createDoneCheckbox = (taskId, isDone) => {
-  const doneCheckbox = document.createElement("input");
-  doneCheckbox.type = "checkbox";
-  doneCheckbox.checked = isDone;
+const createTaskActionButton = (iconUrl, clickHandler) => {
+  const icon = document.createElement("img");
+  icon.src = iconUrl;
+  document.body.appendChild(icon);
+  icon.addEventListener("click", clickHandler);
 
-  doneCheckbox.addEventListener("change", () => {
-    handleDone(taskId, doneCheckbox.checked);
-  });
-
-  return doneCheckbox;
-};
-
-const createEditButton = (taskId) => {
-  const editButton = createButton("Edit");
-
-  editButton.addEventListener("click", () => {
-    handleEdit(taskId);
-  });
-
-  return editButton;
-};
-
-const createDeleteButton = (taskId) => {
-  const deleteButton = createButton("Delete");
-
-  deleteButton.addEventListener("click", () => handleDelete(taskId));
-
-  return deleteButton;
+  return icon;
 };
 
 export const createTaskElement = (task) => {
-  const li = document.createElement("li");
-  li.classList.add("listItem");
-  const doneCheckbox = createDoneCheckbox(task.id, task.isDone);
+  const taskItem = document.createElement("div");
+  taskItem.classList.add("task-container__task-item");
 
-  li.appendChild(doneCheckbox);
-  const spanElement = document.createElement("span");
+  const doneButton = createTaskActionButton(doneIconUrl, () =>
+    handleDone(task.id, inputTextarea.value)
+  );
+  doneButton.classList.add("task-item__button-icon");
+
+  const deleteButton = createTaskActionButton(deleteIconUrl, () =>
+    handleDelete(task.id)
+  );
+  deleteButton.classList.add("task-item__button-icon");
+
+  const editButton = createTaskActionButton(editIconUrl, () =>
+    handleEdit(task.id)
+  );
+  const buttonContainerElement = document.createElement("div");
+  const buttonGroup = document.createElement("div");
+  const spanElement = document.createElement("p");
   spanElement.textContent = task.value;
-  li.appendChild(spanElement);
+  const timeElement = document.createElement("span");
+  const createdDate = timestampToDateFormat(task.createdAt).formattedDate;
+  const taskComplitionDay = calculateDateDifference(
+    timestampToDateFormat(task.createdAt).forTimeDiff
+  );
+  timeElement.textContent = `Created At ${createdDate}`;
+
+  const inputTextarea = createUpdateInput(task);
+  const updateButton = createButton("Save");
+
+  taskItem.appendChild(spanElement);
+  taskItem.appendChild(timeElement);
+  buttonGroup.classList.add("buttonGroup");
+  buttonContainerElement.appendChild(buttonGroup);
 
   if (task.isEditing) {
     spanElement.classList.add("hide");
-    createEditableTaskElements(li, task);
-    return li;
-  }
+    timeElement.classList.add("hide");
 
-  const deleteButton = createDeleteButton(task.id);
-  const editButton = createEditButton(task.id);
+    inputTextarea.classList.add("task-item__edit-input");
 
-  deleteButton.classList.add("deleteButtonStyle");
-  editButton.classList.add("editButtonStyle");
+    updateButton.addEventListener("click", () =>
+      handleUpdate(task.id, inputTextarea.value)
+    );
+    deleteButton.addEventListener("click", () => handleCancel(task.id));
 
-  if (doneCheckbox.checked) {
-    spanElement.style.textDecoration = "line-through";
-    editButton.classList.remove("show");
+    taskItem.appendChild(inputTextarea);
+    buttonGroup.appendChild(updateButton);
     editButton.classList.add("hide");
+
+    if (isUserInputValid(task.error)) {
+      appendErrorToTask(taskItem, task.error);
+    }
+
+    doneButton.addEventListener("click", () => handleCancel(task.id));
   } else {
-    editButton.classList.add("show");
+    deleteButton.addEventListener("click", () => handleDelete(task.id));
   }
-  li.appendChild(editButton);
-  li.appendChild(deleteButton);
-  return li;
-};
 
-const createEditableTaskElements = (li, task) => {
-  const inputField = createUpdateInput(task);
-  const updateButton = createButton("Update");
-  const cancelButton = createButton("Cancel");
+  timeElement.classList.add("task-item__created-time");
+  editButton.classList.add("task-item__button-icon");
+  updateButton.classList.add("task-item__button");
+  buttonContainerElement.classList.add("task-item__button-container");
 
-  updateButton.addEventListener("click", () =>
-    handleUpdate(task.id, inputField.value)
-  );
-  cancelButton.addEventListener("click", () => handleCancel(task.id));
+  buttonGroup.appendChild(doneButton);
 
-  li.appendChild(inputField);
-  li.appendChild(updateButton);
-  li.appendChild(cancelButton);
-
-  updateButton.classList.add("doneButtonStyle");
-  cancelButton.classList.add("deleteButtonStyle");
-
-  if (isUserInputValid(task.error)) {
-    appendErrorToTask(li, task.error);
+  if (!task.isEditing) {
+    buttonGroup.appendChild(editButton);
   }
+
+  buttonGroup.appendChild(deleteButton);
+
+  if (task.isDone) {
+    spanElement.classList.add("task-item__done");
+    editButton.classList.add("hide");
+    doneButton.classList.add("hide");
+
+    const completionBadge = document.createElement("div");
+    completionBadge.classList.add("task-item__completion-badge");
+
+    timeElement.textContent =
+      taskComplitionDay > 0
+        ? `Completed in ${taskComplitionDay} days`
+        : `Completed in 1 day`;
+    completionBadge.textContent =
+      taskComplitionDay > 0
+        ? `Completed in ${taskComplitionDay} days`
+        : `Completed in 1 day`;
+    buttonContainerElement.appendChild(completionBadge);
+  }
+
+  taskItem.appendChild(buttonContainerElement);
+
+  // document.getElementsByClassName("filter-tab").setAttribute("disabled", false);
+
+  return taskItem;
 };
 
 export const appendErrorToTask = (li, error) => {
@@ -109,22 +166,3 @@ export const appendErrorToTask = (li, error) => {
   updateError.textContent = error;
   li.appendChild(updateError);
 };
-
-export const createFilterDropdown = () => {
-  const filterContainer = document.querySelector(".filter-container");
-  const filter = document.createElement("select");
-  filter.id = "filter";
-
-  const options = ["All", "Complete", "Incomplete"];
-
-  options.map((option) => {
-    const optionElement = document.createElement("option");
-    optionElement.value = option.toLowerCase();
-    optionElement.textContent = option;
-    filter.appendChild(optionElement);
-  });
-
-  filterContainer.appendChild(filter);
-};
-
-createFilterDropdown();

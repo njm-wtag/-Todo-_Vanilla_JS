@@ -10,9 +10,9 @@ export const handleEdit = (taskId) => {
 
 export const handleCancel = (taskId) => {
   const todoToCancel = todos.find((todo) => todo.id === taskId);
-  if (task === undefined) {
-    return;
-  }
+  // if (task === undefined) {
+  //   return;
+  // }
 
   if (todoToCancel.error) {
     todoToCancel.isEditing = true;
@@ -30,6 +30,7 @@ export const handleUpdate = (taskId, updatedValue) => {
   if (isUserInputValid(updatedValue)) {
     taskToUpdate.value = updatedValue;
     taskToUpdate.isEditing = false;
+    taskToUpdate.isDone = false;
     taskToUpdate.error = "";
   } else {
     taskToUpdate.error = "Updated task can not be empty";
