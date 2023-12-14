@@ -33,7 +33,8 @@ export const handleCreateTodo = (todos) => {
   // todos.length > 2 &&
   //   (loadMoreButton.classList.remove("hide"),
   //   loadMoreButton.classList.add("show"));
-
+  todos.length === 1 &&
+    document.getElementById("all").classList.add("selected");
   renderTodoList();
   resetTaskInput();
 
