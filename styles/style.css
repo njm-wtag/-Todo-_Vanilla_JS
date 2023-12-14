@@ -110,23 +110,14 @@ header {
 
 .task-container__filter {
   display: flex;
-  justify-content: end;
-}
-
-#filter {
-  width: 100%;
-  font-size: large;
-}
-
-.task-container__filter {
-  display: flex;
+  justify-content: space-between;
+  width: 15%;
 }
 
 .filter-tab {
   color: #32394b;
   cursor: pointer;
   padding: 0.5rem 1rem;
-  margin-right: 0.5rem;
   border: 0.063rem solid #dde2ff;
   border-radius: 0.25rem;
   background-color: #ffffff;
