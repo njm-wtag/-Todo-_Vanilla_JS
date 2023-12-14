@@ -151,6 +151,7 @@ header {
 
 .errorText {
   color: red;
+  font-size: 1rem;
 }
 
 .task-container__initial-state {
@@ -165,20 +166,17 @@ header {
 }
 
 .task-container__task-item {
-  padding: 1rem;
   align-items: center;
   background-color: #ffffff;
   border: 0.063rem solid var(--secondary-color);
   border-radius: 0.25rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 1rem;
 }
 
 textarea {
   resize: none;
-}
-
-.task-container__task-item p {
-  font-size: 1.5rem;
-  font-weight: 700;
 }
 
 .task-item__created-time {

@@ -66,7 +66,7 @@ export const createTaskElement = (task) => {
   taskItem.classList.add("task-container__task-item");
 
   const doneButton = createTaskActionButton(doneIconUrl, () =>
-    handleDone(task.id)
+    handleDone(task.id, inputTextarea.value)
   );
   doneButton.classList.add("task-item__button-icon");
 
