@@ -35,7 +35,7 @@ export const handleCreateTodo = (todos) => {
   //   loadMoreButton.classList.add("show"));
   todos.length === 1 &&
     document.getElementById("all").classList.add("selected");
-  renderTodoList();
+  renderTodoList(todos);
   resetTaskInput();
 
   // return pageCount;
