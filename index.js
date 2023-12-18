@@ -23,6 +23,7 @@ let searchedItems;
 let filteredItems = [];
 let searchResult;
 let selectedValue;
+let itemsToRender = [];
 
 export let searchTodos = [];
 export let filteredTodos = [];
@@ -75,46 +76,20 @@ const renderLoadMoreButton = () => {
   );
 };
 
-// export const handleTabClick = (event) => {
-//   const selectedValue = event.target.id;
-//   switch (selectedValue) {
-//     case COMPLETE:
-//       renderTasksByStatus(true);
-//       break;
-//     case INCOMPLETE:
-//       renderTasksByStatus(false);
-//       break;
-//     default:
-//       renderTasksByStatus(false);
-//   }
-
-//   const tabs = document.querySelectorAll(".filter-tab");
-
-//   tabs.forEach((tab) => tab.classList.remove("selected"));
-
-//   event.target.classList.add("selected");
-// };
-
 export const handleTabClick = (event) => {
-  console.log("click");
   // console.log({ searchedItems });
-  console.log(event);
-
   selectedValue = event.target.id;
   // console.log({ selectedValue });
 
   switch (selectedValue) {
     case COMPLETE:
       filteredItems = renderTasksByStatus(true);
-      console.log({ selectedValue });
       break;
     case INCOMPLETE:
       filteredItems = renderTasksByStatus(false);
-      console.log({ selectedValue });
       break;
     default:
       filteredItems = renderTasksByStatus("");
-      console.log({ selectedValue });
   }
 
   const tabs = document.querySelectorAll(".filter-tab");
@@ -127,9 +102,8 @@ export const handleTabClick = (event) => {
 tabs.forEach((tab) => tab.addEventListener("click", handleTabClick));
 
 const renderTasksByStatus = (isDone) => {
-  // console.log("is done", isDone);
-  // initialTabState();
-  console.log("isdone", isDone);
+  // console.log({ searchResult });
+
   let a = searchResult ? searchResult : todos;
 
   if (isDone === "") return todos;
@@ -158,28 +132,27 @@ const debounce = (handleSearch, delay) => {
 };
 
 const handleSearch = (searchText) => {
-  searchTodos = todos.filter((task) =>
+  console.log("aa");
+  searchResult = filteredTodos.filter((task) =>
     task.value.toLowerCase().includes(searchText)
   );
-  return searchTodos;
+
+  console.log("-------", searchResult);
+
+  renderTodoList(searchResult);
+
+  return searchResult;
 };
 
-export const renderTodoList = () => {
+export const renderTodoList = (itemsToRender) => {
+  // console.log({ searchResult }, { filteredTodos });
   initialTabState();
-  // filteredItems = renderTasksByStatus("");
-  // initialTabState();
-  // if (todos.length === 1) {
-  //   document.getElementById("all").classList.add("selected");
-  // }
-
-  if (!filteredItems.length) {
+  // console.log("rendeded");
+  if (!filteredItems.length && selectedValue !== "complete") {
     filteredItems = renderTasksByStatus("");
   }
-  console.log(filteredItems, todos);
+  // console.log({ filteredItems });
   keepCard1Elements();
-  // console.log({ searchResult });
-  // let a = searchResult ? searchResult : todos;
-  // console.log("a from render", a);
 
   !todos?.length
     ? (initialTaskContainer.classList.remove("hide"),
@@ -188,7 +161,7 @@ export const renderTodoList = () => {
     : (initialTaskContainer.classList.remove("show"),
       initialTaskContainer.classList.add("hide"));
 
-  searchInput.value = "";
+  // searchInput.value = "";
 
   paginateTodos();
   renderLoadMoreButton();
@@ -198,7 +171,62 @@ export const renderTodoList = () => {
   //   taskList.append(newTask);
   // });
 
-  filteredItems?.map((todo) => {
+  // itemsToRender =
+  //   searchTodos.length && selectedValue
+  //     ? filteredTodos
+  //     : searchTodos.length
+  //     ? searchTodos
+  //     : filteredItems;
+  // itemsToRender =
+  //   searchTodos.length && selectedValue && selectedValue !== "all"
+  //     ? filteredTodos
+  //     : searchTodos.length
+  //     ? searchTodos
+  //     : todos;
+  // if (
+  //   !searchResult?.length &&
+  //   (selectedValue === "all" || selectedValue === undefined)
+  // ) {
+  //   console.log("1");
+  //   itemsToRender = todos;
+  // } else if (
+  //   searchResult?.length &&
+  //   (selectedValue === "all" || selectedValue === "")
+  // ) {
+  //   console.log("2");
+  //   itemsToRender = searchResult;
+  // } else if (
+  //   searchResult?.length &&
+  //   (selectedValue === "complete" || selectedValue === "incomplete")
+  // ) {
+  //   console.log("3");
+  //   // itemsToRender = searchResult;
+  //   itemsToRender = filteredTodos;
+  // } else if (
+  //   !searchResult?.length &&
+  //   (selectedValue === "complete" || selectedValue === "incomplete")
+  // ) {
+  //   console.log("4");
+  //   itemsToRender = filteredTodos;
+  // } else if (
+  //   searchResult?.length &&
+  //   (selectedValue !== "" || selectedValue !== undefined)
+  // ) {
+  //   console.log("5");
+  //   itemsToRender = filteredTodos;
+  // } else {
+  //   console.log("6");
+  //   itemsToRender = todos;
+  // }
+  console.log(
+    { searchResult },
+    { filteredItems },
+    { todos },
+    { filteredTodos },
+    { itemsToRender },
+    { selectedValue }
+  );
+  itemsToRender?.map((todo) => {
     const newTask = createTaskElement(todo);
     taskList.append(newTask);
   });
@@ -235,12 +263,22 @@ searchButton.addEventListener("click", () => {
 
 const debouncedSearchData = debounce(() => handleSearch(searchText), 400);
 
-searchInput.addEventListener("keyup", async () => {
+searchInput.addEventListener("keyup", async (e) => {
   searchText = searchInput.value.toLowerCase().trim();
+  // console.log({ searchText });
   if (searchText.length) {
+    // console.log("searched");
     searchResult = await debouncedSearchData(searchText);
-    console.log(searchResult);
+
+    // console.log(searchResult);
+    return searchResult;
+  } else if (e.key === "Backspace") {
+    console.log("searching", e.key, e.metaKey, searchText.length == false);
+    searchResult = await debouncedSearchData();
+
+    // renderTodoList(searchResult);
   }
+  // searchResult = todos;
 });
 
 loadMoreButton.addEventListener("click", handleLoadMoreTask);
