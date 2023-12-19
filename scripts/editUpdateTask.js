@@ -36,5 +36,5 @@ export const handleUpdate = (taskId, updatedValue) => {
     taskToUpdate.value = "";
   }
 
-  renderTodoList();
+  renderTodoList(todos);
 };

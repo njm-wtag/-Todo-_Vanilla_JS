@@ -1,4 +1,9 @@
-import { renderTodoList } from "../index.js";
+import {
+  currentTasks,
+  filterTasksByStatus,
+  isDisable,
+  renderTodoList,
+} from "../index.js";
 import { taskInputText, errorMessage } from "./elements.js";
 import { validateInput } from "./utilities.js";
 
@@ -28,6 +33,7 @@ export const handleCreateTodo = (todos) => {
   };
 
   todos.unshift(task);
+  resetTaskInput();
   errorMessage.innerHTML = "";
 
   // todos.length > 2 &&
@@ -35,8 +41,8 @@ export const handleCreateTodo = (todos) => {
   //   loadMoreButton.classList.add("show"));
   todos.length === 1 &&
     document.getElementById("all").classList.add("selected");
+  todos.length && (currentTasks = filterTasksByStatus("all", todos));
+  isDisable = false;
   renderTodoList(todos);
-  resetTaskInput();
-
   // return pageCount;
 };

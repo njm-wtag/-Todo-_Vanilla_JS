@@ -24,6 +24,9 @@ let filteredItems = [];
 let searchResult;
 let selectedValue;
 let itemsToRender = [];
+export let currentTasks = [];
+let searchedTasks = [...todos];
+let filterStatus;
 
 export let searchTodos = [];
 export let filteredTodos = [];
@@ -33,17 +36,11 @@ const taskPerPage = 3;
 let totalPageCount;
 const startIndex = 0;
 let chunckedTodos = [];
-
+export let isDisable = true;
 const initialTabState = () => {
   todos?.length
     ? tabs.forEach((tab) => {
-        // tab.addEventListener("click", handleTabClick);
         tab.removeAttribute("disabled");
-        // tab.classList.remove("selected");
-        // if (tab.id === "all") {
-        //   tab.classList.add("selected");
-        // }
-        console.log("111111111111111111");
       })
     : tabs.forEach((tab) => {
         tab.setAttribute("disabled", true);
@@ -77,120 +74,54 @@ const initialTabState = () => {
 //   );
 // };
 
-// export const handleTabClick = (event) => {
-//   // console.log({ searchedItems });
-//   selectedValue = event.target.id;
-//   // console.log({ selectedValue });
+export const renderTodoList = (task) => {
+  initialTabState();
+  // !todos?.length
+  //   ? (initialTaskContainer.classList.remove("hide"),
+  //     initialTaskContainer.classList.add("show"),
+  //     (taskInputCard.style.display = "none"))
+  //   : (initialTaskContainer.classList.remove("show"),
+  //     initialTaskContainer.classList.add("hide"));
 
-//   switch (selectedValue) {
-//     case COMPLETE:
-//       filteredTodos = renderTasksByStatus(true);
-//       break;
-//     case INCOMPLETE:
-//       filteredTodos = renderTasksByStatus(false);
-//       break;
-//     default:
-//       filteredTodos = renderTasksByStatus("");
-//   }
-//   renderTodoList(filteredTodos);
-//   const tabs = document.querySelectorAll(".filter-tab");
+  console.log({ task }, { filterStatus });
 
-//   tabs.forEach((tab) => tab.classList.remove("selected"));
-
-//   event.target.classList.add("selected");
-// };
-// tabs.forEach((tab) => tab.addEventListener("click", handleTabClick));
-
-// export const handleTabClick = (event) => {
-//   // console.log({ searchedItems });
-//   selectedValue = event.target.id;
-//   // console.log({ selectedValue });
-
-//   switch (selectedValue) {
-//     case COMPLETE:
-//       filteredTodos = renderTasksByStatus(true);
-//       break;
-//     case INCOMPLETE:
-//       filteredTodos = renderTasksByStatus(false);
-//       break;
-//     default:
-//       filteredTodos = renderTasksByStatus("");
-//   }
-//   renderTodoList(filteredTodos);
-//   const tabs = document.querySelectorAll(".filter-tab");
-
-//   tabs.forEach((tab) => tab.classList.remove("selected"));
-
-//   event.target.classList.add("selected");
-// };
-
-export const keepCard1Elements = () => {
   taskList.innerHTML = "";
   taskList.appendChild(taskInputCard);
-};
-initialTabState();
-export const renderTodoList = (todos) => {
-  !todos?.length
-    ? (initialTaskContainer.classList.remove("hide"),
-      initialTaskContainer.classList.add("show"),
-      (taskInputCard.style.display = "none"))
-    : (initialTaskContainer.classList.remove("show"),
-      initialTaskContainer.classList.add("hide"));
-  console.log(
-    { searchResult },
-    { filteredTodos },
-    { todos },
-    { selectedValue },
-    { currentTasks }
-  );
-  keepCard1Elements();
 
-  // taskList.innerHTML = "";
-  todos?.map((todo) => {
+  task?.map((todo) => {
     const newTask = createTaskElement(todo);
     taskList.append(newTask);
   });
 };
 
-const filterTasksByStatus = (status, todos) => {
-  let filteredTasks = [];
-  if (status === "") {
-    filteredTasks = todos;
+export const filterTasksByStatus = (status, todos) => {
+  filterStatus = status;
+  console.log({ status }, { todos });
+  const tabs = document.querySelectorAll(".filter-tab");
+
+  tabs.forEach((tab) => tab.classList.remove("selected"));
+
+  document.getElementById(status).classList.add("selected");
+
+  if (status === "all") {
+    currentTasks = todos;
   } else if (status === "complete") {
-    filteredTasks = todos?.filter((todo) => todo.isDone === status);
+    currentTasks = todos?.filter((todo) => todo.isDone === true);
   } else if (status === "incomplete") {
-    filteredTasks = todos?.filter((todo) => todo.isDone === status);
+    currentTasks = todos?.filter((todo) => todo.isDone === false);
   }
 
-  return filteredTasks;
+  renderTodoList(currentTasks);
+
+  console.log({ currentTasks });
+  return currentTasks;
 };
 
-const currentTasks = tabs.forEach((tab) =>
-  tab.addEventListener("click", filterTasksByStatus(tab.id), todos)
-);
+currentTasks = tabs.forEach((tab) => {
+  tab.addEventListener("click", () => filterTasksByStatus(tab.id, todos));
+});
 
 renderTodoList(currentTasks);
-
-// const renderTodos = (todos) => {};
-// const handleTaskSearch = (tasks, input) => {
-//   const searchedTasks = tasks.filter(())
-
-//   renderTasksByStatus(sear)
-// };
-
-// const searchResults = handleTaskSearch(currentTasks, input);
-
-const renderTasksByStatus = (isDone) => {
-  // console.log({ searchResult });
-
-  let a = searchResult ? searchResult : todos;
-
-  if (isDone === "") return filteredTodos.length ? filteredTodos : todos;
-
-  filteredTodos = a.filter((todo) => todo.isDone === isDone);
-  console.log("from renderTasksByStatus", { filteredTodos });
-  return filteredTodos;
-};
 
 const debounce = (handleSearch, delay) => {
   let timer;
@@ -199,22 +130,25 @@ const debounce = (handleSearch, delay) => {
     return new Promise((resolve) => {
       timer = setTimeout(() => {
         const result = handleSearch.apply(this, arguments);
+
+        console.log(this, arguments);
         resolve(result);
       }, delay);
     });
   };
 };
 
-const handleSearch = (task, searchText) => {
-  const searchedTasks = task.filter((task) =>
+const handleSearch = (searchText) => {
+  console.log({ searchText });
+  searchedTasks = currentTasks?.filter((task) =>
     task.value.toLowerCase().includes(searchText)
   );
 
-  console.log("-------", searchResult);
+  console.log("-------", searchedTasks);
+  console.log({ filterStatus }, { searchedTasks });
+  filterTasksByStatus(filterStatus, searchedTasks);
 
-  renderTasksByStatus(searchedTasks);
-
-  // return searchResult;
+  return searchedTasks;
 };
 
 // if (!filteredTodos.length && selectedValue !== "complete") {
@@ -333,19 +267,19 @@ searchButton.addEventListener("click", () => {
   navbar.classList.toggle("show-search-box");
 });
 
-const debouncedSearchData = debounce(
-  () => handleSearch(currentTasks, searchText),
-  400
-);
+const debouncedSearchData = debounce(() => {
+  console.log({ searchText });
+  return handleSearch(searchText);
+}, 400);
 
 searchInput.addEventListener("keyup", async (e) => {
   searchText = searchInput.value.toLowerCase().trim();
   // console.log({ searchText });
   if (searchText.length) {
-    // console.log("searched");
+    console.log({ currentTasks });
     searchResult = await debouncedSearchData(searchText);
 
-    // console.log(searchResult);
+    console.log(searchResult);
     return searchResult;
   } else if (e.key === "Backspace") {
     console.log("searching", e.key, e.metaKey, searchText.length == false);
