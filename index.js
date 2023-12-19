@@ -18,14 +18,10 @@ import { createTaskElement } from "./scripts/taskActions.js";
 import { validateInput } from "./scripts/utilities.js";
 import { COMPLETE, INCOMPLETE } from "./const.js";
 
-let searchText;
-let searchedItems;
-let filteredItems = [];
-let searchResult;
-let selectedValue;
-let itemsToRender = [];
+let searchText = "";
 export let currentTasks = [];
 let searchedTasks = [...todos];
+let auxilaryTodos;
 let filterStatus;
 
 export let searchTodos = [];
@@ -36,8 +32,8 @@ const taskPerPage = 3;
 let totalPageCount;
 const startIndex = 0;
 let chunckedTodos = [];
-export let isDisable = true;
-const initialTabState = () => {
+
+export const initialTabState = () => {
   todos?.length
     ? tabs.forEach((tab) => {
         tab.removeAttribute("disabled");
@@ -53,12 +49,16 @@ const initialTabState = () => {
 //   totalPageCount = Math.ceil(todos.length / taskPerPage);
 // };
 
-// const handleLoadMoreTask = () => {
-//   if (todos && currentPage < totalPageCount) currentPage++;
+const filteredByPaginate = (todos) => {
+  totalPageCount = Math.ceil(todos.length / taskPerPage);
+  return todos.slice(startIndex, taskPerPage * currentPage);
+};
 
-//   paginateTodos();
-//   renderTodoList();
-// };
+const handleLoadMoreTask = () => {
+  if (todos && currentPage < totalPageCount) currentPage++;
+
+  renderTodoList(todos);
+};
 
 // const renderLoadMoreButton = () => {
 //   if (chunckedTodos.length >= taskPerPage && currentPage !== totalPageCount) {
@@ -74,54 +74,51 @@ const initialTabState = () => {
 //   );
 // };
 
-export const renderTodoList = (task) => {
-  initialTabState();
-  // !todos?.length
-  //   ? (initialTaskContainer.classList.remove("hide"),
-  //     initialTaskContainer.classList.add("show"),
-  //     (taskInputCard.style.display = "none"))
-  //   : (initialTaskContainer.classList.remove("show"),
-  //     initialTaskContainer.classList.add("hide"));
+const filteredByFilter = (status = "all", todos) => {
+  if (status === "all") {
+    return todos;
+  } else if (status === "complete") {
+    return todos?.filter((todo) => todo.isDone === true);
+  } else if (status === "incomplete") {
+    return todos?.filter((todo) => todo.isDone === false);
+  }
+};
 
-  console.log({ task }, { filterStatus });
+const filteredBySearch = (searchText, todos) => {
+  return todos?.filter((task) => task.value.toLowerCase().includes(searchText));
+};
 
+todos.length === 0 && initialTabState();
+
+export const renderTodoList = (todos) => {
+  auxilaryTodos = [...filteredBySearch(searchText, todos || [])];
+  auxilaryTodos = [...filteredByFilter(filterStatus, auxilaryTodos)];
+  auxilaryTodos = [...filteredByPaginate(auxilaryTodos)];
+  // console.log({ auxilaryTodos });
   taskList.innerHTML = "";
   taskList.appendChild(taskInputCard);
 
-  task?.map((todo) => {
+  auxilaryTodos?.map((todo) => {
     const newTask = createTaskElement(todo);
     taskList.append(newTask);
   });
 };
 
-export const filterTasksByStatus = (status, todos) => {
+export const filterTasksByStatus = (status) => {
   filterStatus = status;
-  console.log({ status }, { todos });
+
   const tabs = document.querySelectorAll(".filter-tab");
 
   tabs.forEach((tab) => tab.classList.remove("selected"));
 
   document.getElementById(status).classList.add("selected");
 
-  if (status === "all") {
-    currentTasks = todos;
-  } else if (status === "complete") {
-    currentTasks = todos?.filter((todo) => todo.isDone === true);
-  } else if (status === "incomplete") {
-    currentTasks = todos?.filter((todo) => todo.isDone === false);
-  }
-
-  renderTodoList(currentTasks);
-
-  console.log({ currentTasks });
-  return currentTasks;
+  renderTodoList(todos);
 };
 
-currentTasks = tabs.forEach((tab) => {
+tabs.forEach((tab) => {
   tab.addEventListener("click", () => filterTasksByStatus(tab.id, todos));
 });
-
-renderTodoList(currentTasks);
 
 const debounce = (handleSearch, delay) => {
   let timer;
@@ -275,20 +272,21 @@ const debouncedSearchData = debounce(() => {
 searchInput.addEventListener("keyup", async (e) => {
   searchText = searchInput.value.toLowerCase().trim();
   // console.log({ searchText });
-  if (searchText.length) {
-    console.log({ currentTasks });
-    searchResult = await debouncedSearchData(searchText);
+  // if (searchText.length) {
+  //   console.log({ currentTasks });
+  //   searchResult = await debouncedSearchData(searchText);
 
-    console.log(searchResult);
-    return searchResult;
-  } else if (e.key === "Backspace") {
-    console.log("searching", e.key, e.metaKey, searchText.length == false);
-    searchResult = await debouncedSearchData();
+  //   console.log(searchResult);
+  //   return searchResult;
+  // } else if (e.key === "Backspace") {
+  //   console.log("searching", e.key, e.metaKey, searchText.length == false);
+  //   searchResult = await debouncedSearchData();
 
-    // renderTodoList(searchResult);
-  }
+  //   // renderTodoList(searchResult);
+  // }
   // searchResult = todos;
+  renderTodoList(todos);
 });
 
-// loadMoreButton.addEventListener("click", handleLoadMoreTask);
+loadMoreButton.addEventListener("click", handleLoadMoreTask);
 renderTodoList(todos);

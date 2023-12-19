@@ -1,10 +1,9 @@
 import {
-  currentTasks,
   filterTasksByStatus,
-  isDisable,
+  initialTabState,
   renderTodoList,
 } from "../index.js";
-import { taskInputText, errorMessage } from "./elements.js";
+import { taskInputText, errorMessage, loadMoreButton } from "./elements.js";
 import { validateInput } from "./utilities.js";
 
 export const resetTaskInput = () => {
@@ -35,14 +34,13 @@ export const handleCreateTodo = (todos) => {
   todos.unshift(task);
   resetTaskInput();
   errorMessage.innerHTML = "";
-
-  // todos.length > 2 &&
-  //   (loadMoreButton.classList.remove("hide"),
-  //   loadMoreButton.classList.add("show"));
+  initialTabState();
+  todos.length > 2 &&
+    (loadMoreButton.classList.remove("hide"),
+    loadMoreButton.classList.add("show"));
   todos.length === 1 &&
     document.getElementById("all").classList.add("selected");
-  todos.length && (currentTasks = filterTasksByStatus("all", todos));
-  isDisable = false;
+  filterTasksByStatus("all", todos);
   renderTodoList(todos);
   // return pageCount;
 };
