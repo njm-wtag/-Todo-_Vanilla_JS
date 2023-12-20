@@ -1,6 +1,7 @@
 import {
   filterTasksByStatus,
-  initialTabState,
+  isFilterTabDisable,
+  renderLoadMoreButton,
   renderTodoList,
 } from "../index.js";
 import { taskInputText, errorMessage, loadMoreButton } from "./elements.js";
@@ -34,10 +35,8 @@ export const handleCreateTodo = (todos) => {
   todos.unshift(task);
   resetTaskInput();
   errorMessage.innerHTML = "";
-  initialTabState();
-  todos.length > 2 &&
-    (loadMoreButton.classList.remove("hide"),
-    loadMoreButton.classList.add("show"));
+  isFilterTabDisable();
+
   todos.length === 1 &&
     document.getElementById("all").classList.add("selected");
   filterTasksByStatus("all", todos);

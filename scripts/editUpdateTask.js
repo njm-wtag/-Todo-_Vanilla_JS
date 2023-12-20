@@ -5,7 +5,7 @@ import { isUserInputValid } from "./utilities.js";
 export const handleEdit = (taskId) => {
   const todoToEdit = todos.find((todo) => todo.id === taskId);
   todoToEdit.isEditing = true;
-  renderTodoList();
+  renderTodoList(todos);
 };
 
 export const handleCancel = (taskId) => {
@@ -21,7 +21,7 @@ export const handleCancel = (taskId) => {
   }
 
   todoToCancel.isEditing = false;
-  renderTodoList();
+  renderTodoList(todos);
 };
 
 export const handleUpdate = (taskId, updatedValue) => {
