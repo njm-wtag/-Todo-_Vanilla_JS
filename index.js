@@ -18,14 +18,9 @@ import { createTaskElement } from "./scripts/taskActions.js";
 import { validateInput } from "./scripts/utilities.js";
 
 let searchText = "";
-export let currentTasks = [];
-let searchedTasks = [...todos];
 let auxilaryTodos;
 let filterStatus;
-
-export let searchTodos = [];
-export let filteredTodos = [];
-
+let searchResult;
 let currentPage = 1;
 const taskPerPage = 3;
 let totalPageCount;
@@ -81,6 +76,19 @@ const filteredBySearch = (searchText, todos) => {
   return todos?.filter((task) => task.value.toLowerCase().includes(searchText));
 };
 
+const debounce = (filteredBySearch, delay) => {
+  let timer;
+  return function () {
+    clearTimeout(timer);
+    return new Promise((resolve) => {
+      timer = setTimeout(() => {
+        const result = filteredBySearch.apply(this, arguments);
+        resolve(result);
+      }, delay);
+    });
+  };
+};
+
 todos.length === 0 && isFilterTabDisable();
 
 export const renderTodoList = (todos) => {
@@ -114,32 +122,6 @@ tabs.forEach((tab) => {
   tab.addEventListener("click", () => filterTasksByStatus(tab.id, todos));
 });
 
-const debounce = (handleSearch, delay) => {
-  let timer;
-  return function () {
-    clearTimeout(timer);
-    return new Promise((resolve) => {
-      timer = setTimeout(() => {
-        const result = handleSearch.apply(this, arguments);
-
-        console.log(this, arguments);
-        resolve(result);
-      }, delay);
-    });
-  };
-};
-
-const handleSearch = (searchText) => {
-  console.log({ searchText });
-  searchedTasks = currentTasks?.filter((task) =>
-    task.value.toLowerCase().includes(searchText)
-  );
-  console.log({ filterStatus }, { searchedTasks });
-  filterTasksByStatus(filterStatus, searchedTasks);
-
-  return searchedTasks;
-};
-
 const handleToggle = () => {
   taskInputCard.style.display =
     taskInputCard.style.display === "none" || taskInputCard.style.display === ""
@@ -172,28 +154,17 @@ searchButton.addEventListener("click", () => {
   navbar.classList.toggle("show-search-box");
 });
 
-const debouncedSearchData = debounce(() => {
-  console.log({ searchText });
-  return handleSearch(searchText);
+const debouncedSearchData = debounce((searchText, todos) => {
+  const temp = filteredBySearch(searchText, todos);
+  return temp;
 }, 400);
 
 searchInput.addEventListener("keyup", async (e) => {
   searchText = searchInput.value.toLowerCase().trim();
-  // console.log({ searchText });
-  // if (searchText.length) {
-  //   console.log({ currentTasks });
-  //   searchResult = await debouncedSearchData(searchText);
 
-  //   console.log(searchResult);
-  //   return searchResult;
-  // } else if (e.key === "Backspace") {
-  //   console.log("searching", e.key, e.metaKey, searchText.length == false);
-  //   searchResult = await debouncedSearchData();
+  searchResult = await debouncedSearchData(searchText, todos);
 
-  //   // renderTodoList(searchResult);
-  // }
-  // searchResult = todos;
-  renderTodoList(todos);
+  renderTodoList(searchResult);
 });
 
 loadMoreButton.addEventListener("click", handleLoadMoreTask);
