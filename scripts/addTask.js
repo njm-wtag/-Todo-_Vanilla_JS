@@ -1,6 +1,6 @@
 import {
   filterTasksByStatus,
-  isFilterTabDisable,
+  disableFilterBar,
   renderLoadMoreButton,
   renderTodoList,
 } from "../index.js";
@@ -17,7 +17,7 @@ const generateUniqueId = () => {
 
 export const handleCreateTodo = (todos) => {
   const textContent = taskInputText.value;
-  console.log();
+
   if (validateInput() === false) {
     return;
   }
@@ -34,12 +34,13 @@ export const handleCreateTodo = (todos) => {
 
   todos.unshift(task);
   resetTaskInput();
+
   errorMessage.innerHTML = "";
-  isFilterTabDisable();
+
+  disableFilterBar();
 
   todos.length === 1 &&
     document.getElementById("all").classList.add("selected");
   filterTasksByStatus("all", todos);
   renderTodoList(todos);
-  // return pageCount;
 };

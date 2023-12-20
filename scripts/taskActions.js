@@ -52,13 +52,6 @@ const createButton = (content) => {
   return button;
 };
 
-// export const createLoadMoreElement = () => {
-//   const loadMoreButton = createButton("Load More");
-//   loadMoreButton.classList.add("task-container__load-more");
-//   loadButtonContainer.appendChild(loadMoreButton);
-//   return loadMoreButton;
-// };
-
 const createTaskActionButton = (iconUrl, clickHandler) => {
   const icon = document.createElement("img");
   icon.src = iconUrl;
