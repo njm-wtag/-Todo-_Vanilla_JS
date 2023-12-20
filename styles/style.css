@@ -26,7 +26,7 @@ header {
 .header__branding {
   width: 9rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
 }
 
@@ -37,23 +37,31 @@ header {
 }
 
 .header__search {
+  width: 30%;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: flex-end;
+  justify-content: flex-end;
+  position: relative;
 }
+
 .search__icon {
   cursor: pointer;
+  text-align: end;
 }
 
 .search__box {
   display: none;
+  left: 0;
+  position: absolute;
+  top: 0;
   transition: all 0.3s ease;
+  width: 85%;
 }
 
 .search__box input {
   padding: 0.25rem;
   margin: 0 0.5rem;
-  border: 0.0625rem solid #ccc;
+  border: 0.187rem solid #ccc;
   border-radius: 0.25rem;
 }
 
@@ -62,8 +70,13 @@ header {
 }
 
 .show-search-box .search__box input {
-  width: 80%;
+  width: 100%;
   height: 1rem;
+}
+
+.search__box input:focus {
+  outline: none;
+  border-color: #d1d8ff;
 }
 
 .task-container {
@@ -97,23 +110,14 @@ header {
 
 .task-container__filter {
   display: flex;
-  justify-content: end;
-}
-
-#filter {
-  width: 100%;
-  font-size: large;
-}
-
-.task-container__filter {
-  display: flex;
+  justify-content: space-between;
+  width: 15%;
 }
 
 .filter-tab {
   color: #32394b;
   cursor: pointer;
   padding: 0.5rem 1rem;
-  margin-right: 0.5rem;
   border: 0.063rem solid #dde2ff;
   border-radius: 0.25rem;
   background-color: #ffffff;
@@ -138,6 +142,7 @@ header {
 
 .errorText {
   color: red;
+  font-size: 1rem;
 }
 
 .task-container__initial-state {
@@ -152,20 +157,17 @@ header {
 }
 
 .task-container__task-item {
-  padding: 1rem;
   align-items: center;
   background-color: #ffffff;
   border: 0.063rem solid var(--secondary-color);
   border-radius: 0.25rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 1rem;
 }
 
 textarea {
-  resize: vertical;
-}
-
-.task-container__task-item p {
-  font-size: 1.5rem;
-  font-weight: 700;
+  resize: none;
 }
 
 .task-item__created-time {
@@ -218,15 +220,19 @@ textarea:focus {
 }
 
 .task-item__button {
-  font-size: 1rem;
   border: 0.0625rem solid var(--secondary-color);
+  border-radius: 0.3125rem;
   background-color: #ffffff;
-  padding: 0.5rem 1.25rem;
   cursor: pointer;
   color: #32394b;
+  font-size: 1rem;
+  margin-right: 1.75rem;
+  padding: 0.5rem 0.75rem;
 }
+
 .task-item__button-icon {
-  padding: 0.5rem 1.25rem;
+  display: flex;
+  margin-right: 1.75rem;
   cursor: pointer;
 }
 
@@ -261,6 +267,7 @@ textarea:focus {
   .header__branding {
     width: 5rem;
   }
+
   .branding__logo svg {
     width: 1.4rem;
   }
@@ -281,18 +288,19 @@ textarea:focus {
     width: 4.8rem;
     font-size: 0.85rem;
     padding: 0.4rem 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .task-container__add-button svg {
-    width: 0.75rem;
+  .ask-container__add-button-svg svg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .task-container__task-list {
     grid-template-columns: repeat(1, 1fr);
-  }
-
-  .show-search-box .search__box input {
-    width: 75%;
   }
 }
 
@@ -330,6 +338,7 @@ textarea:focus {
   .header__branding {
     width: 8rem;
   }
+
   .branding__title {
     font-size: 2rem;
   }

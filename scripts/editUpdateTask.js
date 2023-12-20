@@ -30,6 +30,7 @@ export const handleUpdate = (taskId, updatedValue) => {
   if (isUserInputValid(updatedValue)) {
     taskToUpdate.value = updatedValue;
     taskToUpdate.isEditing = false;
+    taskToUpdate.isDone = false;
     taskToUpdate.error = "";
   } else {
     taskToUpdate.error = "Updated task can not be empty";
