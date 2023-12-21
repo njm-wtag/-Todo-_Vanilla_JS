@@ -1,10 +1,8 @@
-import {
-  filterTasksByStatus,
-  disableFilterBar,
-  renderTodoList,
-} from "../index.js";
+import { ALL } from "./const.js";
+import { disableFilterBar, filterTasksByStatus } from "./actions.js";
 import { taskInputText, errorMessage } from "./elements.js";
 import { validateInput } from "./utilities.js";
+import { renderTodoList } from "../index.js";
 
 export const resetTaskInput = () => {
   taskInputText.value = "";
@@ -40,6 +38,6 @@ export const handleCreateTodo = (todos) => {
 
   todos.length === 1 &&
     document.getElementById("all").classList.add("selected");
-  filterTasksByStatus("all", todos);
+  filterTasksByStatus(ALL, todos);
   renderTodoList(todos);
 };
