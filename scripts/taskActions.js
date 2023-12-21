@@ -106,7 +106,7 @@ export const createTaskElement = (task) => {
     updateButton.addEventListener("click", () =>
       handleUpdate(task.id, inputTextarea.value)
     );
-    deleteButton.addEventListener("click", () => handleCancel(task.id));
+    deleteButton.addEventListener("click", () => handleCancel(task));
 
     taskItem.appendChild(inputTextarea);
     buttonGroup.appendChild(updateButton);

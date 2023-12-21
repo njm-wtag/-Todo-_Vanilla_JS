@@ -1,4 +1,4 @@
-import { renderLoadMoreButton, renderTodoList } from "../index.js";
+import { renderTodoList } from "../index.js";
 
 export let todos = [];
 

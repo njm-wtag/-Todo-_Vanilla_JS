@@ -8,19 +8,8 @@ export const handleEdit = (taskId) => {
   renderTodoList(todos);
 };
 
-export const handleCancel = (taskId) => {
-  const todoToCancel = todos.find((todo) => todo.id === taskId);
-  // if (task === undefined) {
-  //   return;
-  // }
-
-  if (todoToCancel.error) {
-    todoToCancel.isEditing = true;
-
-    return;
-  }
-
-  todoToCancel.isEditing = false;
+export const handleCancel = (task) => {
+  task.isEditing = false;
   renderTodoList(todos);
 };
 

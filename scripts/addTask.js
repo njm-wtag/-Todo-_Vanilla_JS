@@ -1,10 +1,9 @@
 import {
   filterTasksByStatus,
   disableFilterBar,
-  renderLoadMoreButton,
   renderTodoList,
 } from "../index.js";
-import { taskInputText, errorMessage, loadMoreButton } from "./elements.js";
+import { taskInputText, errorMessage } from "./elements.js";
 import { validateInput } from "./utilities.js";
 
 export const resetTaskInput = () => {

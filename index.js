@@ -24,16 +24,17 @@ let searchResult;
 let currentPage = 1;
 let totalPageCount;
 
-export const isFilterBarDisabled = () => {
+export const disableFilterBar = () => {
   if (todos.length === 0) {
-    tabs.forEach((tab) => tab.removeAttribute("disabled"));
+    tabs.forEach((tab) => {
+      tab.setAttribute("disabled", "");
+      tab.classList.remove("selected");
+    });
+
     return;
   }
 
-  tabs.forEach((tab) => {
-    tab.setAttribute("disabled", "");
-    tab.classList.remove("selected");
-  });
+  tabs.forEach((tab) => tab.removeAttribute("disabled"));
 };
 
 const paginationFilter = (todos) => {
@@ -51,7 +52,7 @@ const handleLoadMoreTask = () => {
 };
 
 export const renderLoadMoreButton = (todos) => {
-  if (todos.length >= taskPerPage && currentPage !== totalPageCount) {
+  if (todos.length >= TASK_PER_PAGE && currentPage !== totalPageCount) {
     loadMoreButton.classList.remove("hide"),
       loadMoreButton.classList.add("show");
 
@@ -69,12 +70,16 @@ const todoStateFilter = (status = ALL, todos) => {
   } else if (status === COMPLETE) {
     return todos.filter((todo) => todo.isDone === true);
   }
-
   return todos.filter((todo) => todo.isDone === false);
 };
 
 const searchFilter = (searchText, todos) => {
-  return todos.filter((task) => task.value.toLowerCase().includes(searchText));
+  if (searchText !== "") {
+    return todos.filter((task) =>
+      task.value.toLowerCase().includes(searchText)
+    );
+  }
+  return todos;
 };
 
 const debounce = (searchFilter, delay) => {

@@ -1,4 +1,4 @@
-export const ALL = "complete";
+export const ALL = "all";
 export const COMPLETE = "complete";
 export const INCOMPLETE = "incomplete";
 
