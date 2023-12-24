@@ -28,15 +28,14 @@ export const disableFilterBar = () => {
 
 export const renderLoadMoreButton = (todos) => {
   if (todos.length >= TASK_PER_PAGE && currentPage !== totalPageCount) {
-    loadMoreButton.classList.remove("hide"),
-      loadMoreButton.classList.add("show");
+    loadMoreButton.classList.remove("hide");
+    loadMoreButton.classList.add("show");
 
     return;
   }
 
-  loadMoreButton.classList.remove("show"), loadMoreButton.classList.add("hide");
-
-  return;
+  loadMoreButton.classList.remove("show");
+  loadMoreButton.classList.add("hide");
 };
 
 export const paginationFilter = (todos) => {
@@ -50,14 +49,13 @@ export const handleToggle = () => {
     taskInputCard.style.display === "none" || taskInputCard.style.display === ""
       ? "block"
       : "none";
-
   if (todos.length !== 0) {
-    initialTaskContainer.classList.toggle("show"),
-      initialTaskContainer.classList.toggle("hide");
+    initialTaskContainer.classList.toggle("show");
+    initialTaskContainer.classList.toggle("hide");
   }
 
-  initialTaskContainer.classList.add("hide");
-  initialTaskContainer.classList.remove("show");
+  initialTaskContainer.classList.toggle("hide");
+  initialTaskContainer.classList.toggle("show");
 };
 
 export const handleLoadMoreTask = () => {
@@ -78,12 +76,8 @@ export const todoStateFilter = (status = ALL, todos) => {
   return todos.filter((todo) => todo.isDone === false);
 };
 
-export const debouncedSearchData = debounce((searchText, todos) => {
-  return searchFilter(searchText, todos);
-}, 400);
-
 export const searchFilter = (searchText, todos) => {
-  if (searchText !== "") {
+  if (searchText.trim() !== "") {
     return todos.filter((task) =>
       task.value.toLowerCase().includes(searchText)
     );
@@ -91,6 +85,10 @@ export const searchFilter = (searchText, todos) => {
 
   return todos;
 };
+
+export const debouncedSearchData = debounce((searchText, todos) => {
+  return searchFilter(searchText, todos);
+});
 
 export const filterTasksByStatus = (status) => {
   filterStatus = status;

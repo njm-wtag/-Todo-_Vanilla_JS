@@ -8,10 +8,6 @@ const doneIconUrl = "../images/done.svg";
 const editIconUrl = "../images/edit.svg";
 const deleteIconUrl = "../images/delete.svg";
 
-todos.length
-  ? taskInputCard.classList.add("show")
-  : taskInputCard.classList.add("hide");
-
 const calculateDateDifference = (timestamp) => {
   const currentDate = new Date();
   const creationDate = new Date(timestamp);

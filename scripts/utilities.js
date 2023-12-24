@@ -1,15 +1,15 @@
 import { taskInputText, errorMessage } from "./elements.js";
 
-export const debounce = (searchFilter, delay) => {
+export const debounce = (searchFilter, delay = 1000) => {
   let timer;
   return function (...args) {
+    if (!timer) {
+      return searchFilter.apply(this, args);
+    }
     clearTimeout(timer);
-    return new Promise((resolve) => {
-      timer = setTimeout(() => {
-        const result = searchFilter(...args);
-        resolve(result);
-      }, delay);
-    });
+    timer = setTimeout(() => {
+      timer = undefined;
+    }, delay);
   };
 };
 

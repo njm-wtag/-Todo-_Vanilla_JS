@@ -1,10 +1,16 @@
-import { taskList, taskInputCard, searchText } from "./scripts/elements.js";
+import {
+  taskList,
+  taskInputCard,
+  searchText,
+  initialTaskContainer,
+} from "./scripts/elements.js";
 import { todos } from "./scripts/deteleTask.js";
 import { createTaskElement } from "./scripts/taskActions.js";
 
 import {
   disableFilterBar,
   filterStatus,
+  handleToggle,
   paginationFilter,
   searchFilter,
   todoStateFilter,

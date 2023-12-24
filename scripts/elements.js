@@ -6,7 +6,6 @@ import {
   handleToggle,
 } from "./actions.js";
 import { handleCreateTodo, resetTaskInput } from "./addTask.js";
-import { ALL, COMPLETE } from "./const.js";
 import { todos } from "./deteleTask.js";
 import { validateInput } from "./utilities.js";
 
@@ -50,21 +49,14 @@ searchButton.addEventListener("click", () => {
   navbar.classList.toggle("show-search-box");
 });
 
-searchInput.addEventListener("keyup", async () => {
+searchInput.addEventListener("keyup", function () {
   searchText = searchInput.value.toLowerCase().trim();
-  let searchResult = await debouncedSearchData(searchText, todos);
+  const searchResult = debouncedSearchData(searchText, todos);
   renderTodoList(searchResult);
 });
 
 loadMoreButton.addEventListener("click", handleLoadMoreTask);
 
 tabs.forEach((tab) => {
-  tab.addEventListener("click", () => {
-    const tabId = tab.id;
-    if (tabId === ALL) {
-      filterTasksByStatus(tabId);
-    } else if (tabId === COMPLETE) {
-      filterTasksByStatus(tabId);
-    } else filterTasksByStatus(tabId);
-  });
+  tab.addEventListener("click", () => filterTasksByStatus(tab.id));
 });
