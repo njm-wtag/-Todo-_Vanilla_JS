@@ -50,11 +50,9 @@ searchButton.addEventListener("click", () => {
   navbar.classList.toggle("show-search-box");
 });
 
-searchInput.addEventListener("keyup", () => {
+searchInput.addEventListener("keyup", async () => {
   searchText = searchInput.value.toLowerCase().trim();
-  let searchResult;
-  searchResult = debouncedSearchData(searchText, todos);
-  console.log({ searchResult });
+  let searchResult = await debouncedSearchData(searchText, todos);
   renderTodoList(searchResult);
 });
 

@@ -79,10 +79,7 @@ export const todoStateFilter = (status = ALL, todos) => {
 };
 
 export const debouncedSearchData = debounce((searchText, todos) => {
-  const a = searchFilter(searchText, todos);
-  // return searchFilter(searchText, todos);
-  console.log({ a });
-  return a;
+  return searchFilter(searchText, todos);
 }, 400);
 
 export const searchFilter = (searchText, todos) => {
