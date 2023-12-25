@@ -111,7 +111,7 @@ header {
 .task-container__filter {
   display: flex;
   justify-content: space-between;
-  width: 15%;
+  width: 16%;
 }
 
 .filter-tab {
@@ -276,6 +276,13 @@ textarea:focus {
     font-size: 1.4rem;
   }
 
+  .header__search {
+    width: 60%;
+  }
+  .show-search-box .search__box input {
+    width: 90%;
+  }
+
   .task-container {
     padding: 0 1rem;
   }
@@ -293,7 +300,7 @@ textarea:focus {
     justify-content: center;
   }
 
-  .ask-container__add-button-svg svg {
+  .task-container__add-button-svg svg {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -301,6 +308,10 @@ textarea:focus {
 
   .task-container__task-list {
     grid-template-columns: repeat(1, 1fr);
+  }
+
+  .task-container__filter {
+    width: 65%;
   }
 }
 
@@ -317,6 +328,10 @@ textarea:focus {
     font-size: 1.5rem;
   }
 
+  .header__search {
+    width: 45%;
+  }
+
   .task-container {
     padding: 0 2rem;
   }
@@ -327,6 +342,10 @@ textarea:focus {
 
   #filter {
     font-size: medium;
+  }
+
+  .task-container__filter {
+    width: 40%;
   }
 
   .task-container__task-list {
@@ -343,11 +362,18 @@ textarea:focus {
     font-size: 2rem;
   }
 
+  .header__search {
+    width: 40%;
+  }
+
   .task-container__heading {
     font-size: 1.5rem;
   }
 
   .task-container__task-list {
     grid-template-columns: repeat(3, 1fr);
+  }
+  .task-container__filter {
+    width: 30%;
   }
 }
