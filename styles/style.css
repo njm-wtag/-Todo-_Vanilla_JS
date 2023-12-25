@@ -108,10 +108,16 @@ header {
   align-items: center;
 }
 
+.task-container__add-button-svg svg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .task-container__filter {
   display: flex;
   justify-content: space-between;
-  width: 15%;
+  width: 16%;
 }
 
 .filter-tab {
@@ -236,6 +242,21 @@ textarea:focus {
   cursor: pointer;
 }
 
+.load-button-container {
+  display: flex;
+  justify-content: center;
+  margin: 4rem 0;
+}
+.load-button-container button {
+  background-color: #32394b;
+  border: 0.0625rem solid var(--secondary-color);
+  border-radius: 0.25rem;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.5rem 1.25rem;
+}
+
 .hide {
   display: none;
 }
@@ -261,6 +282,13 @@ textarea:focus {
     font-size: 1.4rem;
   }
 
+  .header__search {
+    width: 60%;
+  }
+  .show-search-box .search__box input {
+    width: 90%;
+  }
+
   .task-container {
     padding: 0 1rem;
   }
@@ -272,13 +300,8 @@ textarea:focus {
   .task-container__add-button {
     width: 4.8rem;
     font-size: 0.85rem;
-    padding: 0.4rem 0.9rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .ask-container__add-button-svg svg {
+    /* padding: 0.4rem 0.9rem; */
+    padding: 0.5rem 0.1rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -286,6 +309,10 @@ textarea:focus {
 
   .task-container__task-list {
     grid-template-columns: repeat(1, 1fr);
+  }
+
+  .task-container__filter {
+    width: 65%;
   }
 }
 
@@ -302,6 +329,10 @@ textarea:focus {
     font-size: 1.5rem;
   }
 
+  .header__search {
+    width: 45%;
+  }
+
   .task-container {
     padding: 0 2rem;
   }
@@ -312,6 +343,10 @@ textarea:focus {
 
   #filter {
     font-size: medium;
+  }
+
+  .task-container__filter {
+    width: 40%;
   }
 
   .task-container__task-list {
@@ -328,11 +363,18 @@ textarea:focus {
     font-size: 2rem;
   }
 
+  .header__search {
+    width: 40%;
+  }
+
   .task-container__heading {
     font-size: 1.5rem;
   }
 
   .task-container__task-list {
     grid-template-columns: repeat(3, 1fr);
+  }
+  .task-container__filter {
+    width: 30%;
   }
 }

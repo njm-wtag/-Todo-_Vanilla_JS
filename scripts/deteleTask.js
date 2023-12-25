@@ -5,5 +5,5 @@ export let todos = [];
 export const handleDelete = (taskId) => {
   todos = todos.filter((todo) => todo.id !== taskId);
 
-  if (todos) renderTodoList();
+  if (todos) renderTodoList(todos);
 };

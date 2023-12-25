@@ -5,23 +5,12 @@ import { isUserInputValid } from "./utilities.js";
 export const handleEdit = (taskId) => {
   const todoToEdit = todos.find((todo) => todo.id === taskId);
   todoToEdit.isEditing = true;
-  renderTodoList();
+  renderTodoList(todos);
 };
 
-export const handleCancel = (taskId) => {
-  const todoToCancel = todos.find((todo) => todo.id === taskId);
-  // if (task === undefined) {
-  //   return;
-  // }
-
-  if (todoToCancel.error) {
-    todoToCancel.isEditing = true;
-
-    return;
-  }
-
-  todoToCancel.isEditing = false;
-  renderTodoList();
+export const handleCancel = (task) => {
+  task.isEditing = false;
+  renderTodoList(todos);
 };
 
 export const handleUpdate = (taskId, updatedValue) => {
@@ -37,5 +26,5 @@ export const handleUpdate = (taskId, updatedValue) => {
     taskToUpdate.value = "";
   }
 
-  renderTodoList();
+  renderTodoList(todos);
 };

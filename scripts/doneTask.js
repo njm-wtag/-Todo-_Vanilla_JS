@@ -10,13 +10,14 @@ export const handleDone = (taskId, updatedText) => {
       task.isDone = true;
     } else {
       task.value = "";
+      task.isEditing = true;
       task.error = "Updated task can not be empty";
-      renderTodoList();
+      renderTodoList(todos);
       return;
     }
   } else {
     task.isDone = true;
   }
 
-  renderTodoList();
+  renderTodoList(todos);
 };

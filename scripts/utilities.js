@@ -1,5 +1,18 @@
 import { taskInputText, errorMessage } from "./elements.js";
 
+export const debounce = (searchFilter, delay = 1000) => {
+  let timer;
+  return function (...args) {
+    if (!timer) {
+      return searchFilter.apply(this, args);
+    }
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      timer = undefined;
+    }, delay);
+  };
+};
+
 export const isUserInputValid = (textContent) => {
   return textContent.trim() !== "";
 };
