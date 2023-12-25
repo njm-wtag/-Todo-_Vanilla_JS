@@ -108,6 +108,12 @@ header {
   align-items: center;
 }
 
+.task-container__add-button-svg svg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .task-container__filter {
   display: flex;
   justify-content: space-between;
@@ -294,13 +300,8 @@ textarea:focus {
   .task-container__add-button {
     width: 4.8rem;
     font-size: 0.85rem;
-    padding: 0.4rem 0.9rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .task-container__add-button-svg svg {
+    /* padding: 0.4rem 0.9rem; */
+    padding: 0.5rem 0.1rem;
     display: flex;
     align-items: center;
     justify-content: center;
