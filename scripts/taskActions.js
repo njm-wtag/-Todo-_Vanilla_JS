@@ -1,7 +1,6 @@
-import { handleDelete, todos } from "./deteleTask.js";
+import { handleDelete } from "./deteleTask.js";
 import { handleDone } from "./doneTask.js";
 import { handleCancel, handleEdit, handleUpdate } from "./editUpdateTask.js";
-import { taskInputCard } from "./elements.js";
 import { isUserInputValid } from "./utilities.js";
 
 const doneIconUrl = "../images/done.svg";
@@ -52,7 +51,9 @@ const createTaskActionButton = (iconUrl, clickHandler) => {
   const icon = document.createElement("img");
   icon.src = iconUrl;
   document.body.appendChild(icon);
-  icon.addEventListener("click", clickHandler);
+  if (clickHandler) {
+    icon.addEventListener("click", clickHandler);
+  }
 
   return icon;
 };
@@ -66,9 +67,8 @@ export const createTaskElement = (task) => {
   );
   doneButton.classList.add("task-item__button-icon");
 
-  const deleteButton = createTaskActionButton(deleteIconUrl, () =>
-    handleDelete(task.id)
-  );
+  const deleteButton = createTaskActionButton(deleteIconUrl);
+
   deleteButton.classList.add("task-item__button-icon");
 
   const editButton = createTaskActionButton(editIconUrl, () =>
@@ -96,25 +96,29 @@ export const createTaskElement = (task) => {
   if (task.isEditing) {
     spanElement.classList.add("hide");
     timeElement.classList.add("hide");
-
     inputTextarea.classList.add("task-item__edit-input");
 
     updateButton.addEventListener("click", () =>
       handleUpdate(task.id, inputTextarea.value)
     );
-    deleteButton.addEventListener("click", () => handleCancel(task));
+
+    deleteButton.addEventListener("click", () => {
+      handleCancel(task);
+    });
 
     taskItem.appendChild(inputTextarea);
     buttonGroup.appendChild(updateButton);
+
     editButton.classList.add("hide");
 
     if (isUserInputValid(task.error)) {
       appendErrorToTask(taskItem, task.error);
     }
-
-    doneButton.addEventListener("click", () => handleCancel(task.id));
   } else {
-    deleteButton.addEventListener("click", () => handleDelete(task.id));
+    buttonGroup.appendChild(editButton);
+    deleteButton.addEventListener("click", () => {
+      handleDelete(task.id);
+    });
   }
 
   timeElement.classList.add("task-item__created-time");
@@ -123,11 +127,6 @@ export const createTaskElement = (task) => {
   buttonContainerElement.classList.add("task-item__button-container");
 
   buttonGroup.appendChild(doneButton);
-
-  if (!task.isEditing) {
-    buttonGroup.appendChild(editButton);
-  }
-
   buttonGroup.appendChild(deleteButton);
 
   if (task.isDone) {
