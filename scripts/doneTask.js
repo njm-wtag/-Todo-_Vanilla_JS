@@ -6,11 +6,9 @@ export const handleDone = (taskId, updatedText) => {
   const task = todos.find((todo) => todo.id === taskId);
   if (task.isEditing) {
     if (updatedText !== "") {
-      console.log("Aaaaaaa");
       handleUpdate(taskId, updatedText);
       task.isDone = true;
     } else {
-      console.log("bbbbbbbbb");
       task.value = "";
       task.isEditing = true;
       task.error = "Updated task can not be empty";
